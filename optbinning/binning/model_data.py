@@ -14,6 +14,7 @@ from .metrics import jeffrey
 from .metrics import jensen_shannon
 from .metrics import hellinger
 from .metrics import triangular
+from .metrics import brier
 
 
 def test_proportions(e1, ne1, e2, ne2, zscore):
@@ -136,6 +137,8 @@ def model_data(divergence, n_nonevent, n_event, max_pvalue, max_pvalue_policy,
             iv = hellinger(p, q)
         elif divergence == "triangular":
             iv = triangular(p, q)
+        elif divergence == "brier":
+            iv = brier(p, q)
 
         if scale is not None:
             rate *= scale
