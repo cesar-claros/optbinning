@@ -252,9 +252,9 @@ def triangular(x, y, return_sum=False):
     else:
         return t
 
+
 def brier(x, y, return_sum=False):
-    """Calculate the Brier score between two
-    distributions.
+    """Calculate the Brier divergence between two distributions.
 
     Parameters
     ----------
@@ -265,11 +265,11 @@ def brier(x, y, return_sum=False):
         Discrete probability distribution.
 
     return_sum : bool
-        Return sum of jensen shannon values.
+        Return sum of brier values.
 
     Returns
     -------
-    triangular : float or numpy.ndarray
+    brier : float or numpy.ndarray
     """
     x, y = _check_x_y(x, y)
 
@@ -279,6 +279,7 @@ def brier(x, y, return_sum=False):
         return t.sum()
     else:
         return t
+
 
 def test_proportions(e1, ne1, e2, ne2):
     n1 = e1 + ne1

@@ -161,6 +161,14 @@ def test_params():
         optb.fit(x, y)
 
 
+def test_numerical_brier_divergence():
+    optb = OptimalBinning(divergence="brier")
+    optb.fit(x, y)
+
+    assert optb.status == "OPTIMAL"
+    assert len(optb.splits) > 0
+
+
 def test_numerical_default():
     optb = OptimalBinning()
     optb.fit(x, y)
