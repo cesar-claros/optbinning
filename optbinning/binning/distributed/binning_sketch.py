@@ -20,6 +20,7 @@ from ...binning.binning_statistics import bin_categorical
 from ...binning.binning_statistics import bin_info
 from ...binning.binning_statistics import BinningTable
 from ...binning.cp import BinningCP
+from ...binning.metrics import brier
 from ...binning.mip import BinningMIP
 from ...binning.transformations import transform_binary_target
 from ...information import solver_statistics
@@ -78,9 +79,11 @@ def _check_parameters(name, dtype, sketch, eps, K, solver, divergence,
         raise ValueError('Invalid value for solver. Allowed string '
                          'values are "cp" and "mip".')
 
-    if divergence not in ("iv", "js", "hellinger", "triangular"):
+    if divergence not in ("iv", "js", "hellinger", "triangular",
+                          "brier"):
         raise ValueError('Invalid value for divergence. Allowed string '
-                         'values are "iv", "js", "helliger" and "triangular".')
+                         'values are "iv", "js", "helliger", '
+                         '"triangular" and "brier".')
 
     if not isinstance(max_n_prebins, numbers.Integral) or max_n_prebins <= 1:
         raise ValueError("max_prebins must be an integer greater than 1; "
@@ -257,7 +260,8 @@ class OptimalBinningSketch(BaseSketch, BaseEstimator):
         The divergence measure in the objective function to be maximized.
         Supported divergences are "iv" (Information Value or Jeffrey's
         divergence), "js" (Jensen-Shannon), "hellinger" (Hellinger divergence)
-        and "triangular" (triangular discrimination).
+        and "triangular" (triangular discrimination) and "brier"
+        (Brier divergence).
 
     max_n_prebins : int (default=20)
         The maximum number of bins after pre-binning (prebins).
@@ -952,6 +956,12 @@ class OptimalBinningSketch(BaseSketch, BaseEstimator):
             dv = self._binning_table.hellinger
         elif self.divergence == "triangular":
             dv = self._binning_table.triangular
+        elif self.divergence == "brier":
+            n_event = self._binning_table.n_event
+            n_nonevent = self._binning_table.n_nonevent
+            p = n_event / n_event.sum()
+            q = n_nonevent / n_nonevent.sum()
+            dv = brier(p, q, return_sum=True)
 
         self._solve_stats[self._n_solve] = {
             "n_add": self._n_add,
