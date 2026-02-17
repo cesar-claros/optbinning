@@ -273,7 +273,7 @@ def brier(x, y, return_sum=False):
     """
     x, y = _check_x_y(x, y)
 
-    t = (x - y) ** 2
+    t = -(x - y) ** 2
 
     if return_sum:
         return t.sum()
