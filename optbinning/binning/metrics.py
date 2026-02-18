@@ -307,7 +307,7 @@ def neg_brier(x, y, return_sum=False):
     else:
         return t
 
-def log_score(x, y, return_sum=False):
+def log_score(x, y, return_sum=False, eps=1e-8):
     """Calculate the log likelihood between two distributions.
 
     Parameters
@@ -327,7 +327,7 @@ def log_score(x, y, return_sum=False):
     """
     x, y = _check_x_y(x, y)
 
-    t = x * np.log(y) + (1 - x) * np.log(1 - y)
+    t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
 
     if return_sum:
         return t.sum()
