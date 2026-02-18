@@ -11,6 +11,9 @@ from ..metrics import jeffrey
 from ..metrics import jensen_shannon
 from ..metrics import hellinger
 from ..metrics import triangular
+from ..metrics import brier
+from ..metrics import neg_brier
+from ..metrics import log_score
 from .model_data_2d import _connected_rectangles
 
 
@@ -222,6 +225,12 @@ def model_data_cart(tree, divergence, NE, E, monotonicity_x, monotonicity_y,
         iv = hellinger(p, q)
     elif divergence == "triangular":
         iv = triangular(p, q)
+    elif divergence == "brier":
+        iv = brier(p, q)
+    elif divergence == "neg_brier":
+        iv = neg_brier(p, q)
+    elif divergence == "log_score":
+        iv = log_score(p, q)
 
     if scale is not None:
         c = (iv * scale).astype(int)

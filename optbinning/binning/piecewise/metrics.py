@@ -14,6 +14,9 @@ from ...binning.metrics import jeffrey
 from ...binning.metrics import jensen_shannon
 from ...binning.metrics import hellinger
 from ...binning.metrics import triangular
+from ...binning.metrics import brier
+from ...binning.metrics import neg_brier
+from ...binning.metrics import log_score
 from ...metrics.classification import gini
 from ...metrics.classification import ks
 from ...metrics.regression import regression_metrics
@@ -78,6 +81,18 @@ def divergences_asymptotic(event_rate, n_nonevent_special, n_event_special,
 
     d_divergences["Triangular"] = _fun_divergence(
         triangular, n, pi, qi, pi_special, qi_special, pi_missing, qi_missing,
+        flag_special, flag_missing, n_special)
+
+    d_divergences["Brier"] = _fun_divergence(
+        brier, n, pi, qi, pi_special, qi_special, pi_missing, qi_missing,
+        flag_special, flag_missing, n_special)
+
+    d_divergences["Neg-Brier"] = _fun_divergence(
+        neg_brier, n, pi, qi, pi_special, qi_special, pi_missing, qi_missing,
+        flag_special, flag_missing, n_special)
+
+    d_divergences["Log-Score"] = _fun_divergence(
+        log_score, n, pi, qi, pi_special, qi_special, pi_missing, qi_missing,
         flag_special, flag_missing, n_special)
 
     return d_divergences

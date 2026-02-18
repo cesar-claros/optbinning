@@ -64,10 +64,11 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
                          'values are "cp", "ls" and "mip".')
 
     if divergence not in ("iv", "js", "hellinger", "triangular",
-                          "brier"):
+                          "brier", "neg_brier", "log_score"):
         raise ValueError('Invalid value for divergence. Allowed string '
-                         'values are "iv", "js", "helliger", '
-                         '"triangular" and "brier".')
+                         'values are "iv", "js", "hellinger", '
+                         '"triangular", "brier", "neg_brier" '
+                         'and "log_score".')
 
     if not isinstance(max_n_prebins, numbers.Integral) or max_n_prebins <= 1:
         raise ValueError("max_prebins must be an integer greater than 1; "
@@ -283,9 +284,10 @@ class OptimalBinning(BaseOptimalBinning):
     divergence : str, optional (default="iv")
         The divergence measure in the objective function to be maximized.
         Supported divergences are "iv" (Information Value or Jeffrey's
-        divergence), "js" (Jensen-Shannon), "hellinger" (Hellinger divergence)
-        and "triangular" (triangular discrimination) and "brier"
-        (Brier divergence).
+        divergence), "js" (Jensen-Shannon), "hellinger" (Hellinger divergence),
+        "triangular" (triangular discrimination), "brier"
+        (Brier divergence), "neg_brier" (Negative Brier divergence)
+        and "log_score" (Log likelihood score).
 
         .. versionadded:: 0.7.0
 

@@ -273,7 +273,61 @@ def brier(x, y, return_sum=False):
     """
     x, y = _check_x_y(x, y)
 
+    t = (x - y) ** 2
+
+    if return_sum:
+        return t.sum()
+    else:
+        return t
+
+def neg_brier(x, y, return_sum=False):
+    """Calculate the negative Brier divergence between two distributions.
+
+    Parameters
+    ----------
+    x : array-like
+        Discrete probability distribution.
+
+    y : array-like
+        Discrete probability distribution.
+
+    return_sum : bool
+        Return sum of brier values.
+
+    Returns
+    -------
+    brier : float or numpy.ndarray
+    """
+    x, y = _check_x_y(x, y)
+
     t = -(x - y) ** 2
+
+    if return_sum:
+        return t.sum()
+    else:
+        return t
+
+def log_score(x, y, return_sum=False):
+    """Calculate the log likelihood between two distributions.
+
+    Parameters
+    ----------
+    x : array-like
+        Discrete probability distribution.
+
+    y : array-like
+        Discrete probability distribution.
+
+    return_sum : bool
+        Return sum of log likelihood values.
+
+    Returns
+    -------
+    log_likelihood : float or numpy.ndarray
+    """
+    x, y = _check_x_y(x, y)
+
+    t = x * np.log(y) + (1 - x) * np.log(1 - y)
 
     if return_sum:
         return t.sum()

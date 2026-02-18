@@ -169,6 +169,22 @@ def test_numerical_brier_divergence():
     assert len(optb.splits) > 0
 
 
+def test_numerical_neg_brier_divergence():
+    optb = OptimalBinning(divergence="neg_brier")
+    optb.fit(x, y)
+
+    assert optb.status == "OPTIMAL"
+    assert len(optb.splits) > 0
+
+
+def test_numerical_log_score_divergence():
+    optb = OptimalBinning(divergence="log_score")
+    optb.fit(x, y)
+
+    assert optb.status == "OPTIMAL"
+    assert len(optb.splits) > 0
+
+
 def test_numerical_default():
     optb = OptimalBinning()
     optb.fit(x, y)
