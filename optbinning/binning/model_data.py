@@ -317,6 +317,9 @@ def continuous_model_data(n_records, sums, ssums, max_pvalue,
 # Prop. 2.4: sigma-penalty), P2 (Thm. 2.4: raw-count Hellinger regime).
 # ---------------------------------------------------------------------------
 
+TRANSPORT_DIVERGENCES = ("w1", "cramer2", "hellinger_raw")
+
+
 def pooled_means(n_records, x_sum):
     """Pooled within-bin means U[i][k] (candidate bin spanning pre-bins
     k..i), in the same row layout as the ``model_data`` matrices. Used by

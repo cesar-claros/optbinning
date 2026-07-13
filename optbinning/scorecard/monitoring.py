@@ -359,6 +359,124 @@ class ScorecardMonitoring(BaseEstimator):
 
         return self._df_psi
 
+    def fm_table(self, lam=None, lam_grid=None, n_permutations=0,
+                 n_grid=200, random_state=None):
+        """Flat-metric (bounded-Lipschitz) drift table at system level
+        (OT-WoE extension; project note P4 / Paper B, Sec. 4).
+
+        The flat metric between the expected and actual score
+        distributions is bin-free, metric, robust (bounded influence
+        2*lam per unit mass), finite under support extension, and carries
+        a decision-theoretic certificate: the absolute change in expected
+        PD is at most ``certificate_constant * FM``. Scores are compressed
+        to a pooled quantile grid of at most ``n_grid`` atoms (surrogate
+        error bounded; P4, Prop. 4.5); the reported statistic is exact for
+        the discretized distributions.
+
+        Parameters
+        ----------
+        lam : float or None, optional (default=None)
+            Mass price in score units; 2*lam is the transport horizon.
+            If None, 10% of the expected score range.
+
+        lam_grid : array-like or None, optional (default=None)
+            If provided, one row per lambda (the lambda-profile: growth
+            with lambda indicates displacement-type drift; early
+            saturation indicates reshape/appearance-type drift).
+
+        n_permutations : int, optional (default=0)
+            If positive, exact permutation p-values with this many
+            permutations.
+
+        n_grid : int, optional (default=200)
+            Maximum number of score-grid atoms.
+
+        random_state : int or None, optional (default=None)
+
+        Returns
+        -------
+        fm_table : pandas.DataFrame
+        """
+        self._check_is_fitted()
+
+        from ..binning.metrics import flat_metric_1d
+
+        s_a = self._score_actual
+        s_e = self._score_expected
+
+        if lam_grid is None:
+            if lam is None:
+                lam = 0.1 * (s_e.max() - s_e.min())
+            lams = [float(lam)]
+        else:
+            lams = [float(v) for v in lam_grid]
+
+        # pooled quantile grid; atoms = within-cell pooled means
+        pooled = np.concatenate([s_a, s_e])
+        edges = np.unique(np.quantile(pooled,
+                                      np.linspace(0, 1, n_grid + 1)))[1:-1]
+        cells_a = np.searchsorted(edges, s_a)
+        cells_e = np.searchsorted(edges, s_e)
+        n_cells = len(edges) + 1
+        cnt_a = np.bincount(cells_a, minlength=n_cells).astype(float)
+        cnt_e = np.bincount(cells_e, minlength=n_cells).astype(float)
+        sum_pooled = (np.bincount(cells_a, weights=s_a, minlength=n_cells) +
+                      np.bincount(cells_e, weights=s_e, minlength=n_cells))
+        keep = (cnt_a + cnt_e) > 0
+        cnt_a, cnt_e = cnt_a[keep], cnt_e[keep]
+        atoms = sum_pooled[keep] / (cnt_a + cnt_e)
+        order = np.argsort(atoms)
+        atoms = atoms[order]
+        p_a = cnt_a[order] / cnt_a.sum()
+        p_e = cnt_e[order] / cnt_e.sum()
+
+        # PD certificate constant (binary target): the Lipschitz constant
+        # and centered sup-norm of the empirical PD-vs-score curve.
+        if self._pd_actual is not None:
+            pd_all = np.concatenate([self._pd_actual, self._pd_expected])
+            pd_mean = (np.bincount(np.concatenate([cells_a, cells_e]),
+                                   weights=pd_all, minlength=n_cells)[keep]
+                       [order] / (cnt_a + cnt_e))
+            gaps = np.diff(atoms)
+            with np.errstate(divide="ignore", invalid="ignore"):
+                lip = np.nanmax(np.abs(np.diff(pd_mean)) /
+                                np.where(gaps > 0, gaps, np.nan))
+            half_range = 0.5 * (pd_mean.max() - pd_mean.min())
+            realized_dpd = abs(self._pd_actual.mean()
+                               - self._pd_expected.mean())
+        else:
+            lip = half_range = realized_dpd = np.nan
+
+        rng = np.random.default_rng(random_state)
+        n_a = int(cnt_a.sum())
+        pooled_cnt = (cnt_a + cnt_e).astype(int)
+        if n_permutations > 0:
+            perm_a = np.array([rng.multivariate_hypergeometric(pooled_cnt,
+                                                               n_a)
+                               for _ in range(n_permutations)], dtype=float)
+            perm_pa = perm_a / n_a
+            perm_pe = (pooled_cnt[None, :] - perm_a) / cnt_e.sum()
+
+        rows = []
+        for lam_v in lams:
+            fm = flat_metric_1d(p_a, p_e, atoms, lam_v)
+            row = {"lambda": lam_v, "FM": fm}
+
+            if n_permutations > 0:
+                fm_perm = flat_metric_1d(perm_pa, perm_pe, atoms, lam_v)
+                row["p-value"] = ((1 + np.sum(fm_perm >= fm - 1e-12)) /
+                                  (n_permutations + 1))
+
+            if self._pd_actual is not None:
+                c_star = max(lip, half_range / lam_v)
+                row["certificate constant"] = c_star
+                row["PD impact bound"] = c_star * fm
+                row["realized |dPD|"] = realized_dpd
+
+            rows.append(row)
+
+        return pd.DataFrame(rows)
+
     def psi_variable_table(self, name=None, style="summary"):
         """Population Stability Index (PSI) at variable level.
 
@@ -488,6 +606,16 @@ class ScorecardMonitoring(BaseEstimator):
 
         score_actual = self.scorecard.score(X_actual)
         score_expected = self.scorecard.score(X_expected)
+
+        # Stored for flat-metric drift analysis (OT-WoE extension).
+        self._score_actual = np.asarray(score_actual, dtype=float)
+        self._score_expected = np.asarray(score_expected, dtype=float)
+        if self._target_dtype == "binary":
+            self._pd_actual = self.scorecard.predict_proba(X_actual)[:, 1]
+            self._pd_expected = self.scorecard.predict_proba(X_expected)[:, 1]
+        else:
+            self._pd_actual = None
+            self._pd_expected = None
 
         prebinning = PreBinning(problem_type=problem_type,
                                 method=self.psi_method,

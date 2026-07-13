@@ -12,6 +12,8 @@ from ortools.sat.python import cp_model
 
 from .model_data import model_data
 from .model_data import multiclass_model_data
+from .model_data import transport_model_data
+from .model_data import TRANSPORT_DIVERGENCES as _TRANSPORT_DIVERGENCES
 
 
 class BinningCP:
@@ -19,7 +21,7 @@ class BinningCP:
                  max_bin_size, min_bin_n_event, max_bin_n_event,
                  min_bin_n_nonevent, max_bin_n_nonevent, min_event_rate_diff,
                  max_pvalue, max_pvalue_policy, gamma, user_splits_fixed,
-                 time_limit):
+                 time_limit, gamma_wasserstein=0):
 
         self.monotonic_trend = monotonic_trend
 
@@ -36,6 +38,7 @@ class BinningCP:
         self.max_pvalue = max_pvalue
         self.max_pvalue_policy = max_pvalue_policy
         self.gamma = gamma
+        self.gamma_wasserstein = gamma_wasserstein
         self.user_splits_fixed = user_splits_fixed
 
         self.time_limit = time_limit
@@ -48,13 +51,57 @@ class BinningCP:
         self._n = None
         self._x = None
 
-    def build_model(self, divergence, n_nonevent, n_event, trend_change):
-        # Parameters
+    def build_model(self, divergence, n_nonevent, n_event, trend_change,
+                    x_sum=None):
+        # Parameters. Transport objectives (OT-WoE extension): as in
+        # BinningMIP, the scaled D matrix and violation indices come from
+        # the "hellinger" carrier (objective-independent, finite on
+        # zero-count cells); the objective matrix V is rebuilt in floats
+        # from the transport matrices (and the gamma_wasserstein hybrid)
+        # and then integer-scaled for CP-SAT.
         M = int(1e6)
+        if divergence in _TRANSPORT_DIVERGENCES:
+            base_divergence = "hellinger"
+        else:
+            base_divergence = divergence
+
         (D, V, pvalue_violation_indices,
          min_diff_violation_indices) = model_data(
-            divergence, n_nonevent, n_event, self.max_pvalue,
+            base_divergence, n_nonevent, n_event, self.max_pvalue,
             self.max_pvalue_policy, self.min_event_rate_diff, M)
+
+        if divergence in _TRANSPORT_DIVERGENCES or self.gamma_wasserstein:
+            if x_sum is None:
+                if divergence in ("w1", "cramer2") or self.gamma_wasserstein:
+                    raise ValueError('x_sum (pre-bin feature sums) is '
+                                     'required for divergence "{}" / '
+                                     'gamma_wasserstein > 0.'
+                                     .format(divergence))
+                x_sum = np.zeros(len(n_nonevent))
+
+            cramer_p = 2 if divergence == "cramer2" else 1
+            PHI, THETA, _ = transport_model_data(
+                n_nonevent, n_event, x_sum, cramer_p=cramer_p)
+
+            if divergence in ("w1", "cramer2"):
+                V_float = PHI
+            elif divergence == "hellinger_raw":
+                V_float = THETA
+            else:
+                (_, V_float, _, _) = model_data(
+                    base_divergence, n_nonevent, n_event, None,
+                    self.max_pvalue_policy, 0)
+
+            if self.gamma_wasserstein:
+                if divergence == "w1":
+                    PHI1 = PHI
+                else:
+                    PHI1, _, _ = transport_model_data(
+                        n_nonevent, n_event, x_sum, cramer_p=1)
+                V_float = [v + self.gamma_wasserstein * phi
+                           for v, phi in zip(V_float, PHI1)]
+
+            V = [np.round(v * M).astype(np.int64) for v in V_float]
 
         n = len(n_nonevent)
         n_records = n_nonevent + n_event

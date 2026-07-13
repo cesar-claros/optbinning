@@ -1,5 +1,6 @@
 from ._version import __version__
 from .binning import BinningProcess
+from .binning import ConsensusBinning
 from .binning import ContinuousOptimalBinning
 from .binning import MDLP
 from .binning import MulticlassOptimalBinning
@@ -12,11 +13,14 @@ from .binning.piecewise import ContinuousOptimalPWBinning
 from .binning.piecewise import OptimalPWBinning
 from .binning.uncertainty import SBOptimalBinning
 from .scorecard import Scorecard
+from .scorecard import ScorecardMonitoring
+from .scorecard import SequentialMonitor
 
 
 __all__ = ['__version__',
            'BinningProcess',
            'BinningProcessSketch',
+           'ConsensusBinning',
            'ContinuousOptimalBinning',
            'ContinuousOptimalBinning2D',
            'ContinuousOptimalPWBinning',
@@ -27,4 +31,6 @@ __all__ = ['__version__',
            'OptimalBinning2D',
            'OptimalPWBinning',
            'SBOptimalBinning',
-           'Scorecard']
+           'Scorecard',
+           'ScorecardMonitoring',
+           'SequentialMonitor']

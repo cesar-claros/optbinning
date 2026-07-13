@@ -13,10 +13,7 @@ from ortools.linear_solver import pywraplp
 from .model_data import model_data
 from .model_data import pooled_means
 from .model_data import transport_model_data
-
-# Transport-type objectives (OT-WoE extension); require pre-bin x-sums for
-# the pooled-mean representatives, except "hellinger_raw" (counts only).
-_TRANSPORT_DIVERGENCES = ("w1", "cramer2", "hellinger_raw")
+from .model_data import TRANSPORT_DIVERGENCES as _TRANSPORT_DIVERGENCES
 
 
 class BinningMIP:

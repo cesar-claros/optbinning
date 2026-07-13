@@ -127,7 +127,7 @@ def test_parameter_validation():
     x, y = _data()
 
     with raises(ValueError):
-        optb = OptimalBinning(dtype="numerical", solver="cp",
+        optb = OptimalBinning(dtype="numerical", solver="ls",
                               divergence="w1")
         optb.fit(x, y)
 
@@ -140,3 +140,33 @@ def test_parameter_validation():
         optb = OptimalBinning(dtype="numerical", solver="mip",
                               gamma_wasserstein=-0.1)
         optb.fit(x, y)
+
+
+def test_cp_mip_agreement():
+    # CP-SAT (integer-scaled transport matrices) and CBC must agree on the
+    # achieved objective value up to scaling resolution.
+    x, y = _data()
+    for divergence in ("w1", "hellinger_raw"):
+        vals = {}
+        for solver in ("cp", "mip"):
+            optb = OptimalBinning(name="x", dtype="numerical", solver=solver,
+                                  divergence=divergence,
+                                  monotonic_trend="ascending")
+            optb.fit(x, y)
+            p, q, w, ne, e = _binned_stats(x, y, optb.splits)
+            if divergence == "w1":
+                vals[solver] = wasserstein_1d(p, q, w)
+            else:
+                vals[solver] = hellinger_raw(ne, e)
+        scale_tol = 1e-3 * max(abs(vals["mip"]), 1.0)
+        assert abs(vals["cp"] - vals["mip"]) <= scale_tol
+
+
+def test_cp_hybrid_fits():
+    x, y = _data()
+    optb = OptimalBinning(name="x", dtype="numerical", solver="cp",
+                          divergence="iv", gamma_wasserstein=0.5,
+                          monotonic_trend="ascending")
+    optb.fit(x, y)
+    assert optb.status in ("OPTIMAL", "FEASIBLE")
+    assert len(optb.splits) >= 1

@@ -188,9 +188,9 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
     # Transport objectives (OT-WoE extension): MIP-only wiring for now, and
     # geometric objectives require a numerical feature axis.
     if divergence in ("w1", "cramer2", "hellinger_raw") or gamma_wasserstein:
-        if solver != "mip":
+        if solver not in ("cp", "mip"):
             raise ValueError('divergence "{}" / gamma_wasserstein > 0 '
-                             'currently require solver="mip".'
+                             'require solver "cp" or "mip".'
                              .format(divergence))
         if dtype != "numerical":
             raise ValueError('divergence "{}" / gamma_wasserstein > 0 '
@@ -332,8 +332,8 @@ class OptimalBinning(BaseOptimalBinning):
 
         .. versionadded:: 0.7.0
 
-        Transport objectives (OT-WoE extension; require ``solver="mip"`` and
-        ``dtype="numerical"``): "w1" (1-Wasserstein distance between the
+        Transport objectives (OT-WoE extension; require solver "cp" or
+        "mip" and ``dtype="numerical"``): "w1" (1-Wasserstein distance between the
         binned class-conditional distributions with pooled-mean bin
         representatives), "cramer2" (Cramer-2 / energy-type discrepancy) and
         "hellinger_raw" (unnormalized raw-count Hellinger; finite on
@@ -420,8 +420,8 @@ class OptimalBinning(BaseOptimalBinning):
         ``gamma_wasserstein`` times the 1-Wasserstein term to the selected
         divergence objective, rewarding geometrically-backed separation
         (project note P1, Sec. 7.3). Units: divergence per feature unit;
-        consider normalizing the feature to [0, 1]. Requires
-        ``solver="mip"`` and ``dtype="numerical"``.
+        consider normalizing the feature to [0, 1]. Requires solver "cp"
+        or "mip" and ``dtype="numerical"``.
 
     fm_lambda : float or None, optional (default=None)
         Flat-metric (bounded-Lipschitz) mass price, in feature units
@@ -1103,7 +1103,8 @@ class OptimalBinning(BaseOptimalBinning):
                                   min_bin_n_nonevent, self.max_bin_n_nonevent,
                                   self.min_event_rate_diff, self.max_pvalue,
                                   self.max_pvalue_policy, self.gamma,
-                                  self.user_splits_fixed, self.time_limit)
+                                  self.user_splits_fixed, self.time_limit,
+                                  gamma_wasserstein=self.gamma_wasserstein)
         elif self.solver == "mip":
             optimizer = BinningMIP(monotonic, self.min_n_bins, self.max_n_bins,
                                    min_bin_size, max_bin_size,
@@ -1130,6 +1131,9 @@ class OptimalBinning(BaseOptimalBinning):
         if self.solver == "mip":
             optimizer.build_model(self.divergence, n_nonevent, n_event,
                                   trend_change, x_sum=x_sum, splits=splits)
+        elif self.solver == "cp":
+            optimizer.build_model(self.divergence, n_nonevent, n_event,
+                                  trend_change, x_sum=x_sum)
         else:
             optimizer.build_model(self.divergence, n_nonevent, n_event,
                                   trend_change)
