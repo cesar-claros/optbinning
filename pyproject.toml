@@ -1,0 +1,95 @@
+[project]
+name = "ot-woe-experiments"
+version = "0.1.0"
+description = "Experiments for the OT x Optimal Binning paper series: (A) OT objectives & exact MILP encodings, (B) flat-metric scorecard lifecycle, (C) differentiable OT-binning layer, (D) cube-root cut asymptotics."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # ---------- core numerics, OT, and solvers (all papers) ----------
+    "numpy>=1.26",
+    "scipy>=1.11",          # HiGHS linprog (FM/TV-L1 LPs, Paper B), trust-constr + L-BFGS (HK primal-dual certification, Paper A), stats
+    "pot>=0.9.4",           # POT: independent cross-checks of Sinkhorn / unbalanced OT / 1-D W_p implementations
+    "cvxpy>=1.5",           # independent convex cross-checks (HK LET primal/dual brackets)
+    "pulp>=2.8",            # CBC MILP: Paper B Theorem-B end-to-end verification; margin-separable encodings
+    "numba>=0.59",          # fast kernels at scale: level-set DP (flat metric), batched Sinkhorn, permutation/e-process sims
+    # ---------- optimal binning (anchor library; local editable clone) ----------
+    # brings ortools>=9.4,<9.12 (CP/MIP), ropwr; we patch model_data.py / mip.py / metrics.py / monitoring.py
+    # (Phi/Phi^(p)/Psi/Theta matrices, flat_metric_1d, fm_table, ConsensusBinning) — hence editable.
+    "optbinning",
+    # ---------- statistics & inference (Papers B, D) ----------
+    "scikit-learn>=1.6",    # isotonic/PAV, CV, calibration, WoE-logistic scorecards (floor matches optbinning)
+    "statsmodels>=0.14",    # ECDF/quantile utilities, QQ diagnostics (Chernoff limit checks, drift nulls)
+    # ---------- data (real-data experiments across papers) ----------
+    "pandas>=2.2",
+    "polars>=1.0",
+    "pyarrow>=15",          # parquet caching of simulation grids / bootstrap results
+    "ucimlrepo>=0.0.7",     # German / Taiwan credit datasets; Kaggle GMSC fetched manually
+    # ---------- experiment orchestration & logging ----------
+    "hydra-core>=1.3.2",
+    "hydra-colorlog>=1.2.0",
+    "hydra-submitit-launcher>=1.2.0",  # SLURM array jobs on the HPC (pulls submitit)
+    "rootutils>=1.0.7",
+    "loguru>=0.7.3",
+    "rich>=13.9",
+    "joblib>=1.3",          # parallel fold loops: bootstrap/consensus (P7), subsampling CIs (Paper D)
+    "tqdm>=4.66",
+    # ---------- figures & tables ----------
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "tabulate>=0.9",        # LaTeX/markdown result tables for the paper drafts
+]
+
+[dependency-groups]
+# Paper C only (differentiable OT-binning layer + tabular-DL benchmark): `uv sync --group dl`
+dl = [
+    "torch>=2.6",                # autodiff/implicit-diff Sinkhorn layer (replaces the FD prototype)
+    "einops>=0.8",
+    "rtdl-num-embeddings",       # Gorishniy et al. NeurIPS 2022: PLE baseline the OT layer makes differentiable
+    "rtdl-revisiting-models",    # FT-Transformer / MLP backbones for the OT-PLE benchmark
+    "lightgbm>=4.3",             # GBDT-parity baselines
+    "xgboost>=2.0",
+    "wandb>=0.23",               # training logs for the benchmark runs
+    # NOTE: pytorch-tabular (NODE baseline) intentionally omitted for now — heavy dep tree;
+    # add if we benchmark NODE beyond the comparison table.
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-xdist>=3.5",         # verification suites are embarrassingly parallel
+    "ruff>=0.6",
+    "ipykernel>=6.29",
+    "ipywidgets>=8.1",
+    "nbformat>=5.10",
+    "debugpy>=1.8",
+]
+
+[tool.uv]
+package = false                  # experiments repo, not a distributable package
+default-groups = ["dev"]
+
+[tool.uv.sources]
+optbinning = { path = "optbinning", editable = true }
+torch = [{ index = "pytorch-cu124" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+# https://docs.astral.sh/ruff/configuration/
+[tool.ruff]
+line-length = 120
+exclude = ["optbinning", "data", "logs", "outputs"]
+
+[tool.ruff.lint]
+select = [
+    "I",  # isort
+    "F",  # pyflakes
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "UP", # pyupgrade
+]
+ignore = ["F401"]
+
+[tool.pyright]
+exclude = ["**/__pycache__", "data", "logs", "outputs", "optbinning"]
+typeCheckingMode = "off"
