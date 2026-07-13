@@ -1,0 +1,15 @@
+# Experiment B2 — drift monitoring power (Paper B).
+design: smooth
+drift_kind: location    # none | location | tail | support | volume
+drift_magnitude: 0.25
+n: 4000
+n_reps: 20
+rep_offset: 0
+alpha: 0.05
+n_permutations: 200
+psi_method: cart
+psi_n_bins: 10
+out: outputs/b2
+hydra:
+  job:
+    chdir: false

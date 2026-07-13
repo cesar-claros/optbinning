@@ -1,0 +1,20 @@
+# Experiment A1 — objective benchmark (Paper A).
+# SLURM: python experiments/run_a1.py -m hydra/launcher=submitit_slurm \
+#          hydra.launcher.partition=cpu dataset=german,taiwan seed_offset=range(0,10)
+dataset: synthetic-smooth
+n: 5000                 # synthetic only
+data_seed: 0
+features: null          # null -> all numerical features
+arms: [iv, iv_w1, fm_tau, w1, cramer2, hellinger_raw]
+gamma: 0.25             # hybrid weight, in units of divergence per (p95-p05)
+fm_tau_frac: 0.8        # trust threshold as fraction of the IV-solution W1
+lam_frac: 0.1           # fm_lambda as fraction of the feature (p95-p05)
+monotonic: auto
+n_seeds: 3
+seed_offset: 0
+test_size: 0.4
+n_boot: 10              # bootstrap refits for cut stability (0 = off)
+out: outputs/a1
+hydra:
+  job:
+    chdir: false
