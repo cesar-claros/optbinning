@@ -42,7 +42,9 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
                       min_bin_size, max_bin_size, min_bin_n_nonevent,
                       max_bin_n_nonevent, min_bin_n_event, max_bin_n_event,
                       monotonic_trend, min_event_rate_diff, max_pvalue,
-                      max_pvalue_policy, gamma, outlier_detector,
+                      max_pvalue_policy, gamma, gamma_wasserstein,
+                      fm_lambda, fm_mu, fm_tau,
+                      outlier_detector,
                       outlier_params, class_weight, cat_cutoff, cat_unknown,
                       user_splits, user_splits_fixed, special_codes,
                       split_digits, mip_solver, time_limit, verbose):
@@ -64,11 +66,13 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
                          'values are "cp", "ls" and "mip".')
 
     if divergence not in ("iv", "js", "hellinger", "triangular",
-                          "brier", "neg_brier", "log_score"):
+                          "brier", "neg_brier", "log_score",
+                          "w1", "cramer2", "hellinger_raw"):
         raise ValueError('Invalid value for divergence. Allowed string '
                          'values are "iv", "js", "hellinger", '
-                         '"triangular", "brier", "neg_brier" '
-                         'and "log_score".')
+                         '"triangular", "brier", "neg_brier", '
+                         '"log_score", "w1", "cramer2" and '
+                         '"hellinger_raw".')
 
     if not isinstance(max_n_prebins, numbers.Integral) or max_n_prebins <= 1:
         raise ValueError("max_prebins must be an integer greater than 1; "
@@ -175,6 +179,43 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
 
     if not isinstance(gamma, numbers.Number) or gamma < 0:
         raise ValueError("gamma must be >= 0; got {}.".format(gamma))
+
+    if (not isinstance(gamma_wasserstein, numbers.Number) or
+            gamma_wasserstein < 0):
+        raise ValueError("gamma_wasserstein must be >= 0; got {}."
+                         .format(gamma_wasserstein))
+
+    # Transport objectives (OT-WoE extension): MIP-only wiring for now, and
+    # geometric objectives require a numerical feature axis.
+    if divergence in ("w1", "cramer2", "hellinger_raw") or gamma_wasserstein:
+        if solver != "mip":
+            raise ValueError('divergence "{}" / gamma_wasserstein > 0 '
+                             'currently require solver="mip".'
+                             .format(divergence))
+        if dtype != "numerical":
+            raise ValueError('divergence "{}" / gamma_wasserstein > 0 '
+                             'require dtype="numerical".'.format(divergence))
+
+    # Flat-metric block (OT-WoE extension, Theorem B).
+    if fm_lambda is not None and (not isinstance(fm_lambda, numbers.Number)
+                                  or fm_lambda <= 0):
+        raise ValueError("fm_lambda must be > 0; got {}.".format(fm_lambda))
+
+    if not isinstance(fm_mu, numbers.Number) or fm_mu < 0:
+        raise ValueError("fm_mu must be >= 0; got {}.".format(fm_mu))
+
+    if fm_tau is not None and not isinstance(fm_tau, numbers.Number):
+        raise TypeError("fm_tau must be numeric or None.")
+
+    if fm_mu or fm_tau is not None:
+        if fm_lambda is None:
+            raise ValueError("fm_lambda is required when fm_mu > 0 or "
+                             "fm_tau is set.")
+        if solver != "mip" or mip_solver != "cbc":
+            raise ValueError('fm_mu / fm_tau require solver="mip" and '
+                             'mip_solver="cbc" (continuous phi variables).')
+        if dtype != "numerical":
+            raise ValueError('fm_mu / fm_tau require dtype="numerical".')
 
     if outlier_detector is not None:
         if outlier_detector not in ("range", "zscore"):
@@ -291,6 +332,13 @@ class OptimalBinning(BaseOptimalBinning):
 
         .. versionadded:: 0.7.0
 
+        Transport objectives (OT-WoE extension; require ``solver="mip"`` and
+        ``dtype="numerical"``): "w1" (1-Wasserstein distance between the
+        binned class-conditional distributions with pooled-mean bin
+        representatives), "cramer2" (Cramer-2 / energy-type discrepancy) and
+        "hellinger_raw" (unnormalized raw-count Hellinger; finite on
+        zero-event bins).
+
     max_n_prebins : int (default=20)
         The maximum number of bins after pre-binning (prebins).
 
@@ -366,6 +414,33 @@ class OptimalBinning(BaseOptimalBinning):
         "cp" and "mip".
 
         .. versionadded:: 0.3.0
+
+    gamma_wasserstein : float, optional (default=0)
+        Hybrid objective weight (OT-WoE extension): adds
+        ``gamma_wasserstein`` times the 1-Wasserstein term to the selected
+        divergence objective, rewarding geometrically-backed separation
+        (project note P1, Sec. 7.3). Units: divergence per feature unit;
+        consider normalizing the feature to [0, 1]. Requires
+        ``solver="mip"`` and ``dtype="numerical"``.
+
+    fm_lambda : float or None, optional (default=None)
+        Flat-metric (bounded-Lipschitz) mass price, in feature units
+        (OT-WoE extension; project note P3, Theorem B). ``2 * fm_lambda``
+        is the transport horizon. Required when ``fm_mu > 0`` or ``fm_tau``
+        is set.
+
+    fm_mu : float, optional (default=0)
+        Hybrid weight adding ``fm_mu`` times the flat metric between the
+        binned class-conditional distributions to the objective. Exact
+        (no approximation) via continuous dual potentials. Requires
+        ``solver="mip"``, ``mip_solver="cbc"`` and ``dtype="numerical"``.
+
+    fm_tau : float or None, optional (default=None)
+        Flat-metric trust constraint: requires the binned class-conditional
+        separation to satisfy ``FM >= fm_tau`` (feature units). Same
+        requirements as ``fm_mu``; infeasible thresholds yield status
+        ``INFEASIBLE`` (note the ceiling ``FM <= 2 * fm_lambda`` for
+        normalized masses).
 
     outlier_detector : str or None, optional (default=None)
         The outlier detection method. Supported methods are "range" to use
@@ -457,6 +532,7 @@ class OptimalBinning(BaseOptimalBinning):
                  max_bin_n_event=None, monotonic_trend="auto",
                  min_event_rate_diff=0, max_pvalue=None,
                  max_pvalue_policy="consecutive", gamma=0,
+                 gamma_wasserstein=0, fm_lambda=None, fm_mu=0, fm_tau=None,
                  outlier_detector=None, outlier_params=None, class_weight=None,
                  cat_cutoff=None, cat_unknown=None, user_splits=None,
                  user_splits_fixed=None, special_codes=None, split_digits=None,
@@ -486,6 +562,10 @@ class OptimalBinning(BaseOptimalBinning):
         self.max_pvalue = max_pvalue
         self.max_pvalue_policy = max_pvalue_policy
         self.gamma = gamma
+        self.gamma_wasserstein = gamma_wasserstein
+        self.fm_lambda = fm_lambda
+        self.fm_mu = fm_mu
+        self.fm_tau = fm_tau
 
         self.outlier_detector = outlier_detector
         self.outlier_params = outlier_params
@@ -841,7 +921,20 @@ class OptimalBinning(BaseOptimalBinning):
                         .format(self._time_prebinning))
 
         # Optimization
-        self._fit_optimizer(splits, n_nonevent, n_event)
+        # Transport objectives (OT-WoE extension) need per-prebin pooled
+        # feature sums for the bin representatives; computed with the same
+        # np.digitize convention as _compute_prebins.
+        x_sum = None
+        if (self.dtype == "numerical" and len(splits) and
+                (self.divergence in ("w1", "cramer2", "hellinger_raw") or
+                 self.gamma_wasserstein or
+                 self.fm_mu or self.fm_tau is not None)):
+            indices = np.digitize(x_clean, splits, right=False)
+            xw = x_clean if sw_clean is None else x_clean * sw_clean
+            x_sum = np.bincount(indices, weights=xw,
+                                minlength=len(splits) + 1)
+
+        self._fit_optimizer(splits, n_nonevent, n_event, x_sum)
 
         # Post-processing
         if self.verbose:
@@ -909,7 +1002,7 @@ class OptimalBinning(BaseOptimalBinning):
                                            sw_clean, sw_missing, sw_special,
                                            sw_others)
 
-    def _fit_optimizer(self, splits, n_nonevent, n_event):
+    def _fit_optimizer(self, splits, n_nonevent, n_event, x_sum=None):
         if self.verbose:
             logger.info("Optimizer started.")
 
@@ -940,7 +1033,8 @@ class OptimalBinning(BaseOptimalBinning):
             max_bin_size = self.max_bin_size
 
         # Min number of event and nonevent per bin
-        if (self.divergence in ("hellinger", "triangular") and
+        if (self.divergence in ("hellinger", "triangular", "w1", "cramer2",
+                                "hellinger_raw") and
                 self._flag_min_n_event_nonevent):
             if self.min_bin_n_nonevent is None:
                 min_bin_n_nonevent = 1
@@ -1017,6 +1111,8 @@ class OptimalBinning(BaseOptimalBinning):
                                    min_bin_n_nonevent, self.max_bin_n_nonevent,
                                    self.min_event_rate_diff, self.max_pvalue,
                                    self.max_pvalue_policy, self.gamma,
+                                   self.gamma_wasserstein,
+                                   self.fm_lambda, self.fm_mu, self.fm_tau,
                                    self.user_splits_fixed, self.mip_solver,
                                    self.time_limit)
         elif self.solver == "ls":
@@ -1031,8 +1127,12 @@ class OptimalBinning(BaseOptimalBinning):
         if self.verbose:
             logger.info("Optimizer: build model...")
 
-        optimizer.build_model(self.divergence, n_nonevent, n_event,
-                              trend_change)
+        if self.solver == "mip":
+            optimizer.build_model(self.divergence, n_nonevent, n_event,
+                                  trend_change, x_sum=x_sum, splits=splits)
+        else:
+            optimizer.build_model(self.divergence, n_nonevent, n_event,
+                                  trend_change)
 
         if self.verbose:
             logger.info("Optimizer: solve...")
@@ -1110,7 +1210,8 @@ class OptimalBinning(BaseOptimalBinning):
         mask_remove = (n_nonevent == 0) | (n_event == 0)
 
         if np.any(mask_remove):
-            if self.divergence in ("hellinger", "triangular"):
+            if self.divergence in ("hellinger", "triangular", "w1",
+                                   "cramer2", "hellinger_raw"):
                 self._flag_min_n_event_nonevent = True
             else:
                 self._n_refinements += 1

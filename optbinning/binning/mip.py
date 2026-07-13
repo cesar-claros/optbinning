@@ -11,14 +11,21 @@ import numpy as np
 from ortools.linear_solver import pywraplp
 
 from .model_data import model_data
+from .model_data import pooled_means
+from .model_data import transport_model_data
+
+# Transport-type objectives (OT-WoE extension); require pre-bin x-sums for
+# the pooled-mean representatives, except "hellinger_raw" (counts only).
+_TRANSPORT_DIVERGENCES = ("w1", "cramer2", "hellinger_raw")
 
 
 class BinningMIP:
     def __init__(self, monotonic_trend, min_n_bins, max_n_bins, min_bin_size,
                  max_bin_size, min_bin_n_event, max_bin_n_event,
                  min_bin_n_nonevent, max_bin_n_nonevent, min_event_rate_diff,
-                 max_pvalue, max_pvalue_policy, gamma, user_splits_fixed,
-                 mip_solver, time_limit):
+                 max_pvalue, max_pvalue_policy, gamma, gamma_wasserstein,
+                 fm_lambda, fm_mu, fm_tau,
+                 user_splits_fixed, mip_solver, time_limit):
 
         self.monotonic_trend = monotonic_trend
 
@@ -35,6 +42,10 @@ class BinningMIP:
         self.max_pvalue = max_pvalue
         self.max_pvalue_policy = max_pvalue_policy
         self.gamma = gamma
+        self.gamma_wasserstein = gamma_wasserstein
+        self.fm_lambda = fm_lambda
+        self.fm_mu = fm_mu
+        self.fm_tau = fm_tau
         self.user_splits_fixed = user_splits_fixed
 
         self.mip_solver = mip_solver
@@ -45,12 +56,52 @@ class BinningMIP:
         self._n = None
         self._x = None
 
-    def build_model(self, divergence, n_nonevent, n_event, trend_change):
-        # Parameters
+    def build_model(self, divergence, n_nonevent, n_event, trend_change,
+                    x_sum=None, splits=None):
+        # Parameters. For transport objectives the event-rate matrix D and
+        # the p-value / min-diff violation indices are objective-independent;
+        # "hellinger" is used as carrier because it is finite on zero-count
+        # cells. The objective matrix V is then replaced (or, for the hybrid
+        # gamma_wasserstein > 0, augmented) by the aggregated transport
+        # matrices of transport_model_data, which share V's exact row layout,
+        # so the telescoped objective below and all constraints are unchanged
+        # (project note P1, Prop. 7.1 / Prop. 1.4; P2, Thm. 2.4).
+        if divergence in _TRANSPORT_DIVERGENCES:
+            base_divergence = "hellinger"
+        else:
+            base_divergence = divergence
+
         [D, V, pvalue_violation_indices,
          min_diff_violation_indices] = model_data(
-            divergence, n_nonevent, n_event, self.max_pvalue,
+            base_divergence, n_nonevent, n_event, self.max_pvalue,
             self.max_pvalue_policy, self.min_event_rate_diff)
+
+        if divergence in _TRANSPORT_DIVERGENCES or self.gamma_wasserstein:
+            if x_sum is None:
+                if divergence in ("w1", "cramer2") or self.gamma_wasserstein:
+                    raise ValueError('x_sum (pre-bin feature sums) is '
+                                     'required for divergence "{}" / '
+                                     'gamma_wasserstein > 0.'
+                                     .format(divergence))
+                x_sum = np.zeros(len(n_nonevent))
+
+            cramer_p = 2 if divergence == "cramer2" else 1
+            PHI, THETA, _ = transport_model_data(
+                n_nonevent, n_event, x_sum, cramer_p=cramer_p)
+
+            if divergence == "w1" or divergence == "cramer2":
+                V = PHI
+            elif divergence == "hellinger_raw":
+                V = THETA
+
+            if self.gamma_wasserstein:
+                if divergence == "w1":
+                    PHI1 = PHI
+                else:
+                    PHI1, _, _ = transport_model_data(
+                        n_nonevent, n_event, x_sum, cramer_p=1)
+                V = [v + self.gamma_wasserstein * phi
+                     for v, phi in zip(V, PHI1)]
 
         n = len(n_nonevent)
         n_records = n_nonevent + n_event
@@ -66,23 +117,75 @@ class BinningMIP:
         # Decision variables
         x, y, t, d, u, bin_size_diff = self.decision_variables(solver, n)
 
+        # Flat-metric block (OT-WoE extension; project note P3, Theorem B).
+        # Continuous dual potentials phi with |phi_t| <= fm_lambda and
+        # |phi_{t+1} - phi_t| <= m_t(X), where the margin m_t(X) is linear
+        # in x, nonnegative by continuity, and vanishes automatically at
+        # boundaries interior to a bin. For every fixed feasible x, the
+        # maximum over phi of sum_t delta_t phi_t equals the flat metric
+        # FM_lambda between the binned (normalized) class-conditional
+        # distributions with pooled-mean atoms, so the hybrid objective
+        # term (fm_mu > 0) and the trust constraint (fm_tau) are exact.
+        # Note: exact on the maximization side only; do not use to encode
+        # upper bounds on the flat metric.
+        fm_expr = None
+        if self.fm_lambda is not None and (
+                self.fm_mu or self.fm_tau is not None):
+            if x_sum is None or splits is None:
+                raise ValueError("fm_mu / fm_tau require x_sum and splits.")
+
+            lam = float(self.fm_lambda)
+            delta = (n_nonevent / n_nonevent.sum() -
+                     n_event / n_event.sum())
+            U = pooled_means(n_records, x_sum)
+
+            phi = [solver.NumVar(-lam, lam, "phi[{}]".format(k))
+                   for k in range(n)]
+
+            for k in range(n - 1):
+                s_k = float(splits[k])
+                margin_terms = []
+
+                # right margin of the candidate bin ending at pre-bin k
+                for j in range(k + 1):
+                    coef = s_k - U[k][j]
+                    if j == 0:
+                        margin_terms.append(coef * x[k, 0])
+                    else:
+                        margin_terms.append(coef * (x[k, j] - x[k, j - 1]))
+
+                # left margin of the candidate bin starting at pre-bin k+1
+                for i in range(k + 1, n):
+                    coef = U[i][k + 1] - s_k
+                    margin_terms.append(coef * (x[i, k + 1] - x[i, k]))
+
+                margin = solver.Sum(margin_terms)
+                solver.Add(phi[k + 1] - phi[k] <= margin)
+                solver.Add(phi[k] - phi[k + 1] <= margin)
+
+            fm_expr = solver.Sum([float(delta[k]) * phi[k]
+                                  for k in range(n)])
+
+            if self.fm_tau is not None:
+                solver.Add(fm_expr >= float(self.fm_tau))
+
         # Objective function
+        objective = [solver.Sum([(V[i][i] * x[i, i]) +
+                     solver.Sum([(V[i][j] - V[i][j+1]) * x[i, j]
+                                 for j in range(i)])
+                                 for i in range(n)])]
+
         if self.gamma:
             total_records = int(n_records.sum())
             regularization = self.gamma / total_records
             pmax = solver.IntVar(0, total_records, "pmax")
             pmin = solver.IntVar(0, total_records, "pmin")
+            objective.append(regularization * (pmin - pmax))
 
-            solver.Maximize(solver.Sum([(V[i][i] * x[i, i]) +
-                            solver.Sum([(V[i][j] - V[i][j+1]) * x[i, j]
-                                        for j in range(i)])
-                                        for i in range(n)]) -
-                            regularization * (pmax - pmin))
-        else:
-            solver.Maximize(solver.Sum([(V[i][i] * x[i, i]) +
-                            solver.Sum([(V[i][j] - V[i][j+1]) * x[i, j]
-                                        for j in range(i)])
-                                        for i in range(n)]))
+        if fm_expr is not None and self.fm_mu:
+            objective.append(self.fm_mu * fm_expr)
+
+        solver.Maximize(solver.Sum(objective))
 
         # Constraint: unique assignment
         self.add_constraint_unique_assignment(solver, n, x)
