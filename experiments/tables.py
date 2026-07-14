@@ -60,12 +60,23 @@ _MAXBINS_AGG = dict(
 
 
 def _fmtau_prep(pattern):
-    """Collect fm_tau rows and add the per-row derived columns."""
+    """Collect fm_tau rows and add the per-row derived columns.
+
+    The solution-quality columns (oos_iv, oos_w1, n_bins, fm_achieved,
+    iv_retention, fm_gain) are only meaningful for a feasible solution, so
+    they are NaN on infeasible rows: otherwise the group means conflate the
+    feasibility rate with solution quality when feasible. Read ``feasible``
+    (the rate) alongside them.
+    """
     df = collect(pattern)
+    if "lam_frac" not in df.columns:         # tolerate pre-sweep files
+        df["lam_frac"] = np.nan
     df["feasible"] = df["status"].astype(str).eq("OPTIMAL")
     df["iv_retention"] = df["oos_iv"] / df["oos_iv_base"].replace(0, np.nan)
     df["fm_gain"] = df["fm_achieved"] / df["fm_ref"].replace(0, np.nan)
     df["binds"] = df["fm_achieved"] > df["fm_ref"] + 1e-9
+    df.loc[~df["feasible"], ["oos_iv", "oos_iv_base", "oos_w1", "n_bins",
+                             "fm_achieved", "iv_retention", "fm_gain"]] = np.nan
     return df
 
 
@@ -79,15 +90,48 @@ def _maxbins_prep(pattern):
     return df
 
 
+def table_a1_spike(pattern):
+    """Hybrid (iv_w1) vs pure iv bootstrap-fragility comparison, per feature.
+
+    Built for the synthetic-spike a1 run (P1 corrected conjecture: the hybrid
+    buys a lower spike-refit flip rate over pure IV). Spike datasets are
+    isolated automatically when present, so pointing this at the full a1 glob
+    still gives just the spike comparison; otherwise all rows are kept so the
+    same view works on any a1 output. refit_reduction = iv - hybrid, so a
+    positive value means the hybrid is more bootstrap-stable.
+    """
+    df = collect(pattern)
+    df = df[~df["status"].astype(str).str.startswith("ERROR")]
+    spike = df[df["dataset"].astype(str).str.contains("spike")]
+    if len(spike):
+        df = spike
+    df = df[df["arm"].isin(["iv", "iv_w1"])]
+    cols = ["refit_mismatch", "spike_bins", "cut_sd_norm", "n_bins"]
+    g = df.groupby(["dataset", "feature", "arm"])[cols].mean().reset_index()
+    seeds = (df[df["arm"] == "iv"].groupby(["dataset", "feature"])
+             .size().rename("n").reset_index())
+    iv = g[g["arm"] == "iv"].drop(columns="arm")
+    hy = g[g["arm"] == "iv_w1"].drop(columns="arm")
+    m = iv.merge(hy, on=["dataset", "feature"], suffixes=("_iv", "_hyb"))
+    m = m.merge(seeds, on=["dataset", "feature"])
+    m["refit_reduction"] = m["refit_mismatch_iv"] - m["refit_mismatch_hyb"]
+    order = ["dataset", "feature", "n",
+             "refit_mismatch_iv", "refit_mismatch_hyb", "refit_reduction",
+             "spike_bins_iv", "spike_bins_hyb",
+             "cut_sd_norm_iv", "cut_sd_norm_hyb", "n_bins_iv", "n_bins_hyb"]
+    return m[order].round(4)
+
+
 def table_fmtau(pattern):
-    """fm_tau frontier pooled across features and datasets, by threshold."""
-    return (_fmtau_prep(pattern).groupby("frac")
+    """fm_tau frontier pooled across features, by trust radius and threshold."""
+    return (_fmtau_prep(pattern).groupby(["lam_frac", "frac"])
             .agg(**_FMTAU_AGG).round(4).reset_index())
 
 
 def table_fmtau_feat(pattern):
-    """fm_tau frontier per (dataset, feature), by threshold."""
-    return (_fmtau_prep(pattern).groupby(["dataset", "feature", "frac"])
+    """fm_tau frontier per (dataset, feature), by trust radius and threshold."""
+    return (_fmtau_prep(pattern)
+            .groupby(["dataset", "feature", "lam_frac", "frac"])
             .agg(**_FMTAU_AGG).round(4).reset_index())
 
 
@@ -121,7 +165,7 @@ def table_b2(pattern):
 
 if __name__ == "__main__":
     kind, pattern = sys.argv[1], sys.argv[2]
-    table = {"a1": table_a1, "b2": table_b2,
+    table = {"a1": table_a1, "a1_spike": table_a1_spike, "b2": table_b2,
              "fmtau": table_fmtau, "fmtau_feat": table_fmtau_feat,
              "maxbins": table_maxbins,
              "maxbins_feat": table_maxbins_feat}[kind](pattern)

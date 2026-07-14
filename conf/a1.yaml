@@ -5,11 +5,11 @@ dataset: synthetic-smooth
 n: 5000                 # synthetic only
 data_seed: 0
 features: null          # null -> all numerical features
-# iv_mip is the IV objective under MIP/CBC: a control isolating objective
-# effects from cp-vs-cbc tie-breaking in the stability columns. hellinger_raw
-# and fm_tau are dropped here (both collapse onto iv without a bin cap / a
-# binding threshold) and studied in run_maxbins.py and run_fmtau.py instead.
-arms: [iv, iv_mip, iv_w1, w1, cramer2]
+# hellinger_raw and fm_tau are dropped here (both collapse onto iv without a
+# bin cap / a binding threshold) and studied in run_maxbins.py and
+# run_fmtau.py. iv_mip (IV via MIP/CBC) was a control that confirmed the
+# bootstrap instability is intrinsic, not cp-vs-cbc tie-breaking; now retired.
+arms: [iv, iv_w1, w1, cramer2]
 gamma: 0.25             # hybrid weight, in units of divergence per (p95-p05)
 fm_tau_frac: 0.8        # only read if fm_tau is added back to arms
 lam_frac: 0.1           # fm_lambda as fraction of the feature (p95-p05)

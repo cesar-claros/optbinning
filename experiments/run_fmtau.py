@@ -73,8 +73,8 @@ def run(cfg):
             for frac in fracs:
                 target = frac * fm_ref
                 shared = dict(dataset=ds.name, feature=feat, seed=seed,
-                              frac=frac, lam=lam, fm_ref=fm_ref,
-                              fm_target=target,
+                              frac=frac, lam_frac=float(cfg.lam_frac),
+                              lam=lam, fm_ref=fm_ref, fm_target=target,
                               oos_iv_base=base_eval["oos_iv"],
                               oos_w1_base=base_eval["oos_w1"],
                               n_bins_base=base_eval["n_bins"])
@@ -94,7 +94,12 @@ def run(cfg):
                 row.update(eval_binning(optb.splits, xte, yte))
                 rows.append(row)
 
-    out = Path(cfg.out) / "fmtau_{}_{}".format(cfg.dataset, cfg.seed_offset)
+    # Sanitize the decimal point out of lam_frac: save_results appends the
+    # suffix with Path.with_suffix, which would otherwise treat "0.05" as an
+    # extension and truncate the stem (collapsing every lam onto one file).
+    lam_tag = str(cfg.lam_frac).replace(".", "p")
+    out = Path(cfg.out) / "fmtau_{}_lam{}_{}".format(
+        cfg.dataset, lam_tag, cfg.seed_offset)
     path = save_results(rows, out)
     print("fmtau: wrote {} rows -> {}".format(len(rows), path))
     return path
