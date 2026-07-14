@@ -1,0 +1,13 @@
+'n': 4000
+n_prebins: 30
+n_bins: 5
+sinkhorn_iters: 40
+train_steps: 150
+lr: 0.05
+eps_start: 0.25
+eps_end: 0.01
+rho_max: 40.0
+n_seeds: 1
+seed_offset: 0
+device: cpu
+out: outputs/c1
