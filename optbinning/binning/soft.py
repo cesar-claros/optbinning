@@ -22,6 +22,8 @@ import numbers
 
 import numpy as np
 
+from scipy.special import logsumexp
+
 
 def _softplus(z):
     return np.log1p(np.exp(-np.abs(z))) + np.maximum(z, 0)
@@ -54,17 +56,17 @@ def _pav_isotonic(y, w):
 
 
 def _sinkhorn_batch(C, a, beta, eps, iters):
-    """Log-domain Sinkhorn, batched over the leading dimension."""
+    """Log-domain Sinkhorn, batched over the leading dimension
+    (stabilized with logsumexp; naive exp-sum-log under/overflows at
+    small eps)."""
     la = np.log(a)[None, :, None]
     lb = np.log(beta)[:, None, :]
     K = -C / eps
     f = np.zeros(C.shape[:2])[:, :, None]
     g = np.zeros((C.shape[0], 1, C.shape[2]))
     for _ in range(iters):
-        m1 = K + f / eps
-        g = -eps * np.log(np.exp(m1 + la).sum(axis=1, keepdims=True))
-        m2 = K + g / eps
-        f = -eps * np.log(np.exp(m2 + lb).sum(axis=2, keepdims=True))
+        g = -eps * logsumexp(K + f / eps + la, axis=1, keepdims=True)
+        f = -eps * logsumexp(K + g / eps + lb, axis=2, keepdims=True)
     return np.exp(K + (f + g) / eps + la + lb)
 
 

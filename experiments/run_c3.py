@@ -53,9 +53,11 @@ class TokenizedNet(nn.Module):
     """Per-feature tokenizer + shared backbone binary classifier."""
 
     def __init__(self, arm: str, edges: list[np.ndarray], n_bins: int,
-                 backbone: str, hidden: int) -> None:
+                 backbone: str, hidden: int,
+                 token_mode: str = "cumulative") -> None:
         super().__init__()
         self.arm = arm
+        self.token_mode = token_mode
         self.n_features = len(edges)
         if arm == "ot_ple":
             self.layers = nn.ModuleList(
@@ -83,7 +85,13 @@ class TokenizedNet(nn.Module):
         for i in range(self.n_features):
             xi = x[:, i]
             if self.arm == "ot_ple":
-                cols.append(self.layers[i](xi, eps=eps))
+                assign = self.layers[i](xi, eps=eps)
+                if self.token_mode == "cumulative":
+                    # soft analogue of the PLE ramp encoding: with a
+                    # linear head, cumulative tokens span (smoothed)
+                    # monotone step bases rather than localized bumps.
+                    assign = torch.cumsum(assign, dim=1)
+                cols.append(assign)
             elif self.arm in ("quantile_ple", "target_ple"):
                 enc = _ple_encode(xi, getattr(self, f"edges_{i}"))
                 pad = self.token_dim - enc.shape[1]
@@ -123,7 +131,8 @@ def _train_eval(arm: str, backbone: str, data: dict,
     xte = torch.as_tensor(data["xte"], dtype=torch.float32, device=device)
 
     edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins)
-    net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden)
+    net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
+                       token_mode=cfg.get("token_mode", "cumulative"))
     net.to(device)
     if arm == "ot_ple":
         for i, layer in enumerate(net.layers):

@@ -20,3 +20,4 @@ out: outputs/c3
 hydra:
   job:
     chdir: false
+token_mode: cumulative   # ot_ple tokens: cumulative (PLE-comparable) | assign (one-hot)
