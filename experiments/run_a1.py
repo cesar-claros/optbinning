@@ -50,17 +50,17 @@ def run(cfg):
             scale = np.subtract(*np.nanquantile(xtr, [0.95, 0.05]))
             lam = float(cfg.lam_frac) * abs(scale) if scale else 1.0
 
-            # reference IV solution for relative arms (fm_tau)
-            ref = make_arm("iv", monotonic=cfg.monotonic).fit(xtr, ytr)
-            ref_eval = eval_binning(ref.splits, xtr, ytr)
-
-            # FM achieved by the IV solution: guaranteed-feasible anchor
-            # for the trust threshold (the IV solution is a witness).
-            from optbinning.binning.metrics import flat_metric_1d
-            from experiments.common import binned_stats
-            ne_r, e_r, w_r = binned_stats(xtr, ytr, ref.splits)
-            fm_ref = flat_metric_1d(ne_r / ne_r.sum(), e_r / e_r.sum(),
-                                    w_r, lam) if len(w_r) > 1 else 0.0
+            # FM achieved by the IV solution: guaranteed-feasible anchor for
+            # the fm_tau trust threshold (the IV solution is a witness). Only
+            # needed when that arm is active.
+            fm_ref = None
+            if "fm_tau" in cfg.arms:
+                from optbinning.binning.metrics import flat_metric_1d
+                from experiments.common import binned_stats
+                ref = make_arm("iv", monotonic=cfg.monotonic).fit(xtr, ytr)
+                ne_r, e_r, w_r = binned_stats(xtr, ytr, ref.splits)
+                fm_ref = flat_metric_1d(ne_r / ne_r.sum(), e_r / e_r.sum(),
+                                        w_r, lam) if len(w_r) > 1 else 0.0
 
             for arm in cfg.arms:
                 kw = dict(monotonic=cfg.monotonic)
@@ -93,7 +93,9 @@ def run(cfg):
                     sd, mism = bootstrap_cut_sd(factory, xtr, ytr,
                                                 n_boot=cfg.n_boot,
                                                 seed=seed)
-                    row.update(cut_sd=sd, refit_mismatch=mism)
+                    row.update(cut_sd=sd,
+                               cut_sd_norm=sd / abs(scale) if scale else np.nan,
+                               refit_mismatch=mism)
                 rows.append(row)
 
     out = Path(cfg.out) / "a1_{}_{}".format(cfg.dataset, cfg.seed_offset)

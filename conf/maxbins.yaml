@@ -1,0 +1,20 @@
+# Experiment — hellinger_raw vs iv under a bin-count cap (Paper A).
+# SLURM: python experiments/run_maxbins.py -m hydra/launcher=submitit_slurm \
+#          hydra.launcher.partition=cpu dataset=german,taiwan seed_offset=range(0,5)
+dataset: synthetic-ushape   # non-monotone risk: the controlled separator
+n: 5000                 # synthetic only
+data_seed: 0
+features: null          # null -> all numerical features
+max_n_bins_grid: [2, 3, 4, 5, 6, 8, 10, 15]
+# null isolates the objective: the bin cap is then the only thing that can make
+# the refinement-monotone objectives diverge. Use monotonic=auto to instead ask
+# the practically-relevant question (do they still coincide under monotone
+# binning); run both to separate the two forces.
+monotonic: null
+n_seeds: 1
+seed_offset: 0
+test_size: 0.4
+out: outputs/maxbins
+hydra:
+  job:
+    chdir: false

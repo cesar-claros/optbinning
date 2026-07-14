@@ -1,0 +1,19 @@
+# Experiment — fm_tau trust-threshold sweep (Paper B).
+# SLURM: python experiments/run_fmtau.py -m hydra/launcher=submitit_slurm \
+#          hydra.launcher.partition=cpu dataset=german,taiwan seed_offset=range(0,5)
+dataset: synthetic-smooth
+n: 5000                 # synthetic only
+data_seed: 0
+features: null          # null -> all numerical features
+# threshold as a multiple of the IV solution's own flat metric fm_ref;
+# < 1 leaves the constraint slack (recovers IV), >= 1 forces it to bind.
+fm_tau_fracs: [0.5, 0.8, 0.95, 1.0, 1.05, 1.1, 1.25, 1.5, 2.0]
+lam_frac: 0.1           # fm_lambda as fraction of the feature (p95-p05)
+monotonic: auto
+n_seeds: 1
+seed_offset: 0
+test_size: 0.4
+out: outputs/fmtau
+hydra:
+  job:
+    chdir: false

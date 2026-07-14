@@ -57,6 +57,28 @@ def _fit(divergence, gamma_wasserstein=0, **kwargs):
     return optb, x, y
 
 
+def _data_nonmonotone(seed=0, n=4000):
+    """U-shaped risk in x (high default at both tails): refinement-monotone
+    objectives agree only until a bin-count cap binds, after which the split
+    choice depends on the objective."""
+    rng = np.random.default_rng(seed)
+    x = rng.normal(0, 1, n)
+    prob = 1 / (1 + np.exp(-(2.0 * x ** 2 - 1.5)))
+    y = (rng.uniform(0, 1, n) < prob).astype(int)
+    return x, y
+
+
+def _fit_free(divergence, x, y, max_n_bins=None):
+    """Fit a divergence via MIP with the monotonic constraint relaxed, so the
+    bin-count cap is the only structural constraint on the partition."""
+    kwargs = {} if max_n_bins is None else {"max_n_bins": max_n_bins}
+    optb = OptimalBinning(name="x", dtype="numerical", solver="mip",
+                          divergence=divergence, monotonic_trend=None,
+                          **kwargs)
+    optb.fit(x, y)
+    return optb
+
+
 def test_transport_divergences_fit():
     for divergence in ("w1", "cramer2", "hellinger_raw"):
         optb, _, _ = _fit(divergence)
@@ -170,3 +192,43 @@ def test_cp_hybrid_fits():
     optb.fit(x, y)
     assert optb.status in ("OPTIMAL", "FEASIBLE")
     assert len(optb.splits) >= 1
+
+
+def test_count_only_divergences_refinement_equivalent():
+    # OT-WoE finding: iv, js, and hellinger_raw are refinement-monotone, so
+    # with no bin-count cap they saturate to the same finest feasible
+    # partition and are indistinguishable, even on non-monotone data with the
+    # monotonic constraint relaxed (so this is not a monotone-collapse
+    # artifact). Location-aware transport objectives (w1) instead select a
+    # genuinely coarser, different partition.
+    x, y = _data_nonmonotone()
+    iv = _fit_free("iv", x, y)
+    for divergence in ("js", "hellinger_raw"):
+        other = _fit_free(divergence, x, y)
+        assert len(other.splits) == len(iv.splits)
+        assert list(other.splits) == approx(list(iv.splits))
+    w1 = _fit_free("w1", x, y)
+    assert list(w1.splits) != approx(list(iv.splits))
+
+
+def test_bin_cap_separates_iv_and_hellinger_raw():
+    # A binding bin-count cap stops both objectives from reaching the finest
+    # partition, so the fine structure of iv vs raw-count Hellinger picks
+    # different merges. Which caps separate them is data-dependent, but at
+    # every cap each objective still dominates on its own metric, and at least
+    # one binding cap makes the split sets diverge.
+    x, y = _data_nonmonotone()
+    diverged = False
+    for max_n_bins in range(2, 8):
+        iv = _fit_free("iv", x, y, max_n_bins=max_n_bins)
+        hr = _fit_free("hellinger_raw", x, y, max_n_bins=max_n_bins)
+
+        p_iv, q_iv, _, ne_iv, e_iv = _binned_stats(x, y, iv.splits)
+        p_hr, q_hr, _, ne_hr, e_hr = _binned_stats(x, y, hr.splits)
+        assert (jeffrey(p_iv, q_iv, return_sum=True)
+                >= jeffrey(p_hr, q_hr, return_sum=True) - 1e-9)
+        assert hellinger_raw(ne_hr, e_hr) >= hellinger_raw(ne_iv, e_iv) - 1e-9
+
+        if list(iv.splits) != approx(list(hr.splits)):
+            diverged = True
+    assert diverged, "no binding bin cap separated iv from hellinger_raw"

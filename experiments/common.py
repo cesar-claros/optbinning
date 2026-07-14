@@ -17,12 +17,25 @@ from optbinning.binning.metrics import wasserstein_1d
 
 
 def make_arm(arm, lam=None, gamma=None, fm_tau=None, monotonic="auto",
-             max_n_prebins=20, time_limit=30):
-    """OptimalBinning configured for a benchmark arm."""
+             max_n_prebins=20, max_n_bins=None, time_limit=30):
+    """OptimalBinning configured for a benchmark arm.
+
+    ``iv`` uses the CP solver (upstream default); ``iv_mip`` is the same IV
+    objective under the MIP/CBC solver, a control that isolates objective
+    effects from solver tie-breaking when compared against the transport arms.
+    ``max_n_bins`` (when set) caps the number of bins, which is what forces
+    the fine structure of refinement-monotone objectives (iv, hellinger_raw)
+    to diverge; without it they saturate to the same finest feasible binning.
+    """
     base = dict(dtype="numerical", monotonic_trend=monotonic,
                 max_n_prebins=max_n_prebins, time_limit=time_limit)
+    if max_n_bins is not None:
+        base["max_n_bins"] = max_n_bins
     if arm == "iv":
         return OptimalBinning(solver="cp", divergence="iv", **base)
+    if arm == "iv_mip":
+        return OptimalBinning(solver="mip", mip_solver="cbc",
+                              divergence="iv", **base)
     if arm == "iv_w1":
         return OptimalBinning(solver="mip", mip_solver="cbc",
                               divergence="iv", gamma_wasserstein=gamma,

@@ -137,7 +137,9 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
 
     design : "smooth" (logistic rate in a fused direction), "spike"
         (adds a low-count extreme-rate cluster; P1 Sec. 3.4), "near_tie"
-        (two near-equivalent cut configurations; P7 Sec. 3).
+        (two near-equivalent cut configurations; P7 Sec. 3), "ushape"
+        (non-monotone U-shaped risk in f0; separates refinement-monotone
+        objectives such as iv vs hellinger_raw once a bin cap binds).
 
     drift : None or dict(kind=..., magnitude=...), kinds:
         "location" (shift f0), "tail" (move mass to the upper tail of f0),
@@ -157,6 +159,8 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
     elif design == "near_tie":
         z = np.where(f0 < -0.4, -1.2, np.where(f0 < 0.4, 0.05, 1.2))
         z = z + 0.8 * (f1 - 0.5)
+    elif design == "ushape":
+        z = 2.0 * f0 ** 2 - 1.5 + 0.8 * (f1 - 0.5)
 
     y = (rng.uniform(0, 1, n) < 1 / (1 + np.exp(-z))).astype(int)
     X = pd.DataFrame({"f0": f0, "f1": f1})
