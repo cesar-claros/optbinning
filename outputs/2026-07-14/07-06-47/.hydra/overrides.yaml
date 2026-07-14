@@ -1,0 +1,4 @@
+- dataset=synthetic-spike
+- n_seeds=10
+- seed_offset=0
+- n_boot=50
