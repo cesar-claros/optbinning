@@ -136,10 +136,22 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
     """Two-feature synthetic credit frame.
 
     design : "smooth" (logistic rate in a fused direction), "spike"
-        (adds a low-count extreme-rate cluster; P1 Sec. 3.4), "near_tie"
-        (two near-equivalent cut configurations; P7 Sec. 3), "ushape"
-        (non-monotone U-shaped risk in f0; separates refinement-monotone
-        objectives such as iv vs hellinger_raw once a bin cap binds).
+        (adds a low-count extreme-rate cluster at a location extreme; P1
+        Sec. 3.4), "near_tie" / "spike2" (competing discrete cut
+        configurations with a near-neutral middle step: IV is nearly
+        indifferent to how that middle is split -- a near-tie that flips pure
+        IV under bootstrap -- while the location-aware W1 term breaks the tie
+        toward a coarser binning; empirically this, not a localized spike, is
+        the geometry where the IV+W1 hybrid diverges from IV; P7 Sec. 3),
+        "ushape" (non-monotone U-shaped risk in f0; separates
+        refinement-monotone objectives such as iv vs hellinger_raw once a bin
+        cap binds), "spike3" (faithful port of the P1 Sec. 3.4 example: three
+        clusters at u = (0.05, 0.45, 0.80) with ascending rates
+        (0.016, 0.405, 0.583) whose low cluster is a rare-event spike, ~1
+        event in ~60 records, WoE ~ +4; isolating vs merging it is a bootstrap
+        coin flip, so pure IV's 2-bin choice flips ~47% of the time while the
+        hybrid's is stable. Reproduces the effect only under max_n_bins=2 and
+        a cut-position, not cut-count, fragility read).
 
     drift : None or dict(kind=..., magnitude=...), kinds:
         "location" (shift f0), "tail" (move mass to the upper tail of f0),
@@ -156,11 +168,29 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
         f0[idx] = rng.normal(-3.6, 0.05, len(idx))
         z = 1.5 * f0 + 0.8 * f1 - 0.5
         z[idx] = -6.0                     # extreme-rate low-count cluster
-    elif design == "near_tie":
+    elif design in ("near_tie", "spike2"):
+        # Near-neutral middle step (WoE ~ 0) between two decisive outer steps:
+        # IV is nearly indifferent to how the middle is split (the near-tie
+        # that flips pure IV under bootstrap) while the W1 term breaks it
+        # toward a coarser binning. This, not a localized spike, is where the
+        # IV+W1 hybrid diverges from IV.
         z = np.where(f0 < -0.4, -1.2, np.where(f0 < 0.4, 0.05, 1.2))
         z = z + 0.8 * (f1 - 0.5)
     elif design == "ushape":
         z = 2.0 * f0 ** 2 - 1.5 + 0.8 * (f1 - 0.5)
+    elif design == "spike3":
+        # Three clusters at u = (0.05, 0.45, 0.80), ascending rates
+        # (0.016, 0.405, 0.583). The low cluster is a fixed ~60-record
+        # rare-event spike (~1 event): under bootstrap the lone event vanishes
+        # with probability ~e^{-1}, so isolating vs merging it is a coin flip.
+        k = 60
+        n_mid = int(0.37 * (n - k))
+        n_hi = n - k - n_mid
+        f0 = np.concatenate([rng.normal(0.05, 0.01, k),
+                             rng.normal(0.45, 0.04, n_mid),
+                             rng.normal(0.80, 0.04, n_hi)])
+        z = np.concatenate([np.full(k, -4.12), np.full(n_mid, -0.385),
+                            np.full(n_hi, 0.335)])
 
     y = (rng.uniform(0, 1, n) < 1 / (1 + np.exp(-z))).astype(int)
     X = pd.DataFrame({"f0": f0, "f1": f1})

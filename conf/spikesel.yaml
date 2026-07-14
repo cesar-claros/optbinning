@@ -1,0 +1,19 @@
+# Experiment — spike-selection fragility (P1 Sec. 3.4 reproduction).
+# SLURM: python experiments/run_spike_select.py -m hydra/launcher=submitit_slurm \
+#          hydra.launcher.partition=cpu seed_offset=range(0,20) n_seeds=1
+dataset: synthetic-spike3
+n: 2000                 # synthetic only; P1's example is ~2000 records
+data_seed: 0            # unused: the dataset is regenerated per seed
+features: [f0]          # the rare-event spike lives in f0
+gammas: [0.0, 2.5, 10.0, 25.0, 50.0]   # raw gamma_wasserstein; 0.0 = pure IV
+monotonic: ascending    # P1's rates are ascending (both A and B feasible)
+min_bin_size: 0.01      # small, so the ~3%-mass spike survives prebinning
+max_n_prebins: 20
+select_threshold: 0.30  # cut < threshold isolates the spike (choice A)
+n_seeds: 20             # independent spike realizations
+seed_offset: 0
+n_boot: 400             # bootstrap refits per (seed, gamma)
+out: outputs/spikesel
+hydra:
+  job:
+    chdir: false

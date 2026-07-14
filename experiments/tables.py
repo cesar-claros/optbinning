@@ -134,16 +134,36 @@ def table_gamma(pattern):
     df = df[~df["status"].astype(str).str.startswith("ERROR")]
     df["refit_reduction"] = (df["iv_refit_mismatch"]
                              - df["hyb_refit_mismatch"])
+    df["cut_sd_reduction"] = (df["iv_cut_sd_norm"]
+                              - df["hyb_cut_sd_norm"])
     return (df.groupby(["dataset", "feature", "gamma"]).agg(
         n=("gamma", "count"),
         differs_from_iv=("differs_from_iv", "mean"),
         iv_refit=("iv_refit_mismatch", "mean"),
         hyb_refit=("hyb_refit_mismatch", "mean"),
         refit_reduction=("refit_reduction", "mean"),
-        iv_spike_bins=("iv_spike_bins", "mean"),
-        hyb_spike_bins=("hyb_spike_bins", "mean"),
-        iv_oos_iv=("iv_oos_iv", "mean"),
-        hyb_oos_iv=("hyb_oos_iv", "mean")).round(4).reset_index())
+        cut_sd_reduction=("cut_sd_reduction", "mean"),
+        hyb_oos_iv=("hyb_oos_iv", "mean"),
+        iv_oos_iv=("iv_oos_iv", "mean")).round(4).reset_index())
+
+
+def table_spikesel(pattern):
+    """Spike-selection fragility by gamma (P1 Sec. 3.4). gamma=0 is pure IV.
+
+    flip_rate is the fraction of bootstrap refits whose 2-bin choice differs
+    from the full-data choice; it should fall as gamma grows (pure IV ~0.47,
+    hybrid ~0.17 in the note). baseline_isolate is how often the full-data
+    choice is to isolate the spike; p_isolate is the bootstrap rate of the
+    isolate choice.
+    """
+    df = collect(pattern)
+    df["is_A"] = (df["baseline"].astype(str) == "A").astype(float)
+    return (df.groupby(["dataset", "feature", "gamma"]).agg(
+        n=("gamma", "count"),
+        baseline_isolate=("is_A", "mean"),
+        flip_rate=("flip_rate", "mean"),
+        p_isolate=("p_isolate", "mean"),
+        p_infeasible=("p_infeasible", "mean")).round(4).reset_index())
 
 
 def table_fmtau(pattern):
@@ -190,7 +210,7 @@ def table_b2(pattern):
 if __name__ == "__main__":
     kind, pattern = sys.argv[1], sys.argv[2]
     table = {"a1": table_a1, "a1_spike": table_a1_spike, "b2": table_b2,
-             "gamma": table_gamma,
+             "gamma": table_gamma, "spikesel": table_spikesel,
              "fmtau": table_fmtau, "fmtau_feat": table_fmtau_feat,
              "maxbins": table_maxbins,
              "maxbins_feat": table_maxbins_feat}[kind](pattern)
