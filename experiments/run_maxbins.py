@@ -61,6 +61,9 @@ def run(cfg):
 
     features = list(cfg.features) if cfg.get("features") else ds.numerical
     grid = [int(m) for m in cfg.max_n_bins_grid]
+    # Tag the monotone mode so auto/free runs land in distinct files and stay
+    # distinguishable in the pooled table (null trend -> "free").
+    mono_tag = str(cfg.monotonic) if cfg.monotonic else "free"
     rows = []
     for seed in range(cfg.seed_offset, cfg.seed_offset + cfg.n_seeds):
         tr, te = datasets.split_indices(len(ds.y), cfg.test_size, seed)
@@ -77,6 +80,7 @@ def run(cfg):
                 shared_cuts = len(set(iv["sig"]) & set(he["sig"]))
                 rows.append(dict(
                     dataset=ds.name, feature=feat, seed=seed, max_n_bins=mb,
+                    monotonic=mono_tag,
                     status_iv=iv["status"], status_hell=he["status"],
                     splits_equal=iv["sig"] == he["sig"],
                     n_shared_cuts=shared_cuts,
@@ -88,7 +92,8 @@ def run(cfg):
                     fit_time_iv=iv["fit_time"],
                     fit_time_hell=he["fit_time"]))
 
-    out = Path(cfg.out) / "maxbins_{}_{}".format(cfg.dataset, cfg.seed_offset)
+    out = Path(cfg.out) / "maxbins_{}_{}_{}".format(
+        cfg.dataset, mono_tag, cfg.seed_offset)
     path = save_results(rows, out)
     print("maxbins: wrote {} rows -> {}".format(len(rows), path))
     return path

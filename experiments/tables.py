@@ -72,6 +72,8 @@ def _fmtau_prep(pattern):
 def _maxbins_prep(pattern):
     """Collect maxbins rows and add the signed iv-vs-hellinger deltas."""
     df = collect(pattern)
+    if "monotonic" not in df.columns:        # tolerate pre-tag files
+        df["monotonic"] = "unknown"
     df["d_oos_iv"] = df["hell_oos_iv"] - df["iv_oos_iv"]
     df["d_oos_w1"] = df["hell_oos_w1"] - df["iv_oos_w1"]
     return df
@@ -90,14 +92,17 @@ def table_fmtau_feat(pattern):
 
 
 def table_maxbins(pattern):
-    """iv-vs-hellinger cap sweep pooled across features, by bin cap."""
-    return (_maxbins_prep(pattern).groupby("max_n_bins")
+    """iv-vs-hellinger cap sweep pooled across features, by monotone mode
+    and bin cap."""
+    return (_maxbins_prep(pattern).groupby(["monotonic", "max_n_bins"])
             .agg(**_MAXBINS_AGG).round(4).reset_index())
 
 
 def table_maxbins_feat(pattern):
-    """iv-vs-hellinger cap sweep per (dataset, feature), by bin cap."""
-    return (_maxbins_prep(pattern).groupby(["dataset", "feature", "max_n_bins"])
+    """iv-vs-hellinger cap sweep per (dataset, feature), by monotone mode and
+    bin cap."""
+    return (_maxbins_prep(pattern)
+            .groupby(["dataset", "feature", "monotonic", "max_n_bins"])
             .agg(**_MAXBINS_AGG).round(4).reset_index())
 
 
