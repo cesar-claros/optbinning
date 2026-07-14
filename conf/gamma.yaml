@@ -1,0 +1,19 @@
+# Experiment — hybrid weight (gamma_wasserstein) sweep on the spike design.
+# SLURM: python experiments/run_gamma.py -m hydra/launcher=submitit_slurm \
+#          hydra.launcher.partition=cpu dataset=synthetic-spike seed_offset=range(0,10)
+dataset: synthetic-spike
+n: 5000                 # synthetic only
+data_seed: 0
+features: null          # null -> all numerical features
+# hybrid weight in "divergence per (p95-p05)" units (a1 default was 0.25);
+# swept upward to test whether a larger weight finally moves the hybrid off iv.
+gammas: [0.25, 0.5, 1.0, 2.0, 4.0, 8.0]
+monotonic: auto
+n_seeds: 1
+seed_offset: 0
+test_size: 0.4
+n_boot: 50              # bootstrap refits for the fragility comparison
+out: outputs/gamma
+hydra:
+  job:
+    chdir: false

@@ -122,6 +122,30 @@ def table_a1_spike(pattern):
     return m[order].round(4)
 
 
+def table_gamma(pattern):
+    """Hybrid-weight sweep per (dataset, feature): does a larger gamma move the
+    hybrid off the pure-IV binning and cut its bootstrap fragility?
+
+    differs_from_iv is the fraction of seeds whose hybrid splits differ from
+    the IV baseline; refit_reduction = iv - hybrid, so positive means the
+    hybrid is more bootstrap-stable than pure IV at that gamma.
+    """
+    df = collect(pattern)
+    df = df[~df["status"].astype(str).str.startswith("ERROR")]
+    df["refit_reduction"] = (df["iv_refit_mismatch"]
+                             - df["hyb_refit_mismatch"])
+    return (df.groupby(["dataset", "feature", "gamma"]).agg(
+        n=("gamma", "count"),
+        differs_from_iv=("differs_from_iv", "mean"),
+        iv_refit=("iv_refit_mismatch", "mean"),
+        hyb_refit=("hyb_refit_mismatch", "mean"),
+        refit_reduction=("refit_reduction", "mean"),
+        iv_spike_bins=("iv_spike_bins", "mean"),
+        hyb_spike_bins=("hyb_spike_bins", "mean"),
+        iv_oos_iv=("iv_oos_iv", "mean"),
+        hyb_oos_iv=("hyb_oos_iv", "mean")).round(4).reset_index())
+
+
 def table_fmtau(pattern):
     """fm_tau frontier pooled across features, by trust radius and threshold."""
     return (_fmtau_prep(pattern).groupby(["lam_frac", "frac"])
@@ -166,6 +190,7 @@ def table_b2(pattern):
 if __name__ == "__main__":
     kind, pattern = sys.argv[1], sys.argv[2]
     table = {"a1": table_a1, "a1_spike": table_a1_spike, "b2": table_b2,
+             "gamma": table_gamma,
              "fmtau": table_fmtau, "fmtau_feat": table_fmtau_feat,
              "maxbins": table_maxbins,
              "maxbins_feat": table_maxbins_feat}[kind](pattern)
