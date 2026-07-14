@@ -207,17 +207,25 @@ def run(cfg: DictConfig) -> Path:
     torch.manual_seed(cfg.seed)
     for arm in cfg.arms:
         if arm == "lightgbm":
-            row = _lightgbm_row(data, cfg.seed)
+            try:
+                row = _lightgbm_row(data, cfg.seed)
+            except Exception:
+                logger.exception("arm %s failed", arm)
+                row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
             row.update(dataset=ds.name, arm=arm, backbone="gbdt",
                        seed=cfg.seed)
             rows.append(row)
             continue
         for backbone in cfg.backbones:
-            row = _train_eval(arm, backbone, data, cfg)
+            try:
+                row = _train_eval(arm, backbone, data, cfg)
+                logger.info("%s/%s: auc=%.4f", arm, backbone, row["auc"])
+            except Exception:
+                logger.exception("arm %s/%s failed", arm, backbone)
+                row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
             row.update(dataset=ds.name, arm=arm, backbone=backbone,
                        seed=cfg.seed)
             rows.append(row)
-            logger.info("%s/%s: auc=%.4f", arm, backbone, row["auc"])
 
     out = Path(cfg.out) / f"c3_{cfg.dataset}_{cfg.seed}"
     path = save_results(rows, out)
