@@ -1,0 +1,17 @@
+# Experiment C1 — torch layer parity and MIP recovery (Paper C).
+n: 4000
+n_prebins: 30
+n_bins: 5
+sinkhorn_iters: 40
+train_steps: 300
+lr: 0.05
+eps_start: 0.25
+eps_end: 0.01
+rho_max: 40.0
+n_seeds: 4
+seed_offset: 0
+device: cpu             # cuda on GPU nodes
+out: outputs/c1
+hydra:
+  job:
+    chdir: false

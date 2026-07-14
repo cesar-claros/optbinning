@@ -1,0 +1,22 @@
+# Experiment C3/C4 — tokenizer benchmark (Paper C).
+# backbone=linear is the C4 self-explaining scorecard head.
+dataset: synthetic-smooth
+n: 6000
+data_seed: 0
+arms: [raw, quantile_ple, target_ple, ot_ple, lightgbm]
+backbones: [linear, mlp]
+n_bins: 8
+hidden: 64
+epochs: 30
+batch_size: 512
+lr: 0.005
+eps_start: 0.15
+eps_end: 0.02
+aux_iv: 0.1             # auxiliary IV/monotonicity weight for ot_ple
+seed: 0
+test_size: 0.35
+device: cpu             # cuda on GPU nodes
+out: outputs/c3
+hydra:
+  job:
+    chdir: false
