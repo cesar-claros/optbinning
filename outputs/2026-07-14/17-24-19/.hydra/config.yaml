@@ -1,0 +1,25 @@
+dataset: synthetic-smooth
+'n': 6000
+data_seed: 0
+arms:
+- raw
+- quantile_ple
+- target_ple
+- ot_ple
+- lightgbm
+backbones:
+- linear
+- mlp
+n_bins: 8
+hidden: 64
+epochs: 30
+batch_size: 512
+lr: 0.005
+eps_start: 0.15
+eps_end: 0.02
+aux_iv: 0.1
+seed: 0
+test_size: 0.35
+device: cpu
+out: outputs/c3
+token_mode: cumulative
