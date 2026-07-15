@@ -8,7 +8,7 @@ backbones: [linear, mlp]
 n_bins: 8
 sinkhorn_iters: 15      # training-time unroll; hardening uses 60 internally
 hidden: 64
-epochs: 30
+epochs: 50
 batch_size: 4096          # ot_ple is launch-latency-bound; large batches are free on GPU
 lr: 0.01
 eps_start: 0.15
