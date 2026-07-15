@@ -22,3 +22,4 @@ hydra:
   job:
     chdir: false
 token_mode: cumulative   # ot_ple tokens: cumulative (PLE-comparable) | assign (one-hot)
+ot_input: quantile       # ot_ple bin geometry: quantile (rank space; heavy-tail safe) | standard

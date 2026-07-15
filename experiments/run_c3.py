@@ -130,9 +130,29 @@ def _edges_for_arm(arm: str, xtr: np.ndarray, ytr: np.ndarray,
     return edges
 
 
+def _quantile_transform(xtr: np.ndarray,
+                        xte: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Per-feature train-ECDF transform. Puts the OT layer's bin geometry
+    in rank space: range-based bin placement is quantile-blind under
+    heavy-tailed features (the GMSC failure mode), while ranks give the
+    layer the same footing quantile-PLE gets from its edges. Cuts map
+    back through the train quantile function for the audit table."""
+    qtr = np.empty_like(xtr)
+    qte = np.empty_like(xte)
+    for j in range(xtr.shape[1]):
+        srt = np.sort(xtr[:, j])
+        qtr[:, j] = np.searchsorted(srt, xtr[:, j], side="right") / len(srt)
+        qte[:, j] = np.searchsorted(srt, xte[:, j], side="right") / len(srt)
+    return qtr, qte
+
+
 def _train_eval(arm: str, backbone: str, data: dict,
                 cfg: DictConfig) -> dict:
     device = torch.device(cfg.device)
+    if arm == "ot_ple" and cfg.get("ot_input", "quantile") == "quantile":
+        data = dict(data)
+        data["xtr"], data["xte"] = _quantile_transform(data["xtr"],
+                                                       data["xte"])
     xtr = torch.as_tensor(data["xtr"], dtype=torch.float32, device=device)
     ytr = torch.as_tensor(data["ytr"], dtype=torch.float32, device=device)
     xte = torch.as_tensor(data["xte"], dtype=torch.float32, device=device)
