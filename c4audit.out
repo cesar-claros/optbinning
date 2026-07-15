@@ -1,0 +1,63 @@
+nohup: ignoring input
+[2026-07-15 16:42:57,178][HYDRA] Launching 3 jobs locally
+[2026-07-15 16:42:57,178][HYDRA] 	#0 : dataset=german n_seeds=5 device=cuda
+
+--- extracted scorecard: feature 'Attribute2' ---
+bin | x in original units          |    n | rate  |   WoE  | points
+  0 | [      -inf,       11.5) |  116 | 0.138 | +1.046 | -0.313
+  1 | [      11.5,         17) |  151 | 0.278 | +0.186 | -0.154
+  2 | [        17,         23) |  100 | 0.340 | -0.105 | -0.051
+  3 | [        23,       31.5) |  164 | 0.348 | -0.135 | -0.008
+  4 | [      31.5,       40.5) |   58 | 0.483 | -0.693 | +0.219
+  5 | [      40.5,       47.5) |   14 | 0.429 | -0.493 | +0.343
+  6 | [      47.5,         57) |   37 | 0.541 | -0.919 | +0.378
+  7 | [        57,        inf) |   10 | 0.400 | -0.393 | +0.158
+intercept: -0.076
+
+===== C4 interpretability audit: german (5 seeds) =====
+additive-extraction fidelity (max |logit - sum_f g_f|): 2.38e-07
+scorecard AUC  soft 0.6348 +/- 0.0241   hardened 0.6370 +/- 0.0277   gap -0.0023
+contiguous fits: 100.0%   cuts/feature: 4.4
+cut agreement with certified optbinning: mean dist 0.070 sd-units,  matched within 0.15: 76.2%
+seed stability: mean cut sd across seeds 0.081 sd-units (features with a stable cut count)
+[2026-07-15 16:43:09,099][__main__][INFO] - c4audit: wrote 35 rows -> outputs/c4_audit/c4audit_german_0.parquet
+[2026-07-15 16:43:09,103][HYDRA] 	#1 : dataset=taiwan n_seeds=5 device=cuda
+
+--- extracted scorecard: feature 'X22' ---
+bin | x in original units          |    n | rate  |   WoE  | points
+  0 | [      -inf,  5.807e+04) | 19279 | 0.223 | -0.008 | -0.080
+  1 | [ 5.807e+04,   1.12e+05) |  142 | 0.120 | +0.717 | -0.331
+  2 | [  1.12e+05,  1.648e+05) |   40 | 0.100 | +0.840 | -0.412
+  3 | [ 1.648e+05,  2.196e+05) |   25 | 0.000 | +2.679 | -1.150
+  4 | [ 2.196e+05,   2.58e+05) |    5 | 0.000 | +1.145 | -0.918
+  5 | [  2.58e+05,  3.095e+05) |    3 | 0.333 | -0.742 | +0.314
+  6 | [ 3.095e+05,  3.556e+05) |    2 | 1.000 | -2.863 | +0.775
+  7 | [ 3.556e+05,        inf) |    4 | 0.000 | +0.944 | +0.076
+intercept: +0.008
+
+===== C4 interpretability audit: taiwan (5 seeds) =====
+additive-extraction fidelity (max |logit - sum_f g_f|): 7.15e-07
+scorecard AUC  soft 0.7743 +/- 0.0044   hardened 0.7731 +/- 0.0044   gap 0.0012
+contiguous fits: 100.0%   cuts/feature: 6.0
+cut agreement with certified optbinning: mean dist 1.468 sd-units,  matched within 0.15: 43.7%
+seed stability: mean cut sd across seeds 0.615 sd-units (features with a stable cut count)
+[2026-07-15 16:44:27,160][__main__][INFO] - c4audit: wrote 115 rows -> outputs/c4_audit/c4audit_taiwan_0.parquet
+[2026-07-15 16:44:27,164][HYDRA] 	#2 : dataset=gmsc n_seeds=5 device=cuda
+
+--- extracted scorecard: feature 'NumberOfTimes90DaysLate' ---
+bin | x in original units          |    n | rate  |   WoE  | points
+  0 | [      -inf,        2.5) | 96485 | 0.061 | +0.094 | -0.775
+  1 | [       2.5,       10.5) |  814 | 0.614 | -3.103 | +0.986
+  2 | [      10.5,         16) |   11 | 0.545 | -2.805 | +1.536
+  3 | [        16,       56.5) |    1 | 1.000 | -3.737 | +1.802
+  4 | [      56.5,         97) |    5 | 0.800 | -3.737 | +0.175
+  5 | [        97,        inf) |  184 | 0.554 | -2.855 | +0.175
+intercept: -0.240
+
+===== C4 interpretability audit: gmsc (5 seeds) =====
+additive-extraction fidelity (max |logit - sum_f g_f|): 9.54e-07
+scorecard AUC  soft 0.8214 +/- 0.0045   hardened 0.8214 +/- 0.0036   gap 0.0000
+contiguous fits: 100.0%   cuts/feature: 5.7
+cut agreement with certified optbinning: mean dist 7.105 sd-units,  matched within 0.15: 18.7%
+seed stability: mean cut sd across seeds 2.828 sd-units (features with a stable cut count)
+[2026-07-15 16:47:23,387][__main__][INFO] - c4audit: wrote 50 rows -> outputs/c4_audit/c4audit_gmsc_0.parquet

@@ -14,7 +14,7 @@ ob_solver: cp          # certified-reference solver (cp matches C3/C4; mip is a 
 n_seeds: 5
 seed_offset: 0
 test_size: 0.35
-device: cpu            # cuda on GPU nodes
+device: cuda            # cuda on GPU nodes
 out: outputs/c4_audit
 hydra:
   job:
