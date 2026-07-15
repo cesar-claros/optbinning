@@ -63,7 +63,8 @@ class TokenizedNet(nn.Module):
         if arm == "ot_ple":
             self.ot = MultiOTBinningLayer(len(edges), n_bins=n_bins,
                                           sinkhorn_iters=sinkhorn_iters)
-            token_dim = n_bins
+            token_dim = n_bins + (1 if token_mode == "cumulative_plus_raw"
+                                  else 0)
         elif arm in ("quantile_ple", "target_ple"):
             for i, e in enumerate(edges):
                 self.register_buffer(f"edges_{i}",
@@ -88,12 +89,18 @@ class TokenizedNet(nn.Module):
         if self.arm == "ot_ple":
             assign = self.ot(x, eps=eps)
             tok = assign
-            if self.token_mode == "cumulative":
+            if self.token_mode.startswith("cumulative"):
                 # soft analogue of the PLE ramp encoding: with a linear
                 # head, cumulative tokens span (smoothed) monotone step
                 # bases rather than localized bumps.
                 tok = torch.cumsum(assign, dim=2)
-            return tok.reshape(len(x), -1), assign
+            tok = tok.reshape(len(x), -1)
+            if self.token_mode == "cumulative_plus_raw":
+                # lossless tokenization: step tokens destroy within-bin
+                # position (PLE keeps it via interpolation); appending
+                # the raw feature restores it at one extra dim/feature.
+                tok = torch.cat([tok, x], dim=1)
+            return tok, assign
         cols = []
         for i in range(self.n_features):
             xi = x[:, i]
