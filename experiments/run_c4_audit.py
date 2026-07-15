@@ -137,7 +137,8 @@ def _exhibit(net, data, feats, mu, sd, eps):
     """Extract and print the scorecard of the most influential feature: bin
     ranges (original units), event rate, WoE, and points (the feature's own
     contribution to the logit, read straight off the linear head)."""
-    xt = torch.as_tensor(data["xtr"], dtype=torch.float32)
+    device = next(net.parameters()).device
+    xt = torch.as_tensor(data["xtr"], dtype=torch.float32, device=device)
     y = data["ytr"]
     with torch.no_grad():
         tok, _ = net.tokens(xt, eps, need_assign=False)
