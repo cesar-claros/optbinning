@@ -17,8 +17,10 @@ torch = pytest.importorskip("torch")
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from experiments.paperc.otlayer import (OTBinningLayer,     # noqa: E402
-                                        pav_penalty, soft_iv)
+from experiments.paperc.otlayer import (MultiOTBinningLayer,  # noqa: E402
+                                        OTBinningLayer, pav_penalty,
+                                        pav_penalty_multi, soft_iv,
+                                        soft_iv_multi)
 from experiments.paperc.reference import (cuts_to_bounds,   # noqa: E402
                                           exact_monotone_optimum,
                                           grid_summary, iv_monotone, polish)
@@ -56,6 +58,31 @@ def test_gradients_flow():
     assert layer.theta_w.grad is not None
     assert float(layer.theta_w.grad.abs().sum()) > 0
     assert layer.theta_b.grad is not None
+
+
+def test_multi_layer_parity_with_single():
+    # the vectorized layer must reproduce the single-feature layer
+    # exactly when parameters coincide (same recursion, batched).
+    xt, yt, _, _ = _data()
+    single = OTBinningLayer(n_bins=6, sinkhorn_iters=25)
+    multi = MultiOTBinningLayer(1, n_bins=6, sinkhorn_iters=25)
+    with torch.no_grad():
+        single.theta_w.copy_(torch.randn(6) * 0.3)
+        single.theta_b.copy_(torch.randn(6) * 0.3)
+        multi.theta_w.copy_(single.theta_w[None, :])
+        multi.theta_b.copy_(single.theta_b[None, :])
+
+    a_single = single(xt, eps=0.08)
+    a_multi = multi(xt[:, None], eps=0.08)[:, 0, :]
+    assert torch.allclose(a_single, a_multi, atol=1e-5)
+
+    iv_s = soft_iv(a_single, yt)
+    iv_m = soft_iv_multi(a_multi[:, None, :], yt)
+    assert torch.allclose(iv_s, iv_m, atol=1e-6)
+
+    pen_s = pav_penalty(a_single, yt)
+    pen_m = pav_penalty_multi(a_multi[:, None, :], yt)
+    assert torch.allclose(pen_s, pen_m, atol=1e-6)
 
 
 def test_annealed_recovery_small():

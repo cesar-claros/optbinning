@@ -113,6 +113,126 @@ class OTBinningLayer(nn.Module):
                 "contiguous": contiguous}
 
 
+class MultiOTBinningLayer(nn.Module):
+    """Vectorized OT-binning of ``n_features`` scalar features at once.
+
+    Functionally identical to ``n_features`` independent
+    :class:`OTBinningLayer` instances, but runs a single batched Sinkhorn
+    on ``(batch, n_features, n_bins)`` tensors — one fused kernel sequence
+    per iteration instead of a per-feature Python loop, which is the
+    difference between idle and saturated GPU on wide tabular data.
+    """
+
+    def __init__(self, n_features: int, n_bins: int = 8,
+                 sinkhorn_iters: int = 15,
+                 learn_masses: bool = True) -> None:
+        super().__init__()
+        if n_bins < 2:
+            raise ValueError(f"n_bins must be >= 2; got {n_bins}.")
+        self.n_features = n_features
+        self.n_bins = n_bins
+        self.sinkhorn_iters = sinkhorn_iters
+        self.theta_w = nn.Parameter(torch.zeros(n_features, n_bins))
+        self.theta_b = nn.Parameter(torch.zeros(n_features, n_bins),
+                                    requires_grad=learn_masses)
+        self.register_buffer("x_lo", torch.zeros(n_features))
+        self.register_buffer("x_hi", torch.ones(n_features))
+
+    def set_range(self, lo: Tensor, hi: Tensor) -> None:
+        """Fix per-feature ranges used to place bin representatives."""
+        self.x_lo.copy_(lo)
+        self.x_hi.copy_(hi)
+
+    def bin_positions(self) -> Tensor:
+        """Ordered representatives, shape ``(n_features, n_bins)``."""
+        inc = _MIN_GAP + nn.functional.softplus(self.theta_w)
+        cum = torch.cumsum(inc, dim=1)
+        unit = (cum - inc / 2) / cum[:, -1:]
+        span = (self.x_hi - self.x_lo)[:, None]
+        return self.x_lo[:, None] + span * (0.02 + 0.96 * unit)
+
+    def bin_masses(self) -> Tensor:
+        """Mass marginals, shape ``(n_features, n_bins)``."""
+        beta = torch.softmax(self.theta_b, dim=1)
+        return (1 - _MASS_FLOOR) / self.n_bins + _MASS_FLOOR * beta
+
+    def forward(self, x: Tensor, eps: float = 0.1) -> Tensor:
+        """Soft assignments of shape ``(batch, n_features, n_bins)``;
+        each ``(b, f)`` row sums to one."""
+        w = self.bin_positions()
+        beta = self.bin_masses()
+        cost = (x[:, :, None] - w[None, :, :]) ** 2
+        log_k = -cost / eps
+        log_a = -torch.log(torch.tensor(float(len(x)), device=x.device))
+        log_b = torch.log(beta)
+
+        f = torch.zeros(x.shape, device=x.device)
+        for _ in range(self.sinkhorn_iters):
+            g = -eps * torch.logsumexp(
+                log_k + (f / eps + log_a)[:, :, None], dim=0) \
+                + eps * log_b
+            f = -eps * torch.logsumexp(
+                log_k + (g / eps)[None, :, :], dim=2)
+        plan = torch.exp(log_k + (f / eps + log_a)[:, :, None]
+                         + (g / eps)[None, :, :])
+        return plan / plan.sum(dim=2, keepdim=True).clamp_min(1e-30)
+
+    @torch.no_grad()
+    def harden(self, x: Tensor, eps: float = 0.003,
+               iters: int = 60) -> list[dict]:
+        """Per-feature hard assignment at low temperature (full-precision
+        Sinkhorn only here, where exactness matters)."""
+        saved = self.sinkhorn_iters
+        self.sinkhorn_iters = iters
+        assign = self.forward(x, eps=eps).argmax(dim=2)
+        self.sinkhorn_iters = saved
+        out = []
+        for i in range(self.n_features):
+            order = torch.argsort(x[:, i])
+            sorted_assign = assign[order, i]
+            xs = x[order, i]
+            change = torch.nonzero(torch.diff(sorted_assign) != 0).flatten()
+            cuts = ((xs[change] + xs[change + 1]) / 2).cpu().numpy()
+            out.append({
+                "contiguous": bool(torch.all(
+                    torch.diff(sorted_assign) >= 0)),
+                "cuts": np.sort(np.unique(cuts))})
+        return out
+
+
+def soft_iv_multi(assign: Tensor, y: Tensor) -> Tensor:
+    """Sum of per-feature IVs of a ``(batch, n_features, n_bins)`` soft
+    assignment (single einsum pass; no per-feature loop)."""
+    y0 = (y == 0).float()
+    y1 = 1.0 - y0
+    p = torch.einsum("bfm,b->fm", assign, y0) / y0.sum().clamp_min(1.0)
+    q = torch.einsum("bfm,b->fm", assign, y1) / y1.sum().clamp_min(1.0)
+    p = p.clamp_min(1e-8)
+    q = q.clamp_min(1e-8)
+    return ((p - q) * torch.log(p / q)).sum()
+
+
+def pav_penalty_multi(assign: Tensor, y: Tensor) -> Tensor:
+    """Sum of per-feature PAV monotonicity penalties (rates computed in
+    one einsum; only the tiny block search loops in Python)."""
+    y1 = (y == 1).float()
+    events = torch.einsum("bfm,b->fm", assign, y1)
+    total = assign.sum(dim=0).clamp_min(1e-8)
+    rate = events / total
+    mass = total / total.sum(dim=1, keepdim=True)
+
+    penalty = rate.new_zeros(())
+    rate_np = rate.detach().cpu().numpy()
+    mass_np = mass.detach().cpu().numpy()
+    for i in range(assign.shape[1]):
+        for block in _pav_blocks(rate_np[i], mass_np[i]):
+            idx = torch.as_tensor(block, device=rate.device)
+            w = mass[i, idx]
+            mean = (rate[i, idx] * w).sum() / w.sum()
+            penalty = penalty + (w * (rate[i, idx] - mean) ** 2).sum()
+    return penalty
+
+
 def soft_iv(assign: Tensor, y: Tensor) -> Tensor:
     """Differentiable IV of a soft assignment against binary targets."""
     y0 = (y == 0).float()

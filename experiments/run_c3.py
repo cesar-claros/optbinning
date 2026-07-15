@@ -36,8 +36,8 @@ from optbinning import OptimalBinning                   # noqa: E402
 
 from experiments import datasets                        # noqa: E402
 from experiments.common import save_results             # noqa: E402
-from experiments.paperc.otlayer import (OTBinningLayer,  # noqa: E402
-                                        pav_penalty, soft_iv)
+from experiments.paperc.otlayer import (MultiOTBinningLayer,  # noqa: E402
+                                        pav_penalty_multi, soft_iv_multi)
 
 logger = logging.getLogger(__name__)
 
@@ -54,14 +54,15 @@ class TokenizedNet(nn.Module):
 
     def __init__(self, arm: str, edges: list[np.ndarray], n_bins: int,
                  backbone: str, hidden: int,
-                 token_mode: str = "cumulative") -> None:
+                 token_mode: str = "cumulative",
+                 sinkhorn_iters: int = 15) -> None:
         super().__init__()
         self.arm = arm
         self.token_mode = token_mode
         self.n_features = len(edges)
         if arm == "ot_ple":
-            self.layers = nn.ModuleList(
-                [OTBinningLayer(n_bins=n_bins) for _ in edges])
+            self.ot = MultiOTBinningLayer(len(edges), n_bins=n_bins,
+                                          sinkhorn_iters=sinkhorn_iters)
             token_dim = n_bins
         elif arm in ("quantile_ple", "target_ple"):
             for i, e in enumerate(edges):
@@ -80,19 +81,23 @@ class TokenizedNet(nn.Module):
                 nn.Linear(in_dim, hidden), nn.ReLU(),
                 nn.Linear(hidden, hidden), nn.ReLU(), nn.Linear(hidden, 1))
 
-    def tokens(self, x: Tensor, eps: float) -> Tensor:
+    def tokens(self, x: Tensor,
+               eps: float) -> tuple[Tensor, Tensor | None]:
+        """Token matrix and, for ot_ple, the raw soft assignment (reused
+        by the auxiliary loss to avoid a second Sinkhorn pass)."""
+        if self.arm == "ot_ple":
+            assign = self.ot(x, eps=eps)
+            tok = assign
+            if self.token_mode == "cumulative":
+                # soft analogue of the PLE ramp encoding: with a linear
+                # head, cumulative tokens span (smoothed) monotone step
+                # bases rather than localized bumps.
+                tok = torch.cumsum(assign, dim=2)
+            return tok.reshape(len(x), -1), assign
         cols = []
         for i in range(self.n_features):
             xi = x[:, i]
-            if self.arm == "ot_ple":
-                assign = self.layers[i](xi, eps=eps)
-                if self.token_mode == "cumulative":
-                    # soft analogue of the PLE ramp encoding: with a
-                    # linear head, cumulative tokens span (smoothed)
-                    # monotone step bases rather than localized bumps.
-                    assign = torch.cumsum(assign, dim=1)
-                cols.append(assign)
-            elif self.arm in ("quantile_ple", "target_ple"):
+            if self.arm in ("quantile_ple", "target_ple"):
                 enc = _ple_encode(xi, getattr(self, f"edges_{i}"))
                 pad = self.token_dim - enc.shape[1]
                 if pad:
@@ -100,10 +105,12 @@ class TokenizedNet(nn.Module):
                 cols.append(enc)
             else:
                 cols.append(xi[:, None])
-        return torch.cat(cols, dim=1)
+        return torch.cat(cols, dim=1), None
 
-    def forward(self, x: Tensor, eps: float = 0.05) -> Tensor:
-        return self.head(self.tokens(x, eps)).squeeze(-1)
+    def forward(self, x: Tensor,
+                eps: float = 0.05) -> tuple[Tensor, Tensor | None]:
+        tok, assign = self.tokens(x, eps)
+        return self.head(tok).squeeze(-1), assign
 
 
 def _edges_for_arm(arm: str, xtr: np.ndarray, ytr: np.ndarray,
@@ -132,12 +139,11 @@ def _train_eval(arm: str, backbone: str, data: dict,
 
     edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins)
     net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
-                       token_mode=cfg.get("token_mode", "cumulative"))
+                       token_mode=cfg.get("token_mode", "cumulative"),
+                       sinkhorn_iters=cfg.get("sinkhorn_iters", 15))
     net.to(device)
     if arm == "ot_ple":
-        for i, layer in enumerate(net.layers):
-            layer.set_range(float(data["xtr"][:, i].min()),
-                            float(data["xtr"][:, i].max()))
+        net.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
     optim = torch.optim.Adam(net.parameters(), lr=cfg.lr)
     bce = nn.BCEWithLogitsLoss()
 
@@ -151,26 +157,25 @@ def _train_eval(arm: str, backbone: str, data: dict,
             idx = perm[lo:lo + cfg.batch_size]
             if len(idx) < cfg.n_bins * 4:
                 continue
-            logits = net(xtr[idx], eps=eps)
+            logits, assign = net(xtr[idx], eps=eps)
             loss = bce(logits, ytr[idx])
-            if arm == "ot_ple" and cfg.aux_iv > 0:
-                for i, layer in enumerate(net.layers):
-                    assign = layer(xtr[idx, i], eps=eps)
-                    loss = loss - cfg.aux_iv * soft_iv(assign, ytr[idx])
-                    loss = loss + cfg.aux_iv * pav_penalty(assign, ytr[idx])
+            if assign is not None and cfg.aux_iv > 0:
+                loss = loss - cfg.aux_iv * soft_iv_multi(assign, ytr[idx])
+                loss = loss + cfg.aux_iv * pav_penalty_multi(assign,
+                                                             ytr[idx])
             optim.zero_grad()
             loss.backward()
             optim.step()
     fit_time = time.perf_counter() - start
 
     with torch.no_grad():
-        prob = torch.sigmoid(net(xte, eps=cfg.eps_end)).cpu().numpy()
+        logits, _ = net(xte, eps=cfg.eps_end)
+        prob = torch.sigmoid(logits).cpu().numpy()
     row = dict(auc=float(roc_auc_score(data["yte"], prob)),
                logloss=float(log_loss(data["yte"], prob)),
                fit_time=fit_time)
     if arm == "ot_ple":
-        hard = [layer.harden(xtr[:, i])
-                for i, layer in enumerate(net.layers)]
+        hard = net.ot.harden(xtr)
         row["contiguous_frac"] = float(np.mean([h["contiguous"]
                                                 for h in hard]))
         row["mean_n_cuts"] = float(np.mean([len(h["cuts"]) for h in hard]))
