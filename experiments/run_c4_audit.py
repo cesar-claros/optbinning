@@ -16,11 +16,14 @@ C3/C4 accuracy tables report:
   * an extracted example scorecard (bins, WoE, points) for the most influential
     feature.
 
-Runs on standardized inputs (ot_input=standard) so the learned cuts and the
-optbinning cuts live in the same units. Token mode ``assign`` gives the classic
-step points table.
+``ot_input=quantile`` (default) audits the rank-space geometry the C3/C4 tables
+recommend (the range-to-rank fix of §5.4); ``ot_input=standard`` audits the raw
+standardized geometry instead. Either way the learned cuts are mapped back to
+standardized feature units before they are compared with the optbinning cuts,
+so cut-agreement and stability are reported in the same units. Token mode
+``assign`` gives the classic step points table.
 
-    python experiments/run_c4_audit.py dataset=german n_seeds=5
+    python experiments/run_c4_audit.py -m dataset=german,taiwan,gmsc n_seeds=5
 """
 
 # Cesar Claros <cesar.claros@outlook.com>
@@ -48,7 +51,8 @@ from experiments.common import save_results             # noqa: E402
 from experiments.paperc.otlayer import (pav_penalty_multi,  # noqa: E402
                                         soft_iv_multi)
 from experiments.run_c3 import (TokenizedNet,           # noqa: E402
-                                _edges_for_arm)
+                                _edges_for_arm,
+                                _quantile_transform)
 
 logger = logging.getLogger(__name__)
 
@@ -133,21 +137,24 @@ def _cut_agreement(ot_cuts, ob_cuts, tol):
     return float(d.mean()), float((d <= tol).mean())
 
 
-def _exhibit(net, data, feats, mu, sd, eps):
+def _exhibit(net, xin, xstd, y, ot_cuts, feats, mu, sd, eps):
     """Extract and print the scorecard of the most influential feature: bin
     ranges (original units), event rate, WoE, and points (the feature's own
-    contribution to the logit, read straight off the linear head)."""
+    contribution to the logit, read straight off the linear head).
+
+    ``xin`` is the model's input (rank or standardized); ``ot_cuts`` are the
+    learned cuts already mapped to standardized units, and bin membership is
+    taken in those units on ``xstd``."""
     device = next(net.parameters()).device
-    xt = torch.as_tensor(data["xtr"], dtype=torch.float32, device=device)
-    y = data["ytr"]
+    xt = torch.as_tensor(xin, dtype=torch.float32, device=device)
     with torch.no_grad():
         tok, _ = net.tokens(xt, eps, need_assign=False)
         w = net.head.weight.detach().reshape(net.n_features, net.token_dim)
         g = torch.einsum("nft,ft->nf", tok, w).cpu().numpy()   # contributions
     f = int(np.argmax(g.max(axis=0) - g.min(axis=0)))          # widest span
-    cuts = np.asarray(net.ot.harden(xt)[f]["cuts"], dtype=float)
+    cuts = ot_cuts[f]
     edges = np.concatenate(([-np.inf], cuts, [np.inf]))
-    idx = np.digitize(data["xtr"][:, f], cuts)
+    idx = np.digitize(xstd[:, f], cuts)
     n0, n1 = max((y == 0).sum(), 1), max((y == 1).sum(), 1)
     print("\n--- extracted scorecard: feature '{}' ---".format(feats[f]))
     print("bin | x in original units          |    n | rate  |   WoE  | points")
@@ -175,35 +182,51 @@ def run(cfg):
     feats = ds.numerical
     x = ds.X[feats].to_numpy(dtype=float)
     x = np.where(np.isfinite(x), x, np.nanmedian(x, axis=0))
+    ot_input = cfg.get("ot_input", "quantile")
 
     rows = []
     cuts_by_feature = {f: [] for f in feats}
     for seed in range(cfg.seed_offset, cfg.seed_offset + cfg.n_seeds):
         tr, te = datasets.split_indices(len(ds.y), cfg.test_size, seed)
         mu, sd = x[tr].mean(axis=0), x[tr].std(axis=0) + 1e-9
-        data = dict(xtr=(x[tr] - mu) / sd, ytr=ds.y[tr],
-                    xte=(x[te] - mu) / sd, yte=ds.y[te])
-        net, xtr, ytr, xte = _fit(data, cfg, seed)
-        fidelity, auc_soft, auc_hard = _fidelity_and_auc(
-            net, xte, data["yte"], cfg.eps_end)
-        if seed == cfg.seed_offset:
-            _exhibit(net, data, feats, mu, sd, cfg.eps_end)
+        xstd_tr, xstd_te = (x[tr] - mu) / sd, (x[te] - mu) / sd
+        if ot_input == "quantile":
+            xin_tr, xin_te = _quantile_transform(xstd_tr, xstd_te)
+        else:
+            xin_tr, xin_te = xstd_tr, xstd_te
+        train_data = dict(xtr=xin_tr, ytr=ds.y[tr], xte=xin_te, yte=ds.y[te])
 
-        hard = net.ot.harden(xtr)
-        ob_cuts = _optbinning_cuts(data["xtr"], data["ytr"], cfg.n_bins,
+        net, xtr_t, _, xte_t = _fit(train_data, cfg, seed)
+        fidelity, auc_soft, auc_hard = _fidelity_and_auc(
+            net, xte_t, ds.y[te], cfg.eps_end)
+
+        hard = net.ot.harden(xtr_t)
+        ot_cuts = []                     # learned cuts in standardized units
+        for i in range(len(feats)):
+            c = np.asarray(hard[i]["cuts"], dtype=float)
+            if ot_input == "quantile" and len(c):
+                c = np.quantile(xstd_tr[:, i], np.clip(c, 0.0, 1.0))
+            ot_cuts.append(c)
+
+        if seed == cfg.seed_offset:
+            _exhibit(net, xin_tr, xstd_tr, ds.y[tr], ot_cuts, feats, mu, sd,
+                     cfg.eps_end)
+
+        ob_cuts = _optbinning_cuts(xstd_tr, ds.y[tr], cfg.n_bins,
                                    cfg.get("ob_solver", "cp"))
         for i, feat in enumerate(feats):
-            ot_cuts = np.asarray(hard[i]["cuts"], dtype=float)
-            cuts_by_feature[feat].append(ot_cuts)
-            dist, matched = _cut_agreement(ot_cuts, ob_cuts[i], cfg.cut_tol)
+            cuts_by_feature[feat].append(ot_cuts[i])
+            dist, matched = _cut_agreement(ot_cuts[i], ob_cuts[i], cfg.cut_tol)
             rows.append(dict(
                 dataset=ds.name, seed=seed, feature=feat,
-                n_cuts=len(ot_cuts), contiguous=bool(hard[i]["contiguous"]),
+                n_cuts=len(ot_cuts[i]),
+                contiguous=bool(hard[i]["contiguous"]),
                 fidelity_max=fidelity, auc_soft=auc_soft, auc_hard=auc_hard,
                 cut_dist=dist, cut_matched=matched))
 
     _report(cfg, ds.name, rows, cuts_by_feature)
-    out = Path(cfg.out) / "c4audit_{}_{}".format(cfg.dataset, cfg.seed_offset)
+    out = Path(cfg.out) / "c4audit_{}_{}_{}".format(
+        cfg.dataset, ot_input, cfg.seed_offset)
     path = save_results(rows, out)
     logger.info("c4audit: wrote %d rows -> %s", len(rows), path)
     return path
@@ -214,8 +237,8 @@ def _report(cfg, name, rows, cuts_by_feature):
     import pandas as pd
     df = pd.DataFrame(rows)
     per_seed = df.groupby("seed").first()
-    print("\n===== C4 interpretability audit: {} ({} seeds) =====".format(
-        name, df["seed"].nunique()))
+    print("\n===== C4 interpretability audit: {} ({} seeds, ot_input={}) ====="
+          .format(name, df["seed"].nunique(), cfg.get("ot_input", "quantile")))
     print("additive-extraction fidelity (max |logit - sum_f g_f|): {:.2e}"
           .format(df["fidelity_max"].max()))
     print("scorecard AUC  soft {:.4f} +/- {:.4f}   hardened {:.4f} +/- {:.4f}"

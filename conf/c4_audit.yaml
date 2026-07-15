@@ -10,6 +10,7 @@ eps_start: 0.15
 eps_end: 0.02
 aux_iv: 0.1             # IV/PAV auxiliary weight (as in C3/C4)
 cut_tol: 0.15          # standardized-unit tolerance for a matched cut
+ot_input: quantile     # rank-space geometry (§5.4 recommended); 'standard' for raw
 ob_solver: cp          # certified-reference solver (cp matches C3/C4; mip is a fallback)
 n_seeds: 5
 seed_offset: 0
