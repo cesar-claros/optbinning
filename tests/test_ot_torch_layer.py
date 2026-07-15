@@ -141,9 +141,13 @@ def test_feature_token_transformer():
         FeatureTokenTransformer(3, 2, d_model=30, n_heads=4)
 
 
+@pytest.mark.filterwarnings(
+    "ignore:Type google._upb:DeprecationWarning")
 def test_tokenized_net_ple_interp_under_ft():
     # end-to-end: ple_interp tokens through the FT backbone train the
     # knots; need_assign=False skips Sinkhorn (assign is None).
+    # (the protobuf DeprecationWarning is ortools', imported via
+    # optbinning when run_c3 loads -- upstream, not ours.)
     pytest.importorskip("hydra")
     from experiments.run_c3 import TokenizedNet
 

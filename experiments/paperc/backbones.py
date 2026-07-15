@@ -64,7 +64,10 @@ class FeatureTokenTransformer(nn.Module):
             d_model=d_model, nhead=n_heads, dim_feedforward=2 * d_model,
             dropout=dropout, activation="gelu", batch_first=True,
             norm_first=True)
-        self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers)
+        # nested-tensor fast path never applies here (pre-norm, no
+        # padding mask); disable explicitly to keep construction quiet.
+        self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers,
+                                             enable_nested_tensor=False)
         self.head = nn.Sequential(nn.LayerNorm(d_model), nn.ReLU(),
                                   nn.Linear(d_model, 1))
 
