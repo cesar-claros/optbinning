@@ -177,6 +177,27 @@ class MultiOTBinningLayer(nn.Module):
                          + (g / eps)[None, :, :])
         return plan / plan.sum(dim=2, keepdim=True).clamp_min(1e-30)
 
+    def bin_edges(self) -> Tensor:
+        """Interior bin boundaries (midpoints of consecutive learned
+        representatives), shape ``(n_features, n_bins - 1)``. Strictly
+        increasing by the min-gap floor; differentiable in ``theta_w``."""
+        w = self.bin_positions()
+        return (w[:, 1:] + w[:, :-1]) / 2
+
+    def interp_tokens(self, x: Tensor) -> Tensor:
+        """Piecewise-linear (PLE) encoding with the LEARNED bin edges as
+        knots, shape ``(batch, n_features, n_bins)``.
+
+        This is the lossless, spline-basis token family of Gorishniy et
+        al. with learnable knot positions: differentiable a.e. in both
+        the input and the edges, and the bins remain contiguous intervals
+        by construction (the audit table is the edge vector itself)."""
+        edges = torch.cat([self.x_lo[:, None], self.bin_edges(),
+                           self.x_hi[:, None]], dim=1)
+        width = (edges[:, 1:] - edges[:, :-1]).clamp_min(1e-9)
+        return ((x[:, :, None] - edges[None, :, :-1])
+                / width[None]).clamp(0.0, 1.0)
+
     @torch.no_grad()
     def harden(self, x: Tensor, eps: float = 0.003,
                iters: int = 60) -> list[dict]:

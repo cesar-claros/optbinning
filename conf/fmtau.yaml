@@ -13,7 +13,7 @@ monotonic: auto
 n_seeds: 1
 seed_offset: 0
 test_size: 0.4
-out: outputs/fmtau
+out: outputs/a1_fmtau
 hydra:
   job:
     chdir: false

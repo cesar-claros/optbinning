@@ -17,6 +17,7 @@ torch = pytest.importorskip("torch")
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from experiments.paperc.backbones import FeatureTokenTransformer  # noqa: E402
 from experiments.paperc.otlayer import (MultiOTBinningLayer,  # noqa: E402
                                         OTBinningLayer, pav_penalty,
                                         pav_penalty_multi, soft_iv,
@@ -83,6 +84,83 @@ def test_multi_layer_parity_with_single():
     pen_s = pav_penalty(a_single, yt)
     pen_m = pav_penalty_multi(a_multi[:, None, :], yt)
     assert torch.allclose(pen_s, pen_m, atol=1e-6)
+
+
+def test_bin_edges_and_interp_tokens():
+    # learned-knot PLE (token_mode=ple_interp): edges strictly inside
+    # the range and increasing; tokens in [0, 1], monotone in x, and
+    # saturating at the range endpoints (0 at lo, 1 at hi).
+    torch.manual_seed(0)
+    multi = MultiOTBinningLayer(3, n_bins=6)
+    with torch.no_grad():
+        multi.theta_w.copy_(torch.randn(3, 6) * 0.4)
+    lo = torch.tensor([0.0, -1.0, 2.0])
+    hi = torch.tensor([1.0, 1.0, 5.0])
+    multi.set_range(lo, hi)
+
+    e = multi.bin_edges()
+    assert e.shape == (3, 5)
+    assert torch.all(torch.diff(e, dim=1) > 0)
+    assert torch.all(e > lo[:, None]) and torch.all(e < hi[:, None])
+
+    grid = torch.linspace(0, 1, 64)[:, None]
+    x = lo[None, :] + (hi - lo)[None, :] * grid
+    tok = multi.interp_tokens(x)
+    assert tok.shape == (64, 3, 6)
+    assert torch.all(tok >= 0) and torch.all(tok <= 1)
+    assert torch.all(torch.diff(tok, dim=0) >= -1e-6)
+    assert torch.allclose(tok[0], torch.zeros(3, 6), atol=1e-6)
+    assert torch.allclose(tok[-1], torch.ones(3, 6), atol=1e-6)
+
+
+def test_interp_tokens_gradients_reach_knots():
+    # the knot positions must be trainable through the spline tokens
+    # (differentiable a.e. in the edges).
+    torch.manual_seed(1)
+    multi = MultiOTBinningLayer(2, n_bins=5)
+    with torch.no_grad():
+        multi.theta_w.copy_(torch.randn(2, 5) * 0.3)
+    x = torch.rand(128, 2)
+    tok = multi.interp_tokens(x)
+    (tok * torch.randn_like(tok)).sum().backward()
+    assert multi.theta_w.grad is not None
+    assert float(multi.theta_w.grad.abs().sum()) > 0
+
+
+def test_feature_token_transformer():
+    torch.manual_seed(0)
+    net = FeatureTokenTransformer(n_features=7, token_dim=4, d_model=32,
+                                  n_layers=1, n_heads=4)
+    tok = torch.randn(16, 7, 4)
+    out = net(tok)
+    assert out.shape == (16,)
+    out.sum().backward()
+    assert net.weight.grad is not None
+    assert float(net.weight.grad.abs().sum()) > 0
+    with pytest.raises(ValueError):
+        FeatureTokenTransformer(3, 2, d_model=30, n_heads=4)
+
+
+def test_tokenized_net_ple_interp_under_ft():
+    # end-to-end: ple_interp tokens through the FT backbone train the
+    # knots; need_assign=False skips Sinkhorn (assign is None).
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet
+
+    torch.manual_seed(0)
+    edges = [np.linspace(0, 1, 9) for _ in range(4)]
+    net = TokenizedNet("ot_ple", edges, n_bins=8, backbone="ft",
+                       hidden=32, token_mode="ple_interp")
+    x = torch.rand(64, 4)
+    logits, assign = net(x, eps=0.1, need_assign=False)
+    assert logits.shape == (64,)
+    assert assign is None
+    logits.sum().backward()
+    assert net.ot.theta_w.grad is not None
+    assert float(net.ot.theta_w.grad.abs().sum()) > 0
+
+    logits, assign = net(x, eps=0.1, need_assign=True)
+    assert assign is not None and assign.shape == (64, 4, 8)
 
 
 def test_annealed_recovery_small():

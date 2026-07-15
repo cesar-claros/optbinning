@@ -38,7 +38,7 @@ log() { echo "[$(date '+%F %T')] $*"; }
 # ones.
 if [ "$ARCHIVE" = "1" ]; then
     arch="outputs/_archive_${STAMP}"
-    for d in a1 fmtau maxbins gamma spikesel; do
+    for d in a1 a1_fmtau a1_maxbins a1_gamma a1_spikesel; do
         if [ -d "outputs/$d" ] && [ -n "$(ls -A "outputs/$d" 2>/dev/null)" ]; then
             mkdir -p "$arch"
             mv "outputs/$d" "$arch/"
@@ -98,7 +98,7 @@ run_step maxbins_auto $PY experiments/run_maxbins.py -m dataset="$DATASETS" \
 log "DONE. Aggregate with:"
 log "  $PY experiments/tables.py a1       \"outputs/a1/*.parquet\""
 log "  $PY experiments/tables.py a1_spike \"outputs/a1/*.parquet\""
-log "  $PY experiments/tables.py gamma    \"outputs/gamma/*.parquet\""
-log "  $PY experiments/tables.py spikesel \"outputs/spikesel/*.parquet\""
-log "  $PY experiments/tables.py fmtau    \"outputs/fmtau/*.parquet\""
-log "  $PY experiments/tables.py maxbins  \"outputs/maxbins/*.parquet\""
+log "  $PY experiments/tables.py gamma    \"outputs/a1_gamma/*.parquet\""
+log "  $PY experiments/tables.py spikesel \"outputs/a1_spikesel/*.parquet\""
+log "  $PY experiments/tables.py fmtau    \"outputs/a1_fmtau/*.parquet\""
+log "  $PY experiments/tables.py maxbins  \"outputs/a1_maxbins/*.parquet\""

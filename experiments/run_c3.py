@@ -3,7 +3,11 @@
 Compares numerical-feature tokenizers under a shared backbone: raw values,
 quantile piecewise-linear encoding (PLE), target-aware PLE (frozen
 optbinning bins), and the end-to-end OT-binning layer — plus a LightGBM
-reference. ``backbone=linear`` is the C4 self-explaining scorecard head.
+reference. ``backbone=linear`` is the C4 self-explaining scorecard head;
+``backbone=ft`` is the camera-ready FT-Transformer comparison (per-feature
+token embeddings + attention + CLS). ``token_mode=ple_interp`` is the
+learned-knot PLE variant: spline tokens on the OT layer's own bin edges
+(lossless + basis-rich; interval bins by construction).
 
 Local smoke test:
     python experiments/run_c3.py dataset=synthetic-smooth epochs=8 \
@@ -36,6 +40,7 @@ from optbinning import OptimalBinning                   # noqa: E402
 
 from experiments import datasets                        # noqa: E402
 from experiments.common import save_results             # noqa: E402
+from experiments.paperc.backbones import FeatureTokenTransformer  # noqa: E402
 from experiments.paperc.otlayer import (MultiOTBinningLayer,  # noqa: E402
                                         pav_penalty_multi, soft_iv_multi)
 
@@ -55,9 +60,11 @@ class TokenizedNet(nn.Module):
     def __init__(self, arm: str, edges: list[np.ndarray], n_bins: int,
                  backbone: str, hidden: int,
                  token_mode: str = "cumulative",
-                 sinkhorn_iters: int = 15) -> None:
+                 sinkhorn_iters: int = 15, ft_layers: int = 2,
+                 ft_heads: int = 4) -> None:
         super().__init__()
         self.arm = arm
+        self.backbone = backbone
         self.token_mode = token_mode
         self.n_features = len(edges)
         if arm == "ot_ple":
@@ -73,20 +80,36 @@ class TokenizedNet(nn.Module):
             self._dims = [len(e) - 1 for e in edges]
         else:                                            # raw
             token_dim = 1
-        in_dim = self.n_features * token_dim
         self.token_dim = token_dim
-        if backbone == "linear":
-            self.head = nn.Linear(in_dim, 1)
+        if backbone == "ft":
+            # FT-Transformer pattern: per-feature tokens + attention +
+            # CLS readout; consumes tokens as (batch, features, dim).
+            self.head: nn.Module = FeatureTokenTransformer(
+                self.n_features, token_dim, d_model=hidden,
+                n_layers=ft_layers, n_heads=ft_heads)
+        elif backbone == "linear":
+            self.head = nn.Linear(self.n_features * token_dim, 1)
         else:
+            in_dim = self.n_features * token_dim
             self.head = nn.Sequential(
                 nn.Linear(in_dim, hidden), nn.ReLU(),
                 nn.Linear(hidden, hidden), nn.ReLU(), nn.Linear(hidden, 1))
 
-    def tokens(self, x: Tensor,
-               eps: float) -> tuple[Tensor, Tensor | None]:
-        """Token matrix and, for ot_ple, the raw soft assignment (reused
-        by the auxiliary loss to avoid a second Sinkhorn pass)."""
+    def tokens(self, x: Tensor, eps: float,
+               need_assign: bool = True) -> tuple[Tensor, Tensor | None]:
+        """Per-feature tokens ``(batch, n_features, token_dim)`` and, for
+        ot_ple, the soft assignment reused by the auxiliary loss (one
+        Sinkhorn pass total; None when not needed -- ple_interp tokens
+        skip Sinkhorn entirely outside auxiliary training)."""
         if self.arm == "ot_ple":
+            if self.token_mode == "ple_interp":
+                # learned-knot PLE: spline ramps on the layer's own bin
+                # edges -- lossless AND basis-rich, the reconciliation
+                # of the Sec. 5.4 residual. Bins are intervals by
+                # construction; the audit table is the edge vector.
+                tok = self.ot.interp_tokens(x)
+                assign = self.ot(x, eps=eps) if need_assign else None
+                return tok, assign
             assign = self.ot(x, eps=eps)
             tok = assign
             if self.token_mode.startswith("cumulative"):
@@ -94,12 +117,12 @@ class TokenizedNet(nn.Module):
                 # head, cumulative tokens span (smoothed) monotone step
                 # bases rather than localized bumps.
                 tok = torch.cumsum(assign, dim=2)
-            tok = tok.reshape(len(x), -1)
             if self.token_mode == "cumulative_plus_raw":
                 # lossless tokenization: step tokens destroy within-bin
-                # position (PLE keeps it via interpolation); appending
-                # the raw feature restores it at one extra dim/feature.
-                tok = torch.cat([tok, x], dim=1)
+                # position; the raw feature restores it as one extra
+                # per-feature channel (flat layout is a permutation of
+                # the earlier global concat -- same model class).
+                tok = torch.cat([tok, x[:, :, None]], dim=2)
             return tok, assign
         cols = []
         for i in range(self.n_features):
@@ -109,15 +132,17 @@ class TokenizedNet(nn.Module):
                 pad = self.token_dim - enc.shape[1]
                 if pad:
                     enc = nn.functional.pad(enc, (0, pad))
-                cols.append(enc)
             else:
-                cols.append(xi[:, None])
-        return torch.cat(cols, dim=1), None
+                enc = xi[:, None]
+            cols.append(enc)
+        return torch.stack(cols, dim=1), None
 
-    def forward(self, x: Tensor,
-                eps: float = 0.05) -> tuple[Tensor, Tensor | None]:
-        tok, assign = self.tokens(x, eps)
-        return self.head(tok).squeeze(-1), assign
+    def forward(self, x: Tensor, eps: float = 0.05,
+                need_assign: bool = True) -> tuple[Tensor, Tensor | None]:
+        tok, assign = self.tokens(x, eps, need_assign)
+        if self.backbone == "ft":
+            return self.head(tok), assign
+        return self.head(tok.reshape(len(x), -1)).squeeze(-1), assign
 
 
 def _edges_for_arm(arm: str, xtr: np.ndarray, ytr: np.ndarray,
@@ -167,11 +192,20 @@ def _train_eval(arm: str, backbone: str, data: dict,
     edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins)
     net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
                        token_mode=cfg.get("token_mode", "cumulative"),
-                       sinkhorn_iters=cfg.get("sinkhorn_iters", 15))
+                       sinkhorn_iters=cfg.get("sinkhorn_iters", 15),
+                       ft_layers=cfg.get("ft_layers", 2),
+                       ft_heads=cfg.get("ft_heads", 4))
     net.to(device)
     if arm == "ot_ple":
         net.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
-    optim = torch.optim.Adam(net.parameters(), lr=cfg.lr)
+    if backbone == "ft":
+        # transformers want a lower lr + decoupled weight decay than the
+        # flat heads; lr_ft keeps mixed-backbone sweeps fair.
+        optim: torch.optim.Optimizer = torch.optim.AdamW(
+            net.parameters(), lr=cfg.get("lr_ft") or cfg.lr,
+            weight_decay=cfg.get("ft_weight_decay", 1e-5))
+    else:
+        optim = torch.optim.Adam(net.parameters(), lr=cfg.lr)
     bce = nn.BCEWithLogitsLoss()
 
     start = time.perf_counter()
@@ -184,7 +218,8 @@ def _train_eval(arm: str, backbone: str, data: dict,
             idx = perm[lo:lo + cfg.batch_size]
             if len(idx) < cfg.n_bins * 4:
                 continue
-            logits, assign = net(xtr[idx], eps=eps)
+            logits, assign = net(xtr[idx], eps=eps,
+                                 need_assign=cfg.aux_iv > 0)
             loss = bce(logits, ytr[idx])
             if assign is not None and cfg.aux_iv > 0:
                 loss = loss - cfg.aux_iv * soft_iv_multi(assign, ytr[idx])
@@ -195,17 +230,27 @@ def _train_eval(arm: str, backbone: str, data: dict,
             optim.step()
     fit_time = time.perf_counter() - start
 
+    net.eval()
     with torch.no_grad():
-        logits, _ = net(xte, eps=cfg.eps_end)
+        logits, _ = net(xte, eps=cfg.eps_end, need_assign=False)
         prob = torch.sigmoid(logits).cpu().numpy()
     row = dict(auc=float(roc_auc_score(data["yte"], prob)),
                logloss=float(log_loss(data["yte"], prob)),
                fit_time=fit_time)
     if arm == "ot_ple":
-        hard = net.ot.harden(xtr)
-        row["contiguous_frac"] = float(np.mean([h["contiguous"]
+        if net.token_mode == "ple_interp":
+            # interval bins by construction: contiguity is structural
+            # and the audit table is the learned edge vector itself.
+            edges_np = net.ot.bin_edges().detach().cpu().numpy()
+            row["contiguous_frac"] = 1.0
+            row["mean_n_cuts"] = float(np.mean(
+                [len(np.unique(np.round(e, 6))) for e in edges_np]))
+        else:
+            hard = net.ot.harden(xtr)
+            row["contiguous_frac"] = float(np.mean([h["contiguous"]
+                                                    for h in hard]))
+            row["mean_n_cuts"] = float(np.mean([len(h["cuts"])
                                                 for h in hard]))
-        row["mean_n_cuts"] = float(np.mean([len(h["cuts"]) for h in hard]))
     return row
 
 

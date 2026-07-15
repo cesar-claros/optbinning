@@ -14,7 +14,7 @@ monotonic: null
 n_seeds: 1
 seed_offset: 0
 test_size: 0.4
-out: outputs/maxbins
+out: outputs/a1_maxbins
 hydra:
   job:
     chdir: false

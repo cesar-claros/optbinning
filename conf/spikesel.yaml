@@ -13,7 +13,7 @@ select_threshold: 0.30  # cut < threshold isolates the spike (choice A)
 n_seeds: 20             # independent spike realizations
 seed_offset: 0
 n_boot: 400             # bootstrap refits per (seed, gamma)
-out: outputs/spikesel
+out: outputs/a1_spikesel
 hydra:
   job:
     chdir: false

@@ -1,16 +1,21 @@
 # Experiment C3/C4 — tokenizer benchmark (Paper C).
-# backbone=linear is the C4 self-explaining scorecard head.
+# backbone=linear is the C4 self-explaining scorecard head;
+# backbone=ft is the camera-ready FT-Transformer comparison.
 dataset: synthetic-smooth
 n: 6000
 data_seed: 0
 arms: [raw, quantile_ple, target_ple, ot_ple, lightgbm]
-backbones: [linear, mlp]
+backbones: [linear, mlp]   # options: linear | mlp | ft
 n_bins: 8
 sinkhorn_iters: 15      # training-time unroll; hardening uses 60 internally
-hidden: 64
+hidden: 64              # mlp width; d_model for ft (divisible by ft_heads)
 epochs: 50
 batch_size: 4096          # ot_ple is launch-latency-bound; large batches are free on GPU
 lr: 0.01
+lr_ft: 0.001            # ft-only lr (AdamW); keeps mixed-backbone sweeps fair
+ft_layers: 2
+ft_heads: 4
+ft_weight_decay: 1.0e-5
 eps_start: 0.15
 eps_end: 0.02
 aux_iv: 0.1             # auxiliary IV/monotonicity weight for ot_ple
@@ -22,4 +27,6 @@ hydra:
   job:
     chdir: false
 token_mode: cumulative   # cumulative | assign | cumulative_plus_raw (lossless; +1 dim/feature)
+                         # | ple_interp (learned-knot PLE on the layer's edges: lossless +
+                         #   basis-rich; interval bins by construction; Sinkhorn only for aux)
 ot_input: quantile       # ot_ple bin geometry: quantile (rank space; heavy-tail safe) | standard
