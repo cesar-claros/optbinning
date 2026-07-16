@@ -1,0 +1,32 @@
+nohup: ignoring input
+[2026-07-16 11:55:42,436][HYDRA] Launching 5 jobs locally
+[2026-07-16 11:55:42,436][HYDRA] 	#0 : dataset=baf seed=0 device=cuda token_mode=ple_interp backbones=[ft] arms=[raw,quantile_ple,target_ple,ot_ple] out=outputs/c3_baf_ft
+[2026-07-16 11:58:20,451][__main__][INFO] - raw/ft: auc=0.8648
+[2026-07-16 12:01:02,415][__main__][INFO] - quantile_ple/ft: auc=0.8690
+[2026-07-16 12:03:54,269][__main__][INFO] - target_ple/ft: auc=0.8706
+[2026-07-16 12:16:56,747][__main__][INFO] - ot_ple/ft: auc=0.8675
+[2026-07-16 12:16:56,762][__main__][INFO] - C3: wrote 4 rows -> outputs/c3_baf_ft/c3_baf_0.parquet
+[2026-07-16 12:16:56,788][HYDRA] 	#1 : dataset=baf seed=1 device=cuda token_mode=ple_interp backbones=[ft] arms=[raw,quantile_ple,target_ple,ot_ple] out=outputs/c3_baf_ft
+[2026-07-16 12:19:32,899][__main__][INFO] - raw/ft: auc=0.8635
+[2026-07-16 12:22:14,903][__main__][INFO] - quantile_ple/ft: auc=0.8638
+[2026-07-16 12:25:07,357][__main__][INFO] - target_ple/ft: auc=0.8682
+[2026-07-16 12:38:07,889][__main__][INFO] - ot_ple/ft: auc=0.8663
+[2026-07-16 12:38:07,898][__main__][INFO] - C3: wrote 4 rows -> outputs/c3_baf_ft/c3_baf_1.parquet
+[2026-07-16 12:38:07,923][HYDRA] 	#2 : dataset=baf seed=2 device=cuda token_mode=ple_interp backbones=[ft] arms=[raw,quantile_ple,target_ple,ot_ple] out=outputs/c3_baf_ft
+[2026-07-16 12:40:44,025][__main__][INFO] - raw/ft: auc=0.8662
+[2026-07-16 12:43:26,112][__main__][INFO] - quantile_ple/ft: auc=0.8647
+[2026-07-16 12:46:17,823][__main__][INFO] - target_ple/ft: auc=0.8631
+[2026-07-16 12:59:12,227][__main__][INFO] - ot_ple/ft: auc=0.8629
+[2026-07-16 12:59:12,234][__main__][INFO] - C3: wrote 4 rows -> outputs/c3_baf_ft/c3_baf_2.parquet
+[2026-07-16 12:59:12,261][HYDRA] 	#3 : dataset=baf seed=3 device=cuda token_mode=ple_interp backbones=[ft] arms=[raw,quantile_ple,target_ple,ot_ple] out=outputs/c3_baf_ft
+[2026-07-16 13:01:48,349][__main__][INFO] - raw/ft: auc=0.8651
+[2026-07-16 13:04:30,367][__main__][INFO] - quantile_ple/ft: auc=0.8699
+[2026-07-16 13:07:22,109][__main__][INFO] - target_ple/ft: auc=0.8689
+[2026-07-16 13:20:14,369][__main__][INFO] - ot_ple/ft: auc=0.8666
+[2026-07-16 13:20:14,374][__main__][INFO] - C3: wrote 4 rows -> outputs/c3_baf_ft/c3_baf_3.parquet
+[2026-07-16 13:20:14,406][HYDRA] 	#4 : dataset=baf seed=4 device=cuda token_mode=ple_interp backbones=[ft] arms=[raw,quantile_ple,target_ple,ot_ple] out=outputs/c3_baf_ft
+[2026-07-16 13:22:50,441][__main__][INFO] - raw/ft: auc=0.8616
+[2026-07-16 13:25:32,442][__main__][INFO] - quantile_ple/ft: auc=0.8643
+[2026-07-16 13:28:23,852][__main__][INFO] - target_ple/ft: auc=0.8638
+[2026-07-16 13:41:18,731][__main__][INFO] - ot_ple/ft: auc=0.8595
+[2026-07-16 13:41:18,737][__main__][INFO] - C3: wrote 4 rows -> outputs/c3_baf_ft/c3_baf_4.parquet
