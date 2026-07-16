@@ -232,8 +232,15 @@ def _train_eval(arm: str, backbone: str, data: dict,
 
     net.eval()
     with torch.no_grad():
-        logits, _ = net(xte, eps=cfg.eps_end, need_assign=False)
-        prob = torch.sigmoid(logits).cpu().numpy()
+        # chunked eval: exact (attention is across features, not batch);
+        # a single 350k-row forward overflows the fused transformer
+        # kernel's launch config on large test sets (BAF).
+        probs = []
+        for lo in range(0, len(xte), cfg.batch_size):
+            logits, _ = net(xte[lo:lo + cfg.batch_size], eps=cfg.eps_end,
+                            need_assign=False)
+            probs.append(torch.sigmoid(logits))
+        prob = torch.cat(probs).cpu().numpy()
     row = dict(auc=float(roc_auc_score(data["yte"], prob)),
                logloss=float(log_loss(data["yte"], prob)),
                fit_time=fit_time)
