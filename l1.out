@@ -1,0 +1,32 @@
+nohup: ignoring input
+[2026-07-16 14:32:24,654][HYDRA] Launching 10 jobs locally
+[2026-07-16 14:32:24,655][HYDRA] 	#0 : dataset=baf model=ot_ple seed=0 device=cuda out=outputs/l1
+[2026-07-16 14:34:49,141][__main__][INFO] - L1 baf/ot_ple: ref auc=0.8498, tolerance=0.00018
+[2026-07-16 14:35:15,788][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_ot_ple_0_months.parquet
+[2026-07-16 14:35:15,796][HYDRA] 	#1 : dataset=baf model=ot_ple seed=1 device=cuda out=outputs/l1
+[2026-07-16 14:37:26,284][__main__][INFO] - L1 baf/ot_ple: ref auc=0.8532, tolerance=0.00020
+[2026-07-16 14:37:53,232][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_ot_ple_1_months.parquet
+[2026-07-16 14:37:53,248][HYDRA] 	#2 : dataset=baf model=ot_ple seed=2 device=cuda out=outputs/l1
+[2026-07-16 14:40:14,022][__main__][INFO] - L1 baf/ot_ple: ref auc=0.8462, tolerance=0.00022
+[2026-07-16 14:40:40,690][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_ot_ple_2_months.parquet
+[2026-07-16 14:40:40,701][HYDRA] 	#3 : dataset=baf model=ot_ple seed=3 device=cuda out=outputs/l1
+[2026-07-16 14:42:53,471][__main__][INFO] - L1 baf/ot_ple: ref auc=0.8481, tolerance=0.00016
+[2026-07-16 14:43:20,411][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_ot_ple_3_months.parquet
+[2026-07-16 14:43:20,420][HYDRA] 	#4 : dataset=baf model=ot_ple seed=4 device=cuda out=outputs/l1
+[2026-07-16 14:45:31,619][__main__][INFO] - L1 baf/ot_ple: ref auc=0.8545, tolerance=0.00021
+[2026-07-16 14:45:58,485][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_ot_ple_4_months.parquet
+[2026-07-16 14:45:58,496][HYDRA] 	#5 : dataset=baf model=logreg seed=0 device=cuda out=outputs/l1
+[2026-07-16 14:46:07,937][__main__][INFO] - L1 baf/logreg: ref auc=0.8130, tolerance=0.00016
+[2026-07-16 14:46:34,927][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_logreg_0_months.parquet
+[2026-07-16 14:46:34,941][HYDRA] 	#6 : dataset=baf model=logreg seed=1 device=cuda out=outputs/l1
+[2026-07-16 14:46:44,302][__main__][INFO] - L1 baf/logreg: ref auc=0.8176, tolerance=0.00015
+[2026-07-16 14:47:11,293][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_logreg_1_months.parquet
+[2026-07-16 14:47:11,304][HYDRA] 	#7 : dataset=baf model=logreg seed=2 device=cuda out=outputs/l1
+[2026-07-16 14:47:21,526][__main__][INFO] - L1 baf/logreg: ref auc=0.8124, tolerance=0.00017
+[2026-07-16 14:47:48,464][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_logreg_2_months.parquet
+[2026-07-16 14:47:48,476][HYDRA] 	#8 : dataset=baf model=logreg seed=3 device=cuda out=outputs/l1
+[2026-07-16 14:47:58,423][__main__][INFO] - L1 baf/logreg: ref auc=0.8195, tolerance=0.00016
+[2026-07-16 14:48:25,374][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_logreg_3_months.parquet
+[2026-07-16 14:48:25,387][HYDRA] 	#9 : dataset=baf model=logreg seed=4 device=cuda out=outputs/l1
+[2026-07-16 14:48:35,121][__main__][INFO] - L1 baf/logreg: ref auc=0.8234, tolerance=0.00017
+[2026-07-16 14:49:02,091][__main__][INFO] - L1 baf: first alarm month 3 (n=40000); wrote outputs/l1/l1_baf_logreg_4_months.parquet
