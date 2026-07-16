@@ -1,0 +1,8 @@
+- dataset=synthetic-smooth
+- model=logreg
+- device=cpu
+- n_permutations=100
+- n_null=100
+- n_grid=256
+- seq_batch=2000
+- out=/tmp/l1

@@ -1,0 +1,38 @@
+# Experiment L1 — lifecycle: OT-binned scorecard + FM monitoring (Paper B x C).
+dataset: baf
+model: ot_ple            # ot_ple (winning BAF scorecard) | logreg (torch-free pipeline check)
+train_months: [0, 1, 2]  # fit half + reference half; remaining months monitored in order
+
+# scorecard training (Paper C winning configuration)
+n_bins: 8
+hidden: 64
+token_mode: ple_interp
+sinkhorn_iters: 15
+epochs: 30
+batch_size: 4096
+lr: 0.01
+eps_start: 0.15
+eps_end: 0.02
+aux_iv: 0.1
+
+# monitoring (Paper B; one lambda across the lifecycle)
+lam: 0.1                 # BL radius in PD units
+alpha: 0.05              # lifetime false-alarm budget for the e-process
+tolerance: null          # null -> calibrate as q95 of in-control half-vs-half FM
+n_null: 200
+n_permutations: 200
+n_grid: 512
+seq_batch: 20000
+restart_every: null
+
+# synthetic smoke (dataset=synthetic-*): months 3-7 carry a drift ramp
+n_month: 4000
+drift_kind: location
+drift_step: 0.1
+
+seed: 0
+device: cuda
+out: outputs/l1
+hydra:
+  job:
+    chdir: false
