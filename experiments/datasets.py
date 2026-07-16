@@ -128,6 +128,153 @@ def load_heloc():
                    special_codes=[-7, -8, -9])
 
 
+def load_adult():
+    """Adult census income (UCI id=2; n=48842). y = 1 for income >50K.
+
+    Standard binary task of the Gorishniy et al. tabular-DL benchmarks.
+    Six numerical features; capital-gain/loss are zero-inflated and
+    heavy-tailed (the rank-geometry stress case)."""
+    def fetch():
+        from ucimlrepo import fetch_ucirepo
+        ds = fetch_ucirepo(id=2)
+        df = ds.data.features.copy()
+        df["__target__"] = ds.data.targets.iloc[:, 0].astype(str).values
+        return df
+
+    df = _from_cache_or("adult", fetch)
+    y = df["__target__"].str.contains(">50K").astype(int).values
+    X = df.drop(columns="__target__")
+    num = [c for c in X.columns if pd.api.types.is_numeric_dtype(X[c])]
+    return Dataset("adult", X, y, numerical=num)
+
+
+_DIABETES_ID_CODES = ["encounter_id", "patient_nbr", "admission_type_id",
+                      "discharge_disposition_id", "admission_source_id"]
+
+
+def load_diabetes():
+    """Diabetes 130-US hospitals 1999-2008 (UCI id=296; n=101766).
+
+    y = 1 for readmission within 30 days ('<30'), the standard task.
+    Numerical features are visit/lab/medication counts (skewed,
+    zero-inflated); integer-coded nominal IDs are excluded from
+    `numerical` (categorical despite the dtype)."""
+    def fetch():
+        from ucimlrepo import fetch_ucirepo
+        ds = fetch_ucirepo(id=296)
+        df = ds.data.features.copy()
+        df["__target__"] = ds.data.targets.iloc[:, 0].astype(str).values
+        return df
+
+    df = _from_cache_or("diabetes", fetch)
+    y = (df["__target__"] == "<30").astype(int).values
+    X = df.drop(columns="__target__")
+    num = [c for c in X.columns
+           if pd.api.types.is_numeric_dtype(X[c])
+           and c not in _DIABETES_ID_CODES]
+    return Dataset("diabetes", X, y, numerical=num)
+
+
+def load_baf(variant="Base"):
+    """Bank Account Fraud suite (NeurIPS 2022; manual Kaggle download).
+
+    Place Base.csv (and optionally Variant I..V csvs) at data/baf/.
+    1M rows, target fraud_bool; `month` (0-7) is kept in X as the time
+    column but excluded from `numerical` (temporal drift analyses,
+    Paper B). Missing values are sentinel-coded (-1; negative for
+    intended_balcon_amount) -- the sentinel + heavy-tail regime."""
+    path = DATA_DIR / "baf" / "{}.csv".format(variant)
+    if not path.exists():
+        raise FileNotFoundError(
+            "BAF requires a manual Kaggle download (dataset "
+            "sgpjesus/bank-account-fraud-dataset-neurips-2022). "
+            "Place {}.csv at {}.".format(variant, path))
+    df = pd.read_csv(path)
+    y = df["fraud_bool"].values.astype(int)
+    X = df.drop(columns="fraud_bool")
+    num = [c for c in X.columns
+           if pd.api.types.is_numeric_dtype(X[c]) and c != "month"]
+    return Dataset("baf", X, y, numerical=num,
+                   special_codes=[-1], time_column="month")
+
+
+_HIGGS_URLS = (
+    "https://archive.ics.uci.edu/ml/machine-learning-databases/00280/"
+    "HIGGS.csv.gz",
+    "https://archive.ics.uci.edu/static/public/280/higgs.zip",
+)
+_HIGGS_COLUMNS = [
+    "lep_pt", "lep_eta", "lep_phi", "miss_e_mag", "miss_e_phi",
+    "jet1_pt", "jet1_eta", "jet1_phi", "jet1_btag",
+    "jet2_pt", "jet2_eta", "jet2_phi", "jet2_btag",
+    "jet3_pt", "jet3_eta", "jet3_phi", "jet3_btag",
+    "jet4_pt", "jet4_eta", "jet4_phi", "jet4_btag",
+    "m_jj", "m_jjj", "m_lv", "m_jlv", "m_bb", "m_wbb", "m_wwbb"]
+_HIGGS_N_ROWS = 11000000
+_HIGGS_SMALL_N = 98049
+
+
+def _fetch_higgs_raw():
+    """Download the HIGGS source archive once (~2.6 GB)."""
+    raw = DATA_DIR / "higgs" / "HIGGS.csv.gz"
+    if raw.exists():
+        return raw
+    raw.parent.mkdir(parents=True, exist_ok=True)
+    import urllib.request
+    try:
+        urllib.request.urlretrieve(_HIGGS_URLS[0], raw)
+        return raw
+    except Exception:                                    # noqa: BLE001
+        pass
+    import shutil
+    import zipfile
+    zpath = raw.parent / "higgs.zip"
+    urllib.request.urlretrieve(_HIGGS_URLS[1], zpath)
+    with zipfile.ZipFile(zpath) as zf:
+        member = next(m for m in zf.namelist()
+                      if m.lower().endswith(".csv.gz"))
+        with zf.open(member) as src, open(raw, "wb") as dst:
+            shutil.copyfileobj(src, dst)
+    zpath.unlink()
+    return raw
+
+
+def _sample_csv_rows(path, keep, chunksize=1000000):
+    """Exact deterministic row subsample of a headerless csv, chunked
+    so the 11M-row source never sits in memory."""
+    keep = np.sort(np.asarray(keep))
+    parts = []
+    start = 0
+    for chunk in pd.read_csv(path, header=None, dtype=np.float32,
+                             chunksize=chunksize):
+        idx = keep[(keep >= start) & (keep < start + len(chunk))]
+        if len(idx):
+            parts.append(chunk.iloc[idx - start])
+        start += len(chunk)
+    return pd.concat(parts, ignore_index=True)
+
+
+def load_higgs_small():
+    """HIGGS boson detection (UCI id=280), 98049-row seeded subsample.
+
+    Matches the "higgs-small" size of the Gorishniy et al. tabular-DL
+    benchmarks; 28 kinematic features, y = 1 for signal. The first call
+    downloads the 2.6 GB source once and caches the subsample (~25 MB);
+    subsequent loads read the cache only."""
+    def fetch():
+        raw = _fetch_higgs_raw()
+        rng = np.random.default_rng(0)
+        keep = rng.choice(_HIGGS_N_ROWS, _HIGGS_SMALL_N, replace=False)
+        df = _sample_csv_rows(raw, keep)
+        df.columns = ["__target__"] + _HIGGS_COLUMNS
+        return df
+
+    df = _from_cache_or("higgs-small", fetch)
+    y = df["__target__"].values.astype(int)
+    X = df.drop(columns="__target__")
+    return Dataset("higgs-small", X, y, numerical=list(X.columns))
+
+
 # --------------------------------------------------------------------- #
 # Synthetic generator (paper designs)
 # --------------------------------------------------------------------- #
@@ -221,7 +368,9 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
 
 
 REGISTRY = {"german": load_german, "taiwan": load_taiwan,
-            "hmeq": load_hmeq, "gmsc": load_gmsc, "heloc": load_heloc}
+            "hmeq": load_hmeq, "gmsc": load_gmsc, "heloc": load_heloc,
+            "adult": load_adult, "diabetes": load_diabetes,
+            "baf": load_baf, "higgs-small": load_higgs_small}
 
 
 def load(name, **synthetic_kwargs):
