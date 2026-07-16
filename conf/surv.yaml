@@ -1,0 +1,22 @@
+# Experiment E-SURV — learned time grids for discrete-time hazards (P9 note).
+arms: [width, quantile, ot]
+n: 12000
+censor_scale: 3.0        # uniform censoring scale (~25-35% censoring)
+n_intervals: 8
+test_size: 0.35
+horizon_quantiles: [0.25, 0.5, 0.75]   # of observed event times
+n_resamples: 20
+stab_frac: 0.7
+
+# ot grid
+steps: 500
+lr: 0.05
+min_events: 20           # event-mass floor per interval
+floor_weight: 0.001
+
+seed: 0
+device: cuda
+out: outputs/surv
+hydra:
+  job:
+    chdir: false

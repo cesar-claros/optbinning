@@ -1,0 +1,27 @@
+# Experiment E-TOK — learned numeric vocabularies (P9 note).
+dataset: gmsc
+arms: [width, quantile, ot]
+n_bins: 16               # vocabulary size per feature
+train_sizes: [500, 2000, 8000, 0]   # 0 = full training split
+test_size: 0.35
+
+hidden: 64
+ft_layers: 2
+ft_heads: 4
+epochs: 30
+batch_size: 1024
+lr: 0.001
+sinkhorn_iters: 15
+eps_start: 0.3
+eps_end: 0.02
+
+# synthetic smoke
+n: 12000
+data_seed: 0
+
+seed: 0
+device: cuda
+out: outputs/tok
+hydra:
+  job:
+    chdir: false

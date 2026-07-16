@@ -1,0 +1,25 @@
+# Experiment E-Q1 — quantizer feasibility (P8 note): VQ-EMA vs FSQ vs OT
+# learned-knot scalar quantizer at a matched code budget.
+dataset: mnist            # mnist | cifar10
+arms: [vq, fsq, ot]
+d_channels: 4             # latent channels D
+n_levels: 8               # levels per channel M; code budget M^D = 4096
+epochs: 12
+batch_size: 256
+lr: 0.001
+
+# ot arm
+sinkhorn_iters: 15
+eps_start: 0.5
+eps_end: 0.03
+
+# vq arm (vanilla + EMA; no dead-code restarts by design)
+vq_decay: 0.99
+vq_beta: 0.25
+
+seed: 0
+device: cuda
+out: outputs/eq1
+hydra:
+  job:
+    chdir: false

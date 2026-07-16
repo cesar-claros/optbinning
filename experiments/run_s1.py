@@ -87,6 +87,9 @@ def _cuts_ot(x, y, cfg):
     from experiments.run_c3 import TokenizedNet
 
     device = torch.device(cfg.device)
+    # fixed optimization seed across resamples: cut movement should
+    # measure data variation, not batch-shuffling noise.
+    torch.manual_seed(cfg.seed)
     srt = [np.sort(x[:, j]) for j in range(x.shape[1])]
     q = np.empty_like(x, dtype=float)
     for j, s in enumerate(srt):

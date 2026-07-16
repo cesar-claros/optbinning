@@ -16,6 +16,8 @@ import numpy as np
 import torch
 from torch import Tensor, nn
 
+from experiments.paperc.pav import _pav_blocks
+
 _MIN_GAP = 0.35
 _MASS_FLOOR = 0.95
 
@@ -286,22 +288,5 @@ def pav_penalty(assign: Tensor, y: Tensor) -> Tensor:
     return penalty
 
 
-def _pav_blocks(y: np.ndarray, w: np.ndarray) -> list[list[int]]:
-    """Pooled blocks of the weighted increasing isotonic regression."""
-    vals: list[float] = []
-    wts: list[float] = []
-    idx: list[list[int]] = []
-    for i, (yy, ww) in enumerate(zip(y, w)):
-        vals.append(float(yy))
-        wts.append(float(ww))
-        idx.append([i])
-        while len(vals) > 1 and vals[-2] > vals[-1] + 1e-15:
-            merged = (vals[-2] * wts[-2] + vals[-1] * wts[-1]) / (
-                wts[-2] + wts[-1])
-            wts[-2] += wts[-1]
-            vals[-2] = merged
-            idx[-2] += idx[-1]
-            vals.pop()
-            wts.pop()
-            idx.pop()
-    return idx
+# _pav_blocks lives in experiments.paperc.pav (torch-free; re-exported
+# above for backward compatibility of imports from this module).

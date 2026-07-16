@@ -1,0 +1,25 @@
+# Experiment E-CAL — trainable isotonic calibration (P9 note).
+dataset: gmsc
+base: lightgbm           # lightgbm | logreg
+arms: [uncal, platt, isotonic, hist, ot]
+n_cal_bins: 10
+n_resamples: 20          # calibration-map stability resamples
+stab_frac: 0.7
+
+# ot calibrator
+sinkhorn_iters: 20
+steps: 400
+lr: 0.05
+eps_start: 0.3
+eps_end: 0.02
+
+# synthetic smoke
+n: 12000
+data_seed: 0
+
+seed: 0
+device: cuda
+out: outputs/cal
+hydra:
+  job:
+    chdir: false

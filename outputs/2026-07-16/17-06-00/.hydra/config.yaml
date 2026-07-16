@@ -1,0 +1,20 @@
+dataset: synthetic-smooth
+base: logreg
+arms:
+- uncal
+- platt
+- isotonic
+- hist
+n_cal_bins: 10
+n_resamples: 10
+stab_frac: 0.7
+sinkhorn_iters: 20
+steps: 400
+lr: 0.05
+eps_start: 0.3
+eps_end: 0.02
+'n': 12000
+data_seed: 0
+seed: 0
+device: cpu
+out: /tmp/cal
