@@ -1,0 +1,482 @@
+nohup: ignoring input
+[2026-07-16 17:24:28,930][HYDRA] Launching 20 jobs locally
+[2026-07-16 17:24:28,931][HYDRA] 	#0 : dataset=german seed=0 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:24:33,518][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:24:34,548][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:24:35,435][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:24:36,306][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:24:37,133][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:24:37,967][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:24:38,804][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:24:39,585][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:24:40,475][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:24:41,363][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:24:42,298][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:24:43,162][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:24:44,094][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:24:44,946][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:24:45,800][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:24:46,736][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:24:47,633][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:24:48,467][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:24:49,254][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:24:50,208][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:24:50,284][__main__][INFO] - S1 german/optbinning: hausdorff=0.11140 auc=0.6247
+[2026-07-16 17:24:50,284][__main__][INFO] - S1 german/quantile: hausdorff=0.01381 auc=0.6092
+[2026-07-16 17:24:50,284][__main__][INFO] - S1 german/ot_ple: hausdorff=0.00993 auc=0.6140
+[2026-07-16 17:24:50,286][HYDRA] 	#1 : dataset=german seed=1 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:24:51,314][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:24:52,270][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:24:53,151][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:24:54,043][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:24:54,905][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:24:55,800][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:24:56,697][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:24:57,600][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:24:58,495][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:24:59,403][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:25:00,310][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:25:01,206][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:25:02,170][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:25:03,037][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:25:03,968][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:25:04,897][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:25:05,836][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:25:06,694][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:25:07,531][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:25:08,479][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:25:08,547][__main__][INFO] - S1 german/optbinning: hausdorff=0.10160 auc=0.6358
+[2026-07-16 17:25:08,547][__main__][INFO] - S1 german/quantile: hausdorff=0.04722 auc=0.6240
+[2026-07-16 17:25:08,547][__main__][INFO] - S1 german/ot_ple: hausdorff=0.01498 auc=0.6215
+[2026-07-16 17:25:08,550][HYDRA] 	#2 : dataset=german seed=2 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:25:09,527][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:25:10,351][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:25:11,286][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:25:12,171][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:25:12,974][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:25:13,788][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:25:14,692][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:25:15,820][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:25:16,704][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:25:17,553][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:25:18,529][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:25:19,383][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:25:20,268][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:25:20,994][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:25:21,981][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:25:22,927][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:25:23,843][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:25:24,953][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:25:25,819][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:25:26,779][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:25:26,847][__main__][INFO] - S1 german/optbinning: hausdorff=0.10962 auc=0.6524
+[2026-07-16 17:25:26,848][__main__][INFO] - S1 german/quantile: hausdorff=0.01657 auc=0.6458
+[2026-07-16 17:25:26,848][__main__][INFO] - S1 german/ot_ple: hausdorff=0.01428 auc=0.6473
+[2026-07-16 17:25:26,850][HYDRA] 	#3 : dataset=german seed=3 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:25:27,836][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:25:28,684][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:25:29,603][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:25:30,507][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:25:31,393][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:25:32,282][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:25:33,194][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:25:34,316][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:25:35,199][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:25:36,063][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:25:36,794][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:25:37,679][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:25:38,603][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:25:39,526][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:25:40,333][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:25:41,154][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:25:42,064][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:25:43,045][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:25:43,924][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:25:44,843][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:25:44,912][__main__][INFO] - S1 german/optbinning: hausdorff=0.10015 auc=0.6282
+[2026-07-16 17:25:44,913][__main__][INFO] - S1 german/quantile: hausdorff=0.03791 auc=0.6309
+[2026-07-16 17:25:44,913][__main__][INFO] - S1 german/ot_ple: hausdorff=0.01234 auc=0.6356
+[2026-07-16 17:25:44,916][HYDRA] 	#4 : dataset=german seed=4 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:25:46,040][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:25:47,029][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:25:48,021][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:25:48,863][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:25:49,684][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:25:50,617][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:25:51,530][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:25:52,269][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:25:53,219][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:25:54,077][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:25:54,950][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:25:55,877][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:25:56,807][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:25:57,647][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:25:58,604][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:25:59,403][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:26:00,392][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:26:01,233][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:26:02,274][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:26:03,164][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:26:03,233][__main__][INFO] - S1 german/optbinning: hausdorff=0.10600 auc=0.6421
+[2026-07-16 17:26:03,233][__main__][INFO] - S1 german/quantile: hausdorff=0.03714 auc=0.6308
+[2026-07-16 17:26:03,233][__main__][INFO] - S1 german/ot_ple: hausdorff=0.01416 auc=0.6128
+[2026-07-16 17:26:03,236][HYDRA] 	#5 : dataset=taiwan seed=0 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:26:09,527][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:26:15,365][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:26:21,288][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:26:26,963][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:26:32,608][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:26:38,310][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:26:44,255][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:26:50,071][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:26:56,090][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:27:01,911][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:27:07,607][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:27:13,363][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:27:19,212][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:27:24,962][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:27:30,929][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:27:36,713][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:27:42,302][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:27:48,207][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:27:54,393][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:28:00,165][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:28:00,363][__main__][INFO] - S1 taiwan/optbinning: hausdorff=0.08432 auc=0.7723
+[2026-07-16 17:28:00,363][__main__][INFO] - S1 taiwan/quantile: hausdorff=0.00679 auc=0.7592
+[2026-07-16 17:28:00,363][__main__][INFO] - S1 taiwan/ot_ple: hausdorff=0.00594 auc=0.7588
+[2026-07-16 17:28:00,365][HYDRA] 	#6 : dataset=taiwan seed=1 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:28:06,391][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:28:12,308][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:28:18,446][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:28:24,468][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:28:30,378][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:28:36,546][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:28:42,420][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:28:48,369][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:28:54,480][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:29:00,625][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:29:06,907][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:29:12,975][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:29:18,982][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:29:24,822][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:29:30,815][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:29:36,857][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:29:42,455][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:29:48,326][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:29:53,945][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:29:59,626][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:29:59,827][__main__][INFO] - S1 taiwan/optbinning: hausdorff=0.07503 auc=0.7678
+[2026-07-16 17:29:59,827][__main__][INFO] - S1 taiwan/quantile: hausdorff=0.00871 auc=0.7588
+[2026-07-16 17:29:59,827][__main__][INFO] - S1 taiwan/ot_ple: hausdorff=0.00989 auc=0.7586
+[2026-07-16 17:29:59,832][HYDRA] 	#7 : dataset=taiwan seed=2 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:30:05,937][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:30:11,807][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:30:17,687][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:30:23,814][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:30:29,916][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:30:36,036][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:30:42,019][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:30:48,072][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:30:54,378][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:31:00,560][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:31:06,463][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:31:12,760][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:31:18,726][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:31:24,708][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:31:30,538][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:31:36,886][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:31:42,760][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:31:48,826][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:31:54,990][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:32:01,031][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:32:01,228][__main__][INFO] - S1 taiwan/optbinning: hausdorff=0.09736 auc=0.7686
+[2026-07-16 17:32:01,228][__main__][INFO] - S1 taiwan/quantile: hausdorff=0.00647 auc=0.7573
+[2026-07-16 17:32:01,229][__main__][INFO] - S1 taiwan/ot_ple: hausdorff=0.00906 auc=0.7585
+[2026-07-16 17:32:01,233][HYDRA] 	#8 : dataset=taiwan seed=3 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:32:08,053][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:32:13,967][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:32:19,721][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:32:25,695][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:32:31,591][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:32:37,195][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:32:43,005][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:32:48,856][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:32:54,950][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:33:00,833][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:33:06,577][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:33:12,346][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:33:18,304][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:33:24,054][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:33:30,053][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:33:36,299][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:33:42,581][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:33:48,598][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:33:54,473][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:34:00,198][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:34:00,394][__main__][INFO] - S1 taiwan/optbinning: hausdorff=0.10246 auc=0.7725
+[2026-07-16 17:34:00,394][__main__][INFO] - S1 taiwan/quantile: hausdorff=0.00481 auc=0.7618
+[2026-07-16 17:34:00,394][__main__][INFO] - S1 taiwan/ot_ple: hausdorff=0.00886 auc=0.7652
+[2026-07-16 17:34:00,397][HYDRA] 	#9 : dataset=taiwan seed=4 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:34:06,496][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:34:12,110][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:34:17,772][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:34:23,352][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:34:28,920][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:34:34,596][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:34:40,332][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:34:45,877][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:34:52,089][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:34:57,783][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:35:03,522][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:35:09,047][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:35:14,913][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:35:20,676][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:35:26,307][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:35:32,294][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:35:38,097][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:35:43,962][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:35:49,984][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:35:55,709][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:35:55,906][__main__][INFO] - S1 taiwan/optbinning: hausdorff=0.09393 auc=0.7753
+[2026-07-16 17:35:55,906][__main__][INFO] - S1 taiwan/quantile: hausdorff=0.00408 auc=0.7617
+[2026-07-16 17:35:55,907][__main__][INFO] - S1 taiwan/ot_ple: hausdorff=0.00846 auc=0.7627
+[2026-07-16 17:35:55,911][HYDRA] 	#10 : dataset=gmsc seed=0 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:36:13,128][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:36:30,374][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:36:47,844][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:37:05,524][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:37:23,092][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:37:39,814][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:37:56,950][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:38:13,197][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:38:29,676][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:38:46,239][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:39:02,887][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:39:19,211][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:39:35,646][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:39:52,603][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:40:09,482][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:40:26,584][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:40:44,102][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:41:02,910][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:41:21,033][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:41:38,959][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:41:39,106][__main__][INFO] - S1 gmsc/optbinning: hausdorff=0.03374 auc=0.8550
+[2026-07-16 17:41:39,106][__main__][INFO] - S1 gmsc/quantile: hausdorff=0.00071 auc=0.8201
+[2026-07-16 17:41:39,107][__main__][INFO] - S1 gmsc/ot_ple: hausdorff=0.00733 auc=0.8535
+[2026-07-16 17:41:39,109][HYDRA] 	#11 : dataset=gmsc seed=1 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:41:57,464][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:42:15,044][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:42:33,026][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:42:49,806][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:43:06,397][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:43:23,250][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:43:39,619][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:43:56,654][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:44:13,173][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:44:30,027][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:44:47,143][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:45:03,736][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:45:20,498][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:45:37,443][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:45:54,118][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:46:11,454][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:46:28,700][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:46:45,501][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:47:02,363][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:47:18,756][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:47:18,862][__main__][INFO] - S1 gmsc/optbinning: hausdorff=0.04985 auc=0.8527
+[2026-07-16 17:47:18,862][__main__][INFO] - S1 gmsc/quantile: hausdorff=0.00068 auc=0.8234
+[2026-07-16 17:47:18,862][__main__][INFO] - S1 gmsc/ot_ple: hausdorff=0.01264 auc=0.8544
+[2026-07-16 17:47:18,866][HYDRA] 	#12 : dataset=gmsc seed=2 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:47:35,239][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:47:51,584][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:48:07,830][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:48:24,307][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:48:40,318][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:48:56,686][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:49:13,178][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:49:29,916][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:49:46,477][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:50:02,797][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:50:19,269][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:50:35,626][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:50:52,543][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:51:09,257][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:51:26,075][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:51:42,708][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:51:59,357][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:52:15,677][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:52:32,468][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:52:49,066][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:52:49,177][__main__][INFO] - S1 gmsc/optbinning: hausdorff=0.04490 auc=0.8546
+[2026-07-16 17:52:49,178][__main__][INFO] - S1 gmsc/quantile: hausdorff=0.00068 auc=0.8243
+[2026-07-16 17:52:49,178][__main__][INFO] - S1 gmsc/ot_ple: hausdorff=0.01007 auc=0.8525
+[2026-07-16 17:52:49,184][HYDRA] 	#13 : dataset=gmsc seed=3 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:53:06,714][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:53:23,298][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:53:40,298][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:53:57,819][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:54:14,655][__main__][INFO] - resample 5/20 done
+[2026-07-16 17:54:31,357][__main__][INFO] - resample 6/20 done
+[2026-07-16 17:54:47,798][__main__][INFO] - resample 7/20 done
+[2026-07-16 17:55:05,227][__main__][INFO] - resample 8/20 done
+[2026-07-16 17:55:22,790][__main__][INFO] - resample 9/20 done
+[2026-07-16 17:55:39,807][__main__][INFO] - resample 10/20 done
+[2026-07-16 17:55:56,912][__main__][INFO] - resample 11/20 done
+[2026-07-16 17:56:13,996][__main__][INFO] - resample 12/20 done
+[2026-07-16 17:56:31,256][__main__][INFO] - resample 13/20 done
+[2026-07-16 17:56:47,657][__main__][INFO] - resample 14/20 done
+[2026-07-16 17:57:04,387][__main__][INFO] - resample 15/20 done
+[2026-07-16 17:57:20,962][__main__][INFO] - resample 16/20 done
+[2026-07-16 17:57:38,568][__main__][INFO] - resample 17/20 done
+[2026-07-16 17:57:55,019][__main__][INFO] - resample 18/20 done
+[2026-07-16 17:58:12,694][__main__][INFO] - resample 19/20 done
+[2026-07-16 17:58:29,227][__main__][INFO] - resample 20/20 done
+[2026-07-16 17:58:29,320][__main__][INFO] - S1 gmsc/optbinning: hausdorff=0.03579 auc=0.8553
+[2026-07-16 17:58:29,320][__main__][INFO] - S1 gmsc/quantile: hausdorff=0.00066 auc=0.8218
+[2026-07-16 17:58:29,320][__main__][INFO] - S1 gmsc/ot_ple: hausdorff=0.00379 auc=0.8526
+[2026-07-16 17:58:29,326][HYDRA] 	#14 : dataset=gmsc seed=4 device=cuda out=outputs/s1_fixseed
+[2026-07-16 17:58:46,069][__main__][INFO] - resample 1/20 done
+[2026-07-16 17:59:02,875][__main__][INFO] - resample 2/20 done
+[2026-07-16 17:59:19,505][__main__][INFO] - resample 3/20 done
+[2026-07-16 17:59:36,467][__main__][INFO] - resample 4/20 done
+[2026-07-16 17:59:53,123][__main__][INFO] - resample 5/20 done
+[2026-07-16 18:00:09,165][__main__][INFO] - resample 6/20 done
+[2026-07-16 18:00:25,397][__main__][INFO] - resample 7/20 done
+[2026-07-16 18:00:42,397][__main__][INFO] - resample 8/20 done
+[2026-07-16 18:00:58,818][__main__][INFO] - resample 9/20 done
+[2026-07-16 18:01:15,416][__main__][INFO] - resample 10/20 done
+[2026-07-16 18:01:31,969][__main__][INFO] - resample 11/20 done
+[2026-07-16 18:01:48,914][__main__][INFO] - resample 12/20 done
+[2026-07-16 18:02:06,093][__main__][INFO] - resample 13/20 done
+[2026-07-16 18:02:22,613][__main__][INFO] - resample 14/20 done
+[2026-07-16 18:02:38,988][__main__][INFO] - resample 15/20 done
+[2026-07-16 18:02:56,162][__main__][INFO] - resample 16/20 done
+[2026-07-16 18:03:13,067][__main__][INFO] - resample 17/20 done
+[2026-07-16 18:03:29,996][__main__][INFO] - resample 18/20 done
+[2026-07-16 18:03:46,531][__main__][INFO] - resample 19/20 done
+[2026-07-16 18:04:02,787][__main__][INFO] - resample 20/20 done
+[2026-07-16 18:04:02,932][__main__][INFO] - S1 gmsc/optbinning: hausdorff=0.03711 auc=0.8515
+[2026-07-16 18:04:02,933][__main__][INFO] - S1 gmsc/quantile: hausdorff=0.00067 auc=0.8213
+[2026-07-16 18:04:02,933][__main__][INFO] - S1 gmsc/ot_ple: hausdorff=0.01220 auc=0.8527
+[2026-07-16 18:04:02,939][HYDRA] 	#15 : dataset=adult seed=0 device=cuda out=outputs/s1_fixseed
+[2026-07-16 18:04:08,095][__main__][INFO] - resample 1/20 done
+[2026-07-16 18:04:13,104][__main__][INFO] - resample 2/20 done
+[2026-07-16 18:04:17,999][__main__][INFO] - resample 3/20 done
+[2026-07-16 18:04:22,633][__main__][INFO] - resample 4/20 done
+[2026-07-16 18:04:27,327][__main__][INFO] - resample 5/20 done
+[2026-07-16 18:04:31,978][__main__][INFO] - resample 6/20 done
+[2026-07-16 18:04:36,734][__main__][INFO] - resample 7/20 done
+[2026-07-16 18:04:41,518][__main__][INFO] - resample 8/20 done
+[2026-07-16 18:04:46,336][__main__][INFO] - resample 9/20 done
+[2026-07-16 18:04:51,309][__main__][INFO] - resample 10/20 done
+[2026-07-16 18:04:56,272][__main__][INFO] - resample 11/20 done
+[2026-07-16 18:05:01,507][__main__][INFO] - resample 12/20 done
+[2026-07-16 18:05:06,319][__main__][INFO] - resample 13/20 done
+[2026-07-16 18:05:11,004][__main__][INFO] - resample 14/20 done
+[2026-07-16 18:05:15,675][__main__][INFO] - resample 15/20 done
+[2026-07-16 18:05:20,381][__main__][INFO] - resample 16/20 done
+[2026-07-16 18:05:25,072][__main__][INFO] - resample 17/20 done
+[2026-07-16 18:05:30,016][__main__][INFO] - resample 18/20 done
+[2026-07-16 18:05:34,642][__main__][INFO] - resample 19/20 done
+[2026-07-16 18:05:39,292][__main__][INFO] - resample 20/20 done
+[2026-07-16 18:05:39,350][__main__][INFO] - S1 adult/optbinning: hausdorff=0.07772 auc=0.8453
+[2026-07-16 18:05:39,350][__main__][INFO] - S1 adult/quantile: hausdorff=0.00606 auc=0.8184
+[2026-07-16 18:05:39,351][__main__][INFO] - S1 adult/ot_ple: hausdorff=0.00708 auc=0.8574
+[2026-07-16 18:05:39,354][HYDRA] 	#16 : dataset=adult seed=1 device=cuda out=outputs/s1_fixseed
+[2026-07-16 18:05:44,267][__main__][INFO] - resample 1/20 done
+[2026-07-16 18:05:48,881][__main__][INFO] - resample 2/20 done
+[2026-07-16 18:05:53,935][__main__][INFO] - resample 3/20 done
+[2026-07-16 18:05:58,570][__main__][INFO] - resample 4/20 done
+[2026-07-16 18:06:03,273][__main__][INFO] - resample 5/20 done
+[2026-07-16 18:06:07,914][__main__][INFO] - resample 6/20 done
+[2026-07-16 18:06:12,574][__main__][INFO] - resample 7/20 done
+[2026-07-16 18:06:17,309][__main__][INFO] - resample 8/20 done
+[2026-07-16 18:06:21,920][__main__][INFO] - resample 9/20 done
+[2026-07-16 18:06:26,593][__main__][INFO] - resample 10/20 done
+[2026-07-16 18:06:31,197][__main__][INFO] - resample 11/20 done
+[2026-07-16 18:06:35,892][__main__][INFO] - resample 12/20 done
+[2026-07-16 18:06:40,613][__main__][INFO] - resample 13/20 done
+[2026-07-16 18:06:45,601][__main__][INFO] - resample 14/20 done
+[2026-07-16 18:06:50,301][__main__][INFO] - resample 15/20 done
+[2026-07-16 18:06:55,050][__main__][INFO] - resample 16/20 done
+[2026-07-16 18:06:59,707][__main__][INFO] - resample 17/20 done
+[2026-07-16 18:07:04,412][__main__][INFO] - resample 18/20 done
+[2026-07-16 18:07:09,049][__main__][INFO] - resample 19/20 done
+[2026-07-16 18:07:13,732][__main__][INFO] - resample 20/20 done
+[2026-07-16 18:07:13,818][__main__][INFO] - S1 adult/optbinning: hausdorff=0.09478 auc=0.8400
+[2026-07-16 18:07:13,819][__main__][INFO] - S1 adult/quantile: hausdorff=0.00425 auc=0.8127
+[2026-07-16 18:07:13,819][__main__][INFO] - S1 adult/ot_ple: hausdorff=0.00804 auc=0.8504
+[2026-07-16 18:07:13,822][HYDRA] 	#17 : dataset=adult seed=2 device=cuda out=outputs/s1_fixseed
+[2026-07-16 18:07:18,667][__main__][INFO] - resample 1/20 done
+[2026-07-16 18:07:23,360][__main__][INFO] - resample 2/20 done
+[2026-07-16 18:07:28,026][__main__][INFO] - resample 3/20 done
+[2026-07-16 18:07:33,016][__main__][INFO] - resample 4/20 done
+[2026-07-16 18:07:38,033][__main__][INFO] - resample 5/20 done
+[2026-07-16 18:07:42,926][__main__][INFO] - resample 6/20 done
+[2026-07-16 18:07:47,810][__main__][INFO] - resample 7/20 done
+[2026-07-16 18:07:52,494][__main__][INFO] - resample 8/20 done
+[2026-07-16 18:07:57,098][__main__][INFO] - resample 9/20 done
+[2026-07-16 18:08:01,832][__main__][INFO] - resample 10/20 done
+[2026-07-16 18:08:06,518][__main__][INFO] - resample 11/20 done
+[2026-07-16 18:08:11,193][__main__][INFO] - resample 12/20 done
+[2026-07-16 18:08:16,020][__main__][INFO] - resample 13/20 done
+[2026-07-16 18:08:20,665][__main__][INFO] - resample 14/20 done
+[2026-07-16 18:08:25,325][__main__][INFO] - resample 15/20 done
+[2026-07-16 18:08:30,344][__main__][INFO] - resample 16/20 done
+[2026-07-16 18:08:34,988][__main__][INFO] - resample 17/20 done
+[2026-07-16 18:08:39,636][__main__][INFO] - resample 18/20 done
+[2026-07-16 18:08:44,250][__main__][INFO] - resample 19/20 done
+[2026-07-16 18:08:49,245][__main__][INFO] - resample 20/20 done
+[2026-07-16 18:08:49,330][__main__][INFO] - S1 adult/optbinning: hausdorff=0.07052 auc=0.8388
+[2026-07-16 18:08:49,331][__main__][INFO] - S1 adult/quantile: hausdorff=0.00313 auc=0.8110
+[2026-07-16 18:08:49,332][__main__][INFO] - S1 adult/ot_ple: hausdorff=0.02827 auc=0.8501
+[2026-07-16 18:08:49,335][HYDRA] 	#18 : dataset=adult seed=3 device=cuda out=outputs/s1_fixseed
+[2026-07-16 18:08:54,260][__main__][INFO] - resample 1/20 done
+[2026-07-16 18:08:58,940][__main__][INFO] - resample 2/20 done
+[2026-07-16 18:09:03,994][__main__][INFO] - resample 3/20 done
+[2026-07-16 18:09:08,677][__main__][INFO] - resample 4/20 done
+[2026-07-16 18:09:13,336][__main__][INFO] - resample 5/20 done
+[2026-07-16 18:09:18,381][__main__][INFO] - resample 6/20 done
+[2026-07-16 18:09:23,554][__main__][INFO] - resample 7/20 done
+[2026-07-16 18:09:28,287][__main__][INFO] - resample 8/20 done
+[2026-07-16 18:09:32,932][__main__][INFO] - resample 9/20 done
+[2026-07-16 18:09:37,964][__main__][INFO] - resample 10/20 done
+[2026-07-16 18:09:42,932][__main__][INFO] - resample 11/20 done
+[2026-07-16 18:09:47,939][__main__][INFO] - resample 12/20 done
+[2026-07-16 18:09:52,646][__main__][INFO] - resample 13/20 done
+[2026-07-16 18:09:57,390][__main__][INFO] - resample 14/20 done
+[2026-07-16 18:10:02,108][__main__][INFO] - resample 15/20 done
+[2026-07-16 18:10:06,776][__main__][INFO] - resample 16/20 done
+[2026-07-16 18:10:11,786][__main__][INFO] - resample 17/20 done
+[2026-07-16 18:10:16,971][__main__][INFO] - resample 18/20 done
+[2026-07-16 18:10:22,034][__main__][INFO] - resample 19/20 done
+[2026-07-16 18:10:26,961][__main__][INFO] - resample 20/20 done
+[2026-07-16 18:10:27,047][__main__][INFO] - S1 adult/optbinning: hausdorff=0.06784 auc=0.8432
+[2026-07-16 18:10:27,047][__main__][INFO] - S1 adult/quantile: hausdorff=0.00429 auc=0.8196
+[2026-07-16 18:10:27,048][__main__][INFO] - S1 adult/ot_ple: hausdorff=0.00642 auc=0.8550
+[2026-07-16 18:10:27,051][HYDRA] 	#19 : dataset=adult seed=4 device=cuda out=outputs/s1_fixseed
+[2026-07-16 18:10:31,960][__main__][INFO] - resample 1/20 done
+[2026-07-16 18:10:36,655][__main__][INFO] - resample 2/20 done
+[2026-07-16 18:10:41,646][__main__][INFO] - resample 3/20 done
+[2026-07-16 18:10:46,735][__main__][INFO] - resample 4/20 done
+[2026-07-16 18:10:51,746][__main__][INFO] - resample 5/20 done
+[2026-07-16 18:10:56,484][__main__][INFO] - resample 6/20 done
+[2026-07-16 18:11:01,199][__main__][INFO] - resample 7/20 done
+[2026-07-16 18:11:05,828][__main__][INFO] - resample 8/20 done
+[2026-07-16 18:11:10,774][__main__][INFO] - resample 9/20 done
+[2026-07-16 18:11:15,613][__main__][INFO] - resample 10/20 done
+[2026-07-16 18:11:20,662][__main__][INFO] - resample 11/20 done
+[2026-07-16 18:11:25,536][__main__][INFO] - resample 12/20 done
+[2026-07-16 18:11:30,397][__main__][INFO] - resample 13/20 done
+[2026-07-16 18:11:35,399][__main__][INFO] - resample 14/20 done
+[2026-07-16 18:11:40,468][__main__][INFO] - resample 15/20 done
+[2026-07-16 18:11:45,163][__main__][INFO] - resample 16/20 done
+[2026-07-16 18:11:49,873][__main__][INFO] - resample 17/20 done
+[2026-07-16 18:11:54,553][__main__][INFO] - resample 18/20 done
+[2026-07-16 18:11:59,234][__main__][INFO] - resample 19/20 done
+[2026-07-16 18:12:04,186][__main__][INFO] - resample 20/20 done
+[2026-07-16 18:12:04,244][__main__][INFO] - S1 adult/optbinning: hausdorff=0.07564 auc=0.8414
+[2026-07-16 18:12:04,244][__main__][INFO] - S1 adult/quantile: hausdorff=0.00854 auc=0.8113
+[2026-07-16 18:12:04,245][__main__][INFO] - S1 adult/ot_ple: hausdorff=0.00623 auc=0.8527
