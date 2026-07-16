@@ -15,6 +15,12 @@ import pytest
 
 torch = pytest.importorskip("torch")
 
+# the drivers import optbinning -> ortools, whose bundled protobuf
+# raises a Python 3.14 DeprecationWarning (upstream, not ours); the
+# first test to run triggers the one-time import, so filter file-wide.
+pytestmark = pytest.mark.filterwarnings(
+    "ignore:Type google._upb:DeprecationWarning")
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 
