@@ -1,0 +1,5 @@
+- arms=[width,quantile]
+- n=4000
+- n_resamples=6
+- device=cpu
+- out=/tmp/surv2

@@ -131,20 +131,29 @@ def _person_period(edges, x, t, delta):
             np.asarray(rows_y))
 
 
-def _fit_hazard(edges, x, t, delta):
+def _fit_hazard(edges, x, t, delta, t_max):
     px, pk, py = _person_period(edges, x, t, delta)
     k = len(edges) + 1
     onehot = np.eye(k)[pk]
     model = LogisticRegression(max_iter=2000).fit(
         np.column_stack([onehot, px]), py)
+    bounds = np.concatenate([[0.0], edges, [t_max]])
 
     def survival(xq, horizon):
-        n_full = int(np.searchsorted(edges, horizon))
+        """Fractional exposure of the interval containing the horizon
+        (full-interval inclusion overstates cumulative hazard for
+        wide-interval grids -- the v1 Brier artifact)."""
+        k_h = int(np.searchsorted(edges, horizon))
         s = np.ones(len(xq))
-        for kk in range(n_full + 1):
+        for kk in range(k_h + 1):
+            frac = 1.0
+            if kk == k_h:
+                lo, hi = bounds[kk], max(bounds[kk + 1], horizon)
+                frac = np.clip((horizon - lo) / max(hi - lo, 1e-12),
+                               0.0, 1.0)
             feats = np.column_stack([np.tile(np.eye(k)[kk],
                                              (len(xq), 1)), xq])
-            s *= 1 - model.predict_proba(feats)[:, 1]
+            s *= (1 - model.predict_proba(feats)[:, 1]) ** frac
         return s
     return survival
 
@@ -187,7 +196,8 @@ def run(cfg):
     for arm in cfg.arms:
         start = time.perf_counter()
         edges = fit_grid(arm, x_tr, t_tr, d_tr)
-        survival = _fit_hazard(edges, x_tr, t_tr, d_tr)
+        survival = _fit_hazard(edges, x_tr, t_tr, d_tr,
+                               t_max=float(t_tr.max()))
         for hq, h in zip(cfg.horizon_quantiles, horizons):
             auc, brier = _horizon_metrics(survival, x[te], t[te],
                                           delta[te], h)

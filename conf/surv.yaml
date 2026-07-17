@@ -12,7 +12,7 @@ stab_frac: 0.7
 steps: 500
 lr: 0.05
 min_events: 20           # event-mass floor per interval
-floor_weight: 0.001
+floor_weight: 0.05       # v1's 0.001 failed to bind (min 7-9 events observed)
 
 seed: 0
 device: cuda

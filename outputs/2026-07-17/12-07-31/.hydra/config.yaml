@@ -1,0 +1,20 @@
+arms:
+- width
+- quantile
+'n': 4000
+censor_scale: 3.0
+n_intervals: 8
+test_size: 0.35
+horizon_quantiles:
+- 0.25
+- 0.5
+- 0.75
+n_resamples: 6
+stab_frac: 0.7
+steps: 500
+lr: 0.05
+min_events: 20
+floor_weight: 0.05
+seed: 0
+device: cpu
+out: /tmp/surv2
