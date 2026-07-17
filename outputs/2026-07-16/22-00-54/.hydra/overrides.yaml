@@ -1,0 +1,6 @@
+- dataset=synthetic-smooth
+- arms=[uncal,platt,isotonic,hist]
+- base=logreg
+- n_resamples=8
+- device=cpu
+- out=/tmp/cal3

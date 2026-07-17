@@ -94,8 +94,13 @@ def _fit_hist(s, y, cfg):
 
 
 def _fit_ot(s, y, cfg):
-    """Single-feature OT layer on scores; monotone rates by cumulative
-    softplus; hardened to a step table on the learned edges."""
+    """Single-feature OT layer on RANK-transformed scores (base-model
+    scores concentrate heavily -- e.g. PDs near zero -- and range-space
+    bin geometry is quantile-blind under concentration, the Paper C
+    Sec. 5.4 failure mode; the v1 run of this experiment reproduced it
+    as edge wander in empty score regions). Monotone rates by cumulative
+    softplus; edges map back through the calibration quantile function;
+    hardened to a step table."""
     import torch
     from experiments.paperc.otlayer import MultiOTBinningLayer
 
@@ -111,7 +116,9 @@ def _fit_ot(s, y, cfg):
     rho0.data = rho0.data.to(device)
     eta.data = eta.data.to(device)
 
-    st = torch.as_tensor(s, dtype=torch.float32, device=device)[:, None]
+    srt = np.sort(s)
+    u = np.searchsorted(srt, s, side="right") / len(s)
+    st = torch.as_tensor(u, dtype=torch.float32, device=device)[:, None]
     yt = torch.as_tensor(y, dtype=torch.float32, device=device)
     optim = torch.optim.Adam(
         list(layer.parameters()) + [rho0, eta], lr=cfg.lr)
@@ -128,7 +135,8 @@ def _fit_ot(s, y, cfg):
         loss.backward()
         optim.step()
 
-    edges = layer.bin_edges().detach().cpu().numpy()[0]
+    edges_rank = layer.bin_edges().detach().cpu().numpy()[0]
+    edges = np.quantile(s, np.clip(edges_rank, 0, 1))
     return _step_calibrator(edges, s, y), edges
 
 
@@ -223,14 +231,28 @@ def run(cfg):
             maps.append(c_b(_GRID))
             if e_b is not None and len(e_b):
                 edge_sets.append(np.asarray(e_b))
-        curve_sd = float(np.mean(np.std(np.array(maps), axis=0)))
+        sd = np.std(np.array(maps), axis=0)
+        curve_sd = float(sd.mean())
+        # density-weighted variant: instability where scores actually
+        # live (uniform grids overweight empty score regions -- the v1
+        # metric artifact). Weight = calibration-score mass near each
+        # grid point; applied identically to every arm.
+        srt = np.sort(s_cal)
+        h = (_GRID[1] - _GRID[0]) / 2
+        w = (np.searchsorted(srt, _GRID + h)
+             - np.searchsorted(srt, _GRID - h)).astype(float)
+        curve_sd_w = float((sd * w).sum() / max(w.sum(), 1.0))
+        # edge movement on the calibration-score rank scale (score-unit
+        # Hausdorff is dominated by score concentration).
+        rank_sets = [np.searchsorted(srt, e) / len(srt)
+                     for e in edge_sets]
         pair_h = [_hausdorff(a, b)
-                  for a, b in combinations(edge_sets, 2)]
+                  for a, b in combinations(rank_sets, 2)]
         stab_rows.append(dict(
-            arm=arm, curve_sd=curve_sd,
+            arm=arm, curve_sd=curve_sd, curve_sd_w=curve_sd_w,
             hausdorff=float(np.nanmean(pair_h)) if pair_h else np.nan))
-        logger.info("%s: ece=%.4f brier=%.4f curve_sd=%.4f",
-                    arm, row["ece_eqmass"], row["brier"], curve_sd)
+        logger.info("%s: ece=%.4f brier=%.4f curve_sd_w=%.4f",
+                    arm, row["ece_eqmass"], row["brier"], curve_sd_w)
 
     common = dict(dataset=str(cfg.dataset), base=base_used,
                   seed=cfg.seed, n_cal=len(cal_idx))
