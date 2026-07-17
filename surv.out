@@ -1,0 +1,27 @@
+nohup: ignoring input
+[2026-07-17 00:17:41,314][HYDRA] Launching 5 jobs locally
+[2026-07-17 00:17:41,314][HYDRA] 	#0 : seed=0 device=cuda out=outputs/surv
+[2026-07-17 00:17:41,523][__main__][INFO] - width: auc@median=0.8442 min_events=9 hausdorff=0.0002
+[2026-07-17 00:17:41,609][__main__][INFO] - quantile: auc@median=0.8442 min_events=626 hausdorff=0.0090
+[2026-07-17 00:18:24,812][__main__][INFO] - ot: auc@median=0.8441 min_events=9 hausdorff=0.0039
+[2026-07-17 00:18:24,843][__main__][INFO] - E-SURV: wrote outputs/surv/surv_0_perf.parquet
+[2026-07-17 00:18:24,848][HYDRA] 	#1 : seed=1 device=cuda out=outputs/surv
+[2026-07-17 00:18:25,018][__main__][INFO] - width: auc@median=0.8492 min_events=10 hausdorff=0.0004
+[2026-07-17 00:18:25,102][__main__][INFO] - quantile: auc@median=0.8492 min_events=626 hausdorff=0.0080
+[2026-07-17 00:19:04,692][__main__][INFO] - ot: auc@median=0.8492 min_events=7 hausdorff=0.0030
+[2026-07-17 00:19:04,707][__main__][INFO] - E-SURV: wrote outputs/surv/surv_1_perf.parquet
+[2026-07-17 00:19:04,710][HYDRA] 	#2 : seed=2 device=cuda out=outputs/surv
+[2026-07-17 00:19:04,891][__main__][INFO] - width: auc@median=0.8585 min_events=18 hausdorff=0.0005
+[2026-07-17 00:19:04,975][__main__][INFO] - quantile: auc@median=0.8585 min_events=619 hausdorff=0.0086
+[2026-07-17 00:19:44,309][__main__][INFO] - ot: auc@median=0.8584 min_events=10 hausdorff=0.0039
+[2026-07-17 00:19:44,323][__main__][INFO] - E-SURV: wrote outputs/surv/surv_2_perf.parquet
+[2026-07-17 00:19:44,326][HYDRA] 	#3 : seed=3 device=cuda out=outputs/surv
+[2026-07-17 00:19:44,484][__main__][INFO] - width: auc@median=0.8570 min_events=15 hausdorff=0.0001
+[2026-07-17 00:19:44,563][__main__][INFO] - quantile: auc@median=0.8570 min_events=622 hausdorff=0.0087
+[2026-07-17 00:20:23,909][__main__][INFO] - ot: auc@median=0.8571 min_events=8 hausdorff=0.0035
+[2026-07-17 00:20:23,923][__main__][INFO] - E-SURV: wrote outputs/surv/surv_3_perf.parquet
+[2026-07-17 00:20:23,925][HYDRA] 	#4 : seed=4 device=cuda out=outputs/surv
+[2026-07-17 00:20:24,083][__main__][INFO] - width: auc@median=0.8544 min_events=13 hausdorff=0.0002
+[2026-07-17 00:20:24,165][__main__][INFO] - quantile: auc@median=0.8543 min_events=625 hausdorff=0.0103
+[2026-07-17 00:21:03,299][__main__][INFO] - ot: auc@median=0.8544 min_events=13 hausdorff=0.0052
+[2026-07-17 00:21:03,312][__main__][INFO] - E-SURV: wrote outputs/surv/surv_4_perf.parquet
