@@ -1,0 +1,77 @@
+nohup: ignoring input
+[2026-07-17 15:39:55,416][HYDRA] Launching 25 jobs locally
+[2026-07-17 15:39:55,416][HYDRA] 	#0 : dataset=baf-v1 model=ot_ple seed=0 device=cuda out=outputs/l1_variants
+[2026-07-17 15:42:14,886][__main__][INFO] - L1 baf-v1/ot_ple: ref auc=0.8343, tolerance=0.00018
+[2026-07-17 15:42:42,096][__main__][INFO] - L1 baf-v1: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v1_ot_ple_0_months.parquet
+[2026-07-17 15:42:42,103][HYDRA] 	#1 : dataset=baf-v1 model=ot_ple seed=1 device=cuda out=outputs/l1_variants
+[2026-07-17 15:44:58,459][__main__][INFO] - L1 baf-v1/ot_ple: ref auc=0.8270, tolerance=0.00017
+[2026-07-17 15:45:25,293][__main__][INFO] - L1 baf-v1: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v1_ot_ple_1_months.parquet
+[2026-07-17 15:45:25,312][HYDRA] 	#2 : dataset=baf-v1 model=ot_ple seed=2 device=cuda out=outputs/l1_variants
+[2026-07-17 15:47:39,684][__main__][INFO] - L1 baf-v1/ot_ple: ref auc=0.8285, tolerance=0.00019
+[2026-07-17 15:48:06,672][__main__][INFO] - L1 baf-v1: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v1_ot_ple_2_months.parquet
+[2026-07-17 15:48:06,680][HYDRA] 	#3 : dataset=baf-v1 model=ot_ple seed=3 device=cuda out=outputs/l1_variants
+[2026-07-17 15:50:22,806][__main__][INFO] - L1 baf-v1/ot_ple: ref auc=0.8298, tolerance=0.00015
+[2026-07-17 15:50:49,921][__main__][INFO] - L1 baf-v1: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v1_ot_ple_3_months.parquet
+[2026-07-17 15:50:49,941][HYDRA] 	#4 : dataset=baf-v1 model=ot_ple seed=4 device=cuda out=outputs/l1_variants
+[2026-07-17 15:53:07,127][__main__][INFO] - L1 baf-v1/ot_ple: ref auc=0.8319, tolerance=0.00015
+[2026-07-17 15:53:34,213][__main__][INFO] - L1 baf-v1: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v1_ot_ple_4_months.parquet
+[2026-07-17 15:53:34,232][HYDRA] 	#5 : dataset=baf-v2 model=ot_ple seed=0 device=cuda out=outputs/l1_variants
+[2026-07-17 15:55:54,252][__main__][INFO] - L1 baf-v2/ot_ple: ref auc=0.8714, tolerance=0.00022
+[2026-07-17 15:56:21,281][__main__][INFO] - L1 baf-v2: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v2_ot_ple_0_months.parquet
+[2026-07-17 15:56:21,289][HYDRA] 	#6 : dataset=baf-v2 model=ot_ple seed=1 device=cuda out=outputs/l1_variants
+[2026-07-17 15:58:35,525][__main__][INFO] - L1 baf-v2/ot_ple: ref auc=0.8646, tolerance=0.00021
+[2026-07-17 15:59:02,561][__main__][INFO] - L1 baf-v2: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v2_ot_ple_1_months.parquet
+[2026-07-17 15:59:02,578][HYDRA] 	#7 : dataset=baf-v2 model=ot_ple seed=2 device=cuda out=outputs/l1_variants
+[2026-07-17 16:01:16,428][__main__][INFO] - L1 baf-v2/ot_ple: ref auc=0.8630, tolerance=0.00018
+[2026-07-17 16:01:43,289][__main__][INFO] - L1 baf-v2: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v2_ot_ple_2_months.parquet
+[2026-07-17 16:01:43,299][HYDRA] 	#8 : dataset=baf-v2 model=ot_ple seed=3 device=cuda out=outputs/l1_variants
+[2026-07-17 16:03:55,477][__main__][INFO] - L1 baf-v2/ot_ple: ref auc=0.8688, tolerance=0.00020
+[2026-07-17 16:04:22,486][__main__][INFO] - L1 baf-v2: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v2_ot_ple_3_months.parquet
+[2026-07-17 16:04:22,507][HYDRA] 	#9 : dataset=baf-v2 model=ot_ple seed=4 device=cuda out=outputs/l1_variants
+[2026-07-17 16:06:35,223][__main__][INFO] - L1 baf-v2/ot_ple: ref auc=0.8649, tolerance=0.00020
+[2026-07-17 16:07:02,223][__main__][INFO] - L1 baf-v2: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v2_ot_ple_4_months.parquet
+[2026-07-17 16:07:02,229][HYDRA] 	#10 : dataset=baf-v3 model=ot_ple seed=0 device=cuda out=outputs/l1_variants
+[2026-07-17 16:09:09,894][__main__][INFO] - L1 baf-v3/ot_ple: ref auc=0.9090, tolerance=0.00025
+[2026-07-17 16:09:36,894][__main__][INFO] - L1 baf-v3: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v3_ot_ple_0_months.parquet
+[2026-07-17 16:09:36,899][HYDRA] 	#11 : dataset=baf-v3 model=ot_ple seed=1 device=cuda out=outputs/l1_variants
+[2026-07-17 16:11:39,849][__main__][INFO] - L1 baf-v3/ot_ple: ref auc=0.9060, tolerance=0.00021
+[2026-07-17 16:12:06,919][__main__][INFO] - L1 baf-v3: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v3_ot_ple_1_months.parquet
+[2026-07-17 16:12:06,926][HYDRA] 	#12 : dataset=baf-v3 model=ot_ple seed=2 device=cuda out=outputs/l1_variants
+[2026-07-17 16:14:10,426][__main__][INFO] - L1 baf-v3/ot_ple: ref auc=0.9150, tolerance=0.00023
+[2026-07-17 16:14:37,530][__main__][INFO] - L1 baf-v3: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v3_ot_ple_2_months.parquet
+[2026-07-17 16:14:37,534][HYDRA] 	#13 : dataset=baf-v3 model=ot_ple seed=3 device=cuda out=outputs/l1_variants
+[2026-07-17 16:16:39,544][__main__][INFO] - L1 baf-v3/ot_ple: ref auc=0.9117, tolerance=0.00026
+[2026-07-17 16:17:06,490][__main__][INFO] - L1 baf-v3: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v3_ot_ple_3_months.parquet
+[2026-07-17 16:17:06,496][HYDRA] 	#14 : dataset=baf-v3 model=ot_ple seed=4 device=cuda out=outputs/l1_variants
+[2026-07-17 16:19:10,891][__main__][INFO] - L1 baf-v3/ot_ple: ref auc=0.9037, tolerance=0.00023
+[2026-07-17 16:19:37,400][__main__][INFO] - L1 baf-v3: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v3_ot_ple_4_months.parquet
+[2026-07-17 16:19:37,404][HYDRA] 	#15 : dataset=baf-v4 model=ot_ple seed=0 device=cuda out=outputs/l1_variants
+[2026-07-17 16:21:35,694][__main__][INFO] - L1 baf-v4/ot_ple: ref auc=0.8619, tolerance=0.00019
+[2026-07-17 16:22:02,120][__main__][INFO] - L1 baf-v4: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v4_ot_ple_0_months.parquet
+[2026-07-17 16:22:02,125][HYDRA] 	#16 : dataset=baf-v4 model=ot_ple seed=1 device=cuda out=outputs/l1_variants
+[2026-07-17 16:23:57,917][__main__][INFO] - L1 baf-v4/ot_ple: ref auc=0.8638, tolerance=0.00021
+[2026-07-17 16:24:24,532][__main__][INFO] - L1 baf-v4: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v4_ot_ple_1_months.parquet
+[2026-07-17 16:24:24,536][HYDRA] 	#17 : dataset=baf-v4 model=ot_ple seed=2 device=cuda out=outputs/l1_variants
+[2026-07-17 16:26:21,321][__main__][INFO] - L1 baf-v4/ot_ple: ref auc=0.8673, tolerance=0.00021
+[2026-07-17 16:26:47,745][__main__][INFO] - L1 baf-v4: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v4_ot_ple_2_months.parquet
+[2026-07-17 16:26:47,749][HYDRA] 	#18 : dataset=baf-v4 model=ot_ple seed=3 device=cuda out=outputs/l1_variants
+[2026-07-17 16:28:44,287][__main__][INFO] - L1 baf-v4/ot_ple: ref auc=0.8674, tolerance=0.00017
+[2026-07-17 16:29:10,664][__main__][INFO] - L1 baf-v4: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v4_ot_ple_3_months.parquet
+[2026-07-17 16:29:10,668][HYDRA] 	#19 : dataset=baf-v4 model=ot_ple seed=4 device=cuda out=outputs/l1_variants
+[2026-07-17 16:31:05,052][__main__][INFO] - L1 baf-v4/ot_ple: ref auc=0.8632, tolerance=0.00020
+[2026-07-17 16:31:31,576][__main__][INFO] - L1 baf-v4: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v4_ot_ple_4_months.parquet
+[2026-07-17 16:31:31,580][HYDRA] 	#20 : dataset=baf-v5 model=ot_ple seed=0 device=cuda out=outputs/l1_variants
+[2026-07-17 16:33:38,968][__main__][INFO] - L1 baf-v5/ot_ple: ref auc=0.9044, tolerance=0.00025
+[2026-07-17 16:34:05,975][__main__][INFO] - L1 baf-v5: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v5_ot_ple_0_months.parquet
+[2026-07-17 16:34:05,979][HYDRA] 	#21 : dataset=baf-v5 model=ot_ple seed=1 device=cuda out=outputs/l1_variants
+[2026-07-17 16:36:14,391][__main__][INFO] - L1 baf-v5/ot_ple: ref auc=0.9031, tolerance=0.00023
+[2026-07-17 16:36:41,154][__main__][INFO] - L1 baf-v5: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v5_ot_ple_1_months.parquet
+[2026-07-17 16:36:41,157][HYDRA] 	#22 : dataset=baf-v5 model=ot_ple seed=2 device=cuda out=outputs/l1_variants
+[2026-07-17 16:38:46,485][__main__][INFO] - L1 baf-v5/ot_ple: ref auc=0.9067, tolerance=0.00025
+[2026-07-17 16:39:13,017][__main__][INFO] - L1 baf-v5: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v5_ot_ple_2_months.parquet
+[2026-07-17 16:39:13,020][HYDRA] 	#23 : dataset=baf-v5 model=ot_ple seed=3 device=cuda out=outputs/l1_variants
+[2026-07-17 16:41:18,326][__main__][INFO] - L1 baf-v5/ot_ple: ref auc=0.9051, tolerance=0.00025
+[2026-07-17 16:41:45,062][__main__][INFO] - L1 baf-v5: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v5_ot_ple_3_months.parquet
+[2026-07-17 16:41:45,070][HYDRA] 	#24 : dataset=baf-v5 model=ot_ple seed=4 device=cuda out=outputs/l1_variants
+[2026-07-17 16:43:54,646][__main__][INFO] - L1 baf-v5/ot_ple: ref auc=0.9014, tolerance=0.00025
+[2026-07-17 16:44:21,548][__main__][INFO] - L1 baf-v5: first alarm month 3 (n=40000); wrote outputs/l1_variants/l1_baf-v5_ot_ple_4_months.parquet
