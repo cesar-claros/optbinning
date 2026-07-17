@@ -39,7 +39,7 @@ from torch import Tensor, nn                            # noqa: E402
 from optbinning import OptimalBinning                   # noqa: E402
 
 from experiments import datasets                        # noqa: E402
-from experiments.common import save_results             # noqa: E402
+from experiments.common import prepare_features, save_results  # noqa: E402
 from experiments.paperc.backbones import FeatureTokenTransformer  # noqa: E402
 from experiments.paperc.otlayer import (MultiOTBinningLayer,  # noqa: E402
                                         pav_penalty_multi, soft_iv_multi)
@@ -313,9 +313,7 @@ def run(cfg: DictConfig) -> Path:
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    x = ds.X[ds.numerical].to_numpy(dtype=float)
-    med = np.nanmedian(x, axis=0)
-    x = np.where(np.isfinite(x), x, med)
+    x = prepare_features(ds, cfg.get("special_handling", "ignore"))
 
     rows = []
     tr, te = datasets.split_indices(len(ds.y), cfg.test_size, cfg.seed)

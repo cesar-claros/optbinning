@@ -56,6 +56,40 @@ def make_arm(arm, lam=None, gamma=None, fm_tau=None, monotonic="auto",
     raise ValueError("Unknown arm: {}".format(arm))
 
 
+def prepare_features(ds, special_handling="ignore"):
+    """Numerical feature matrix with sentinel-code handling.
+
+    special_handling:
+      "ignore" -- sentinels flow through as numeric values (the harness
+        behavior of all pre-HELOC campaigns; kept as default for
+        comparability). WRONG for datasets like HELOC whose -7/-8/-9
+        codes have no ordinal relation to the scale.
+      "expand" -- sentinel values are removed from the numeric scale
+        (median-imputed) and per-(feature, code) indicator columns are
+        appended, so sentinel-ness is explicit binary information and
+        every arm sees identical features. Constant indicators dropped.
+    """
+    x = ds.X[ds.numerical].to_numpy(dtype=float)
+    extra = []
+    if special_handling == "expand" and ds.special_codes:
+        codes = list(ds.special_codes)
+        for j in range(x.shape[1]):
+            for c in codes:
+                mask = x[:, j] == c
+                if 0 < mask.sum() < len(x):
+                    extra.append(mask.astype(float))
+            x[np.isin(x[:, j], codes), j] = np.nan
+    elif special_handling != "ignore":
+        raise ValueError(
+            "special_handling must be 'ignore' or 'expand'; got "
+            "{}.".format(special_handling))
+    med = np.nanmedian(x, axis=0)
+    x = np.where(np.isfinite(x), x, med)
+    if extra:
+        x = np.column_stack([x] + extra)
+    return x
+
+
 def binned_stats(x, y, splits):
     indices = np.digitize(x, splits, right=False)
     n_bins = len(splits) + 1

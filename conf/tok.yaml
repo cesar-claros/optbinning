@@ -26,3 +26,6 @@ out: outputs/tok
 hydra:
   job:
     chdir: false
+
+special_handling: ignore  # 'expand' for sentinel-coded datasets (heloc: -7/-8/-9, baf: -1):
+                          # sentinels -> median + per-code indicator features

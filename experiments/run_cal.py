@@ -39,6 +39,7 @@ from sklearn.metrics import brier_score_loss, log_loss  # noqa: E402
 
 from experiments import datasets                        # noqa: E402
 from experiments.common import save_results             # noqa: E402
+from experiments.common import prepare_features         # noqa: E402
 from experiments.paperc.pav import _pav_blocks          # noqa: E402
 from experiments.run_s1 import _hausdorff               # noqa: E402
 
@@ -196,9 +197,7 @@ def run(cfg):
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    x = ds.X[ds.numerical].to_numpy(dtype=float)
-    med = np.nanmedian(x, axis=0)
-    x = np.where(np.isfinite(x), x, med)
+    x = prepare_features(ds, cfg.get("special_handling", "ignore"))
     y = ds.y
 
     rng = np.random.default_rng(cfg.seed)

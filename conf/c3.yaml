@@ -33,3 +33,6 @@ token_mode: cumulative   # cumulative | assign | cumulative_plus_raw (lossless; 
                          # | ple_interp (learned-knot PLE on the layer's edges: lossless +
                          #   basis-rich; interval bins by construction; Sinkhorn only for aux)
 ot_input: quantile       # ot_ple bin geometry: quantile (rank space; heavy-tail safe) | standard
+
+special_handling: ignore  # 'expand' for sentinel-coded datasets (heloc: -7/-8/-9, baf: -1):
+                          # sentinels -> median + per-code indicator features

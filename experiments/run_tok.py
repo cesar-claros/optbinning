@@ -35,7 +35,7 @@ from sklearn.metrics import roc_auc_score               # noqa: E402
 from torch import nn                                    # noqa: E402
 
 from experiments import datasets                        # noqa: E402
-from experiments.common import save_results             # noqa: E402
+from experiments.common import prepare_features, save_results  # noqa: E402
 from experiments.paperc.backbones import FeatureTokenTransformer  # noqa: E402
 from experiments.paperc.otlayer import MultiOTBinningLayer  # noqa: E402
 from experiments.run_c3 import _quantile_transform      # noqa: E402
@@ -173,9 +173,7 @@ def run(cfg):
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    x = ds.X[ds.numerical].to_numpy(dtype=float)
-    med = np.nanmedian(x, axis=0)
-    x = np.where(np.isfinite(x), x, med)
+    x = prepare_features(ds, cfg.get("special_handling", "ignore"))
     tr, te = datasets.split_indices(len(ds.y), cfg.test_size, cfg.seed)
     data = dict(xtr=x[tr], ytr=ds.y[tr], xte=x[te], yte=ds.y[te])
 
