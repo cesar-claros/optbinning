@@ -9,6 +9,7 @@ hidden: 64
 ft_layers: 2
 ft_heads: 4
 epochs: 30
+min_steps: 600           # optimization-budget floor at small n (all arms equally)
 batch_size: 1024
 lr: 0.001
 sinkhorn_iters: 15

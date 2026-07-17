@@ -122,13 +122,20 @@ def _train_eval(arm, data, n_train, cfg):
     start = time.perf_counter()
     net.train()
     n = len(ytr_t)
-    for epoch in range(cfg.epochs):
-        frac = epoch / max(cfg.epochs - 1, 1)
+    # equal optimization budget at every train size: with a fixed epoch
+    # count, small subsets get a handful of gradient steps (n=500 at
+    # batch 1024 = one step/epoch), which starves joint vocab+model
+    # learning; scale epochs to guarantee min_steps for ALL arms.
+    steps_per_epoch = max(n // cfg.batch_size, 1)
+    n_epochs = max(cfg.epochs,
+                   int(np.ceil(cfg.min_steps / steps_per_epoch)))
+    for epoch in range(n_epochs):
+        frac = epoch / max(n_epochs - 1, 1)
         eps = cfg.eps_start * (cfg.eps_end / cfg.eps_start) ** frac
         perm = torch.randperm(n, device=device)
         for lo in range(0, n, cfg.batch_size):
             idx = perm[lo:lo + cfg.batch_size]
-            if len(idx) < cfg.n_bins * 4:
+            if lo > 0 and len(idx) < cfg.n_bins * 4:
                 continue
             loss = bce(net(xtr[idx], eps=eps), ytr_t[idx])
             optim.zero_grad()
