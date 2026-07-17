@@ -1,0 +1,122 @@
+nohup: ignoring input
+[2026-07-17 13:32:21,786][HYDRA] Launching 15 jobs locally
+[2026-07-17 13:32:21,786][HYDRA] 	#0 : dataset=adult seed=0 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:32:43,052][__main__][INFO] - ot_ple/linear: auc=0.8569
+[2026-07-17 13:33:02,007][__main__][INFO] - ot_ple/mlp: auc=0.8640
+[2026-07-17 13:33:21,612][__main__][INFO] - ot_frozen/linear: auc=0.8523
+[2026-07-17 13:33:41,734][__main__][INFO] - ot_frozen/mlp: auc=0.8623
+[2026-07-17 13:33:43,198][__main__][INFO] - target_ple/linear: auc=0.8431
+[2026-07-17 13:33:44,777][__main__][INFO] - target_ple/mlp: auc=0.8541
+[2026-07-17 13:33:44,791][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_adult_0.parquet
+[2026-07-17 13:33:44,793][HYDRA] 	#1 : dataset=adult seed=1 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:34:03,719][__main__][INFO] - ot_ple/linear: auc=0.8434
+[2026-07-17 13:34:22,621][__main__][INFO] - ot_ple/mlp: auc=0.8566
+[2026-07-17 13:34:42,069][__main__][INFO] - ot_frozen/linear: auc=0.8443
+[2026-07-17 13:35:01,996][__main__][INFO] - ot_frozen/mlp: auc=0.8566
+[2026-07-17 13:35:03,149][__main__][INFO] - target_ple/linear: auc=0.8250
+[2026-07-17 13:35:04,693][__main__][INFO] - target_ple/mlp: auc=0.8469
+[2026-07-17 13:35:04,699][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_adult_1.parquet
+[2026-07-17 13:35:04,701][HYDRA] 	#2 : dataset=adult seed=2 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:35:23,955][__main__][INFO] - ot_ple/linear: auc=0.8490
+[2026-07-17 13:35:42,782][__main__][INFO] - ot_ple/mlp: auc=0.8557
+[2026-07-17 13:36:02,300][__main__][INFO] - ot_frozen/linear: auc=0.8495
+[2026-07-17 13:36:22,286][__main__][INFO] - ot_frozen/mlp: auc=0.8579
+[2026-07-17 13:36:23,538][__main__][INFO] - target_ple/linear: auc=0.8316
+[2026-07-17 13:36:25,104][__main__][INFO] - target_ple/mlp: auc=0.8476
+[2026-07-17 13:36:25,110][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_adult_2.parquet
+[2026-07-17 13:36:25,112][HYDRA] 	#3 : dataset=adult seed=3 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:36:44,156][__main__][INFO] - ot_ple/linear: auc=0.8547
+[2026-07-17 13:37:03,084][__main__][INFO] - ot_ple/mlp: auc=0.8617
+[2026-07-17 13:37:22,727][__main__][INFO] - ot_frozen/linear: auc=0.8548
+[2026-07-17 13:37:42,786][__main__][INFO] - ot_frozen/mlp: auc=0.8624
+[2026-07-17 13:37:44,088][__main__][INFO] - target_ple/linear: auc=0.8401
+[2026-07-17 13:37:45,664][__main__][INFO] - target_ple/mlp: auc=0.8517
+[2026-07-17 13:37:45,669][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_adult_3.parquet
+[2026-07-17 13:37:45,672][HYDRA] 	#4 : dataset=adult seed=4 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:38:04,579][__main__][INFO] - ot_ple/linear: auc=0.8496
+[2026-07-17 13:38:23,535][__main__][INFO] - ot_ple/mlp: auc=0.8579
+[2026-07-17 13:38:43,056][__main__][INFO] - ot_frozen/linear: auc=0.8457
+[2026-07-17 13:39:02,945][__main__][INFO] - ot_frozen/mlp: auc=0.8606
+[2026-07-17 13:39:04,206][__main__][INFO] - target_ple/linear: auc=0.8395
+[2026-07-17 13:39:05,818][__main__][INFO] - target_ple/mlp: auc=0.8478
+[2026-07-17 13:39:05,824][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_adult_4.parquet
+[2026-07-17 13:39:05,826][HYDRA] 	#5 : dataset=gmsc seed=0 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:40:08,064][__main__][INFO] - ot_ple/linear: auc=0.8566
+[2026-07-17 13:41:10,259][__main__][INFO] - ot_ple/mlp: auc=0.8589
+[2026-07-17 13:42:14,500][__main__][INFO] - ot_frozen/linear: auc=0.8553
+[2026-07-17 13:43:20,694][__main__][INFO] - ot_frozen/mlp: auc=0.8610
+[2026-07-17 13:43:24,147][__main__][INFO] - target_ple/linear: auc=0.8564
+[2026-07-17 13:43:29,055][__main__][INFO] - target_ple/mlp: auc=0.8628
+[2026-07-17 13:43:29,061][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_gmsc_0.parquet
+[2026-07-17 13:43:29,064][HYDRA] 	#6 : dataset=gmsc seed=1 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:44:31,305][__main__][INFO] - ot_ple/linear: auc=0.8585
+[2026-07-17 13:45:33,694][__main__][INFO] - ot_ple/mlp: auc=0.8561
+[2026-07-17 13:46:38,020][__main__][INFO] - ot_frozen/linear: auc=0.8586
+[2026-07-17 13:47:44,362][__main__][INFO] - ot_frozen/mlp: auc=0.8580
+[2026-07-17 13:47:47,743][__main__][INFO] - target_ple/linear: auc=0.8579
+[2026-07-17 13:47:52,630][__main__][INFO] - target_ple/mlp: auc=0.8589
+[2026-07-17 13:47:52,637][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_gmsc_1.parquet
+[2026-07-17 13:47:52,639][HYDRA] 	#7 : dataset=gmsc seed=2 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:48:54,694][__main__][INFO] - ot_ple/linear: auc=0.8547
+[2026-07-17 13:49:56,924][__main__][INFO] - ot_ple/mlp: auc=0.8583
+[2026-07-17 13:51:01,475][__main__][INFO] - ot_frozen/linear: auc=0.8547
+[2026-07-17 13:52:07,317][__main__][INFO] - ot_frozen/mlp: auc=0.8583
+[2026-07-17 13:52:10,772][__main__][INFO] - target_ple/linear: auc=0.8547
+[2026-07-17 13:52:15,703][__main__][INFO] - target_ple/mlp: auc=0.8618
+[2026-07-17 13:52:15,709][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_gmsc_2.parquet
+[2026-07-17 13:52:15,711][HYDRA] 	#8 : dataset=gmsc seed=3 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:53:17,605][__main__][INFO] - ot_ple/linear: auc=0.8573
+[2026-07-17 13:54:20,225][__main__][INFO] - ot_ple/mlp: auc=0.8576
+[2026-07-17 13:55:24,323][__main__][INFO] - ot_frozen/linear: auc=0.8546
+[2026-07-17 13:56:30,267][__main__][INFO] - ot_frozen/mlp: auc=0.8564
+[2026-07-17 13:56:33,803][__main__][INFO] - target_ple/linear: auc=0.8567
+[2026-07-17 13:56:38,742][__main__][INFO] - target_ple/mlp: auc=0.8631
+[2026-07-17 13:56:38,751][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_gmsc_3.parquet
+[2026-07-17 13:56:38,754][HYDRA] 	#9 : dataset=gmsc seed=4 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 13:57:40,582][__main__][INFO] - ot_ple/linear: auc=0.8542
+[2026-07-17 13:58:42,978][__main__][INFO] - ot_ple/mlp: auc=0.8574
+[2026-07-17 13:59:47,426][__main__][INFO] - ot_frozen/linear: auc=0.8542
+[2026-07-17 14:00:53,655][__main__][INFO] - ot_frozen/mlp: auc=0.8565
+[2026-07-17 14:00:57,018][__main__][INFO] - target_ple/linear: auc=0.8569
+[2026-07-17 14:01:01,836][__main__][INFO] - target_ple/mlp: auc=0.8539
+[2026-07-17 14:01:01,842][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_gmsc_4.parquet
+[2026-07-17 14:01:01,843][HYDRA] 	#10 : dataset=taiwan seed=0 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 14:01:20,323][__main__][INFO] - ot_ple/linear: auc=0.7766
+[2026-07-17 14:01:38,632][__main__][INFO] - ot_ple/mlp: auc=0.7763
+[2026-07-17 14:01:57,841][__main__][INFO] - ot_frozen/linear: auc=0.7770
+[2026-07-17 14:02:17,358][__main__][INFO] - ot_frozen/mlp: auc=0.7777
+[2026-07-17 14:02:19,624][__main__][INFO] - target_ple/linear: auc=0.7752
+[2026-07-17 14:02:22,361][__main__][INFO] - target_ple/mlp: auc=0.7767
+[2026-07-17 14:02:22,366][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_taiwan_0.parquet
+[2026-07-17 14:02:22,367][HYDRA] 	#11 : dataset=taiwan seed=1 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 14:02:41,107][__main__][INFO] - ot_ple/linear: auc=0.7776
+[2026-07-17 14:02:59,627][__main__][INFO] - ot_ple/mlp: auc=0.7716
+[2026-07-17 14:03:18,887][__main__][INFO] - ot_frozen/linear: auc=0.7772
+[2026-07-17 14:03:38,779][__main__][INFO] - ot_frozen/mlp: auc=0.7787
+[2026-07-17 14:03:41,158][__main__][INFO] - target_ple/linear: auc=0.7733
+[2026-07-17 14:03:43,787][__main__][INFO] - target_ple/mlp: auc=0.7799
+[2026-07-17 14:03:43,797][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_taiwan_1.parquet
+[2026-07-17 14:03:43,799][HYDRA] 	#12 : dataset=taiwan seed=2 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 14:04:03,226][__main__][INFO] - ot_ple/linear: auc=0.7802
+[2026-07-17 14:04:22,471][__main__][INFO] - ot_ple/mlp: auc=0.7802
+[2026-07-17 14:04:42,615][__main__][INFO] - ot_frozen/linear: auc=0.7807
+[2026-07-17 14:05:03,121][__main__][INFO] - ot_frozen/mlp: auc=0.7748
+[2026-07-17 14:05:05,353][__main__][INFO] - target_ple/linear: auc=0.7755
+[2026-07-17 14:05:07,876][__main__][INFO] - target_ple/mlp: auc=0.7847
+[2026-07-17 14:05:07,881][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_taiwan_2.parquet
+[2026-07-17 14:05:07,882][HYDRA] 	#13 : dataset=taiwan seed=3 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 14:05:26,552][__main__][INFO] - ot_ple/linear: auc=0.7782
+[2026-07-17 14:05:45,068][__main__][INFO] - ot_ple/mlp: auc=0.7762
+[2026-07-17 14:06:04,488][__main__][INFO] - ot_frozen/linear: auc=0.7786
+[2026-07-17 14:06:24,268][__main__][INFO] - ot_frozen/mlp: auc=0.7803
+[2026-07-17 14:06:26,458][__main__][INFO] - target_ple/linear: auc=0.7757
+[2026-07-17 14:06:28,958][__main__][INFO] - target_ple/mlp: auc=0.7766
+[2026-07-17 14:06:28,964][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_taiwan_3.parquet
+[2026-07-17 14:06:28,965][HYDRA] 	#14 : dataset=taiwan seed=4 device=cuda token_mode=ple_interp arms=[ot_ple,ot_frozen,target_ple] backbones=[linear,mlp] out=outputs/c3_frozen
+[2026-07-17 14:06:47,054][__main__][INFO] - ot_ple/linear: auc=0.7821
+[2026-07-17 14:07:04,939][__main__][INFO] - ot_ple/mlp: auc=0.7795
+[2026-07-17 14:07:23,522][__main__][INFO] - ot_frozen/linear: auc=0.7832
+[2026-07-17 14:07:42,609][__main__][INFO] - ot_frozen/mlp: auc=0.7843
+[2026-07-17 14:07:44,872][__main__][INFO] - target_ple/linear: auc=0.7783
+[2026-07-17 14:07:47,481][__main__][INFO] - target_ple/mlp: auc=0.7849
+[2026-07-17 14:07:47,487][__main__][INFO] - C3: wrote 6 rows -> outputs/c3_frozen/c3_taiwan_4.parquet
