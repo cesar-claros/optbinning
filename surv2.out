@@ -1,0 +1,27 @@
+nohup: ignoring input
+[2026-07-17 12:09:47,607][HYDRA] Launching 5 jobs locally
+[2026-07-17 12:09:47,607][HYDRA] 	#0 : seed=0 device=cuda out=outputs/surv2
+[2026-07-17 12:09:47,811][__main__][INFO] - width: auc@median=0.8442 min_events=9 hausdorff=0.0002
+[2026-07-17 12:09:47,897][__main__][INFO] - quantile: auc@median=0.8442 min_events=626 hausdorff=0.0090
+[2026-07-17 12:10:30,612][__main__][INFO] - ot: auc@median=0.8442 min_events=22 hausdorff=0.0067
+[2026-07-17 12:10:30,643][__main__][INFO] - E-SURV: wrote outputs/surv2/surv_0_perf.parquet
+[2026-07-17 12:10:30,649][HYDRA] 	#1 : seed=1 device=cuda out=outputs/surv2
+[2026-07-17 12:10:30,820][__main__][INFO] - width: auc@median=0.8492 min_events=10 hausdorff=0.0004
+[2026-07-17 12:10:30,903][__main__][INFO] - quantile: auc@median=0.8492 min_events=626 hausdorff=0.0080
+[2026-07-17 12:11:09,912][__main__][INFO] - ot: auc@median=0.8492 min_events=17 hausdorff=0.0059
+[2026-07-17 12:11:09,928][__main__][INFO] - E-SURV: wrote outputs/surv2/surv_1_perf.parquet
+[2026-07-17 12:11:09,932][HYDRA] 	#2 : seed=2 device=cuda out=outputs/surv2
+[2026-07-17 12:11:10,104][__main__][INFO] - width: auc@median=0.8585 min_events=18 hausdorff=0.0005
+[2026-07-17 12:11:10,189][__main__][INFO] - quantile: auc@median=0.8585 min_events=619 hausdorff=0.0086
+[2026-07-17 12:11:49,089][__main__][INFO] - ot: auc@median=0.8584 min_events=12 hausdorff=0.0078
+[2026-07-17 12:11:49,103][__main__][INFO] - E-SURV: wrote outputs/surv2/surv_2_perf.parquet
+[2026-07-17 12:11:49,106][HYDRA] 	#3 : seed=3 device=cuda out=outputs/surv2
+[2026-07-17 12:11:49,262][__main__][INFO] - width: auc@median=0.8570 min_events=15 hausdorff=0.0001
+[2026-07-17 12:11:49,342][__main__][INFO] - quantile: auc@median=0.8570 min_events=622 hausdorff=0.0087
+[2026-07-17 12:12:28,181][__main__][INFO] - ot: auc@median=0.8570 min_events=19 hausdorff=0.0059
+[2026-07-17 12:12:28,195][__main__][INFO] - E-SURV: wrote outputs/surv2/surv_3_perf.parquet
+[2026-07-17 12:12:28,198][HYDRA] 	#4 : seed=4 device=cuda out=outputs/surv2
+[2026-07-17 12:12:28,352][__main__][INFO] - width: auc@median=0.8544 min_events=13 hausdorff=0.0002
+[2026-07-17 12:12:28,434][__main__][INFO] - quantile: auc@median=0.8543 min_events=625 hausdorff=0.0103
+[2026-07-17 12:13:07,735][__main__][INFO] - ot: auc@median=0.8544 min_events=18 hausdorff=0.0082
+[2026-07-17 12:13:07,748][__main__][INFO] - E-SURV: wrote outputs/surv2/surv_4_perf.parquet
