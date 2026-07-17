@@ -1,0 +1,152 @@
+nohup: ignoring input
+[2026-07-16 22:22:15,414][HYDRA] Launching 15 jobs locally
+[2026-07-16 22:22:15,414][HYDRA] 	#0 : dataset=gmsc seed=0 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:22:23,300][__main__][INFO] - platt: ece=0.0023 brier=0.0489 curve_sd_w=0.0010
+[2026-07-16 22:22:23,488][__main__][INFO] - isotonic: ece=0.0031 brier=0.0490 curve_sd_w=0.0042
+[2026-07-16 22:22:23,568][__main__][INFO] - hist: ece=0.0035 brier=0.0512 curve_sd_w=0.0031
+[2026-07-16 22:25:15,931][__main__][INFO] - ot: ece=0.0019 brier=0.0559 curve_sd_w=0.0039
+[2026-07-16 22:25:15,953][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_gmsc_0_perf.parquet
+[2026-07-16 22:25:15,956][HYDRA] 	#1 : dataset=gmsc seed=1 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:25:21,979][__main__][INFO] - platt: ece=0.0030 brier=0.0486 curve_sd_w=0.0010
+[2026-07-16 22:25:22,166][__main__][INFO] - isotonic: ece=0.0031 brier=0.0487 curve_sd_w=0.0040
+[2026-07-16 22:25:22,246][__main__][INFO] - hist: ece=0.0030 brier=0.0507 curve_sd_w=0.0035
+[2026-07-16 22:28:10,580][__main__][INFO] - ot: ece=0.0025 brier=0.0555 curve_sd_w=0.0071
+[2026-07-16 22:28:10,594][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_gmsc_1_perf.parquet
+[2026-07-16 22:28:10,599][HYDRA] 	#2 : dataset=gmsc seed=2 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:28:15,698][__main__][INFO] - platt: ece=0.0045 brier=0.0498 curve_sd_w=0.0010
+[2026-07-16 22:28:15,875][__main__][INFO] - isotonic: ece=0.0037 brier=0.0499 curve_sd_w=0.0042
+[2026-07-16 22:28:15,955][__main__][INFO] - hist: ece=0.0048 brier=0.0517 curve_sd_w=0.0022
+[2026-07-16 22:31:04,300][__main__][INFO] - ot: ece=0.0029 brier=0.0560 curve_sd_w=0.0061
+[2026-07-16 22:31:04,312][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_gmsc_2_perf.parquet
+[2026-07-16 22:31:04,315][HYDRA] 	#3 : dataset=gmsc seed=3 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:31:10,218][__main__][INFO] - platt: ece=0.0037 brier=0.0509 curve_sd_w=0.0010
+[2026-07-16 22:31:10,396][__main__][INFO] - isotonic: ece=0.0031 brier=0.0509 curve_sd_w=0.0038
+[2026-07-16 22:31:10,476][__main__][INFO] - hist: ece=0.0026 brier=0.0528 curve_sd_w=0.0036
+[2026-07-16 22:33:58,851][__main__][INFO] - ot: ece=0.0021 brier=0.0574 curve_sd_w=0.0062
+[2026-07-16 22:33:58,861][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_gmsc_3_perf.parquet
+[2026-07-16 22:33:58,864][HYDRA] 	#4 : dataset=gmsc seed=4 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:34:05,998][__main__][INFO] - platt: ece=0.0042 brier=0.0489 curve_sd_w=0.0010
+[2026-07-16 22:34:06,181][__main__][INFO] - isotonic: ece=0.0028 brier=0.0489 curve_sd_w=0.0039
+[2026-07-16 22:34:06,261][__main__][INFO] - hist: ece=0.0022 brier=0.0508 curve_sd_w=0.0029
+[2026-07-16 22:36:54,510][__main__][INFO] - ot: ece=0.0017 brier=0.0557 curve_sd_w=0.0051
+[2026-07-16 22:36:54,526][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_gmsc_4_perf.parquet
+[2026-07-16 22:36:54,530][HYDRA] 	#5 : dataset=taiwan seed=0 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:36:55,168][__main__][INFO] - platt: ece=0.0175 brier=0.1404 curve_sd_w=0.0041
+[2026-07-16 22:36:55,210][__main__][INFO] - isotonic: ece=0.0139 brier=0.1404 curve_sd_w=0.0108
+[2026-07-16 22:36:55,235][__main__][INFO] - hist: ece=0.0117 brier=0.1414 curve_sd_w=0.0088
+[2026-07-16 22:39:43,429][__main__][INFO] - ot: ece=0.0053 brier=0.1432 curve_sd_w=0.0264
+[2026-07-16 22:39:43,439][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_taiwan_0_perf.parquet
+[2026-07-16 22:39:43,442][HYDRA] 	#6 : dataset=taiwan seed=1 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:39:44,063][__main__][INFO] - platt: ece=0.0200 brier=0.1373 curve_sd_w=0.0034
+[2026-07-16 22:39:44,105][__main__][INFO] - isotonic: ece=0.0196 brier=0.1375 curve_sd_w=0.0115
+[2026-07-16 22:39:44,130][__main__][INFO] - hist: ece=0.0149 brier=0.1383 curve_sd_w=0.0101
+[2026-07-16 22:42:32,429][__main__][INFO] - ot: ece=0.0163 brier=0.1404 curve_sd_w=0.0202
+[2026-07-16 22:42:32,445][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_taiwan_1_perf.parquet
+[2026-07-16 22:42:32,448][HYDRA] 	#7 : dataset=taiwan seed=2 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:42:33,150][__main__][INFO] - platt: ece=0.0176 brier=0.1367 curve_sd_w=0.0035
+[2026-07-16 22:42:33,192][__main__][INFO] - isotonic: ece=0.0156 brier=0.1370 curve_sd_w=0.0113
+[2026-07-16 22:42:33,217][__main__][INFO] - hist: ece=0.0144 brier=0.1382 curve_sd_w=0.0087
+[2026-07-16 22:45:21,499][__main__][INFO] - ot: ece=0.0124 brier=0.1389 curve_sd_w=0.0271
+[2026-07-16 22:45:21,512][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_taiwan_2_perf.parquet
+[2026-07-16 22:45:21,515][HYDRA] 	#8 : dataset=taiwan seed=3 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:45:22,134][__main__][INFO] - platt: ece=0.0098 brier=0.1371 curve_sd_w=0.0039
+[2026-07-16 22:45:22,176][__main__][INFO] - isotonic: ece=0.0115 brier=0.1374 curve_sd_w=0.0114
+[2026-07-16 22:45:22,200][__main__][INFO] - hist: ece=0.0105 brier=0.1381 curve_sd_w=0.0096
+[2026-07-16 22:48:10,528][__main__][INFO] - ot: ece=0.0093 brier=0.1406 curve_sd_w=0.0224
+[2026-07-16 22:48:10,544][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_taiwan_3_perf.parquet
+[2026-07-16 22:48:10,548][HYDRA] 	#9 : dataset=taiwan seed=4 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:48:11,180][__main__][INFO] - platt: ece=0.0165 brier=0.1380 curve_sd_w=0.0039
+[2026-07-16 22:48:11,221][__main__][INFO] - isotonic: ece=0.0121 brier=0.1378 curve_sd_w=0.0108
+[2026-07-16 22:48:11,246][__main__][INFO] - hist: ece=0.0154 brier=0.1404 curve_sd_w=0.0082
+[2026-07-16 22:50:59,369][__main__][INFO] - ot: ece=0.0111 brier=0.1400 curve_sd_w=0.0255
+[2026-07-16 22:50:59,381][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_taiwan_4_perf.parquet
+[2026-07-16 22:50:59,384][HYDRA] 	#10 : dataset=adult seed=0 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:51:03,327][__main__][INFO] - platt: ece=0.0090 brier=0.1129 curve_sd_w=0.0032
+[2026-07-16 22:51:03,424][__main__][INFO] - isotonic: ece=0.0046 brier=0.1129 curve_sd_w=0.0101
+[2026-07-16 22:51:03,457][__main__][INFO] - hist: ece=0.0090 brier=0.1151 curve_sd_w=0.0080
+[2026-07-16 22:53:51,539][__main__][INFO] - ot: ece=0.0066 brier=0.1226 curve_sd_w=0.0125
+[2026-07-16 22:53:51,552][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_adult_0_perf.parquet
+[2026-07-16 22:53:51,557][HYDRA] 	#11 : dataset=adult seed=1 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:53:55,027][__main__][INFO] - platt: ece=0.0095 brier=0.1139 curve_sd_w=0.0027
+[2026-07-16 22:53:55,139][__main__][INFO] - isotonic: ece=0.0128 brier=0.1141 curve_sd_w=0.0096
+[2026-07-16 22:53:55,172][__main__][INFO] - hist: ece=0.0110 brier=0.1164 curve_sd_w=0.0090
+[2026-07-16 22:56:43,390][__main__][INFO] - ot: ece=0.0081 brier=0.1231 curve_sd_w=0.0122
+[2026-07-16 22:56:43,400][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_adult_1_perf.parquet
+[2026-07-16 22:56:43,404][HYDRA] 	#12 : dataset=adult seed=2 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:56:47,357][__main__][INFO] - platt: ece=0.0082 brier=0.1109 curve_sd_w=0.0035
+[2026-07-16 22:56:47,452][__main__][INFO] - isotonic: ece=0.0083 brier=0.1112 curve_sd_w=0.0110
+[2026-07-16 22:56:47,485][__main__][INFO] - hist: ece=0.0067 brier=0.1133 curve_sd_w=0.0091
+[2026-07-16 22:59:35,569][__main__][INFO] - ot: ece=0.0038 brier=0.1203 curve_sd_w=0.0115
+[2026-07-16 22:59:35,582][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_adult_2_perf.parquet
+[2026-07-16 22:59:35,587][HYDRA] 	#13 : dataset=adult seed=3 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 22:59:38,938][__main__][INFO] - platt: ece=0.0128 brier=0.1097 curve_sd_w=0.0026
+[2026-07-16 22:59:39,033][__main__][INFO] - isotonic: ece=0.0089 brier=0.1098 curve_sd_w=0.0100
+[2026-07-16 22:59:39,066][__main__][INFO] - hist: ece=0.0084 brier=0.1121 curve_sd_w=0.0081
+[2026-07-16 23:02:27,259][__main__][INFO] - ot: ece=0.0035 brier=0.1178 curve_sd_w=0.0129
+[2026-07-16 23:02:27,271][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_adult_3_perf.parquet
+[2026-07-16 23:02:27,273][HYDRA] 	#14 : dataset=adult seed=4 device=cuda out=outputs/cal2
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-16 23:02:31,688][__main__][INFO] - platt: ece=0.0069 brier=0.1125 curve_sd_w=0.0032
+[2026-07-16 23:02:31,784][__main__][INFO] - isotonic: ece=0.0079 brier=0.1126 curve_sd_w=0.0101
+[2026-07-16 23:02:31,818][__main__][INFO] - hist: ece=0.0065 brier=0.1153 curve_sd_w=0.0079
+[2026-07-16 23:05:20,308][__main__][INFO] - ot: ece=0.0016 brier=0.1212 curve_sd_w=0.0107
+[2026-07-16 23:05:20,322][__main__][INFO] - E-CAL: wrote outputs/cal2/cal_adult_4_perf.parquet
