@@ -14,6 +14,7 @@ four drift protocols.
 import os
 
 from dataclasses import dataclass, field
+from functools import partial
 from pathlib import Path
 
 import numpy as np
@@ -175,14 +176,15 @@ def load_diabetes():
     return Dataset("diabetes", X, y, numerical=num)
 
 
-def load_baf(variant="Base"):
+def load_baf(variant="Base", name="baf"):
     """Bank Account Fraud suite (NeurIPS 2022; manual Kaggle download).
 
     Place Base.csv (and optionally Variant I..V csvs) at data/baf/.
-    1M rows, target fraud_bool; `month` (0-7) is kept in X as the time
-    column but excluded from `numerical` (temporal drift analyses,
-    Paper B). Missing values are sentinel-coded (-1; negative for
-    intended_balcon_amount) -- the sentinel + heavy-tail regime."""
+    1M rows each, target fraud_bool; `month` (0-7) is kept in X as the
+    time column but excluded from `numerical` (temporal drift analyses,
+    Paper B). The five variants carry documented, distinct bias/shift
+    patterns -- the L1 replication set. Missing values are
+    sentinel-coded (-1; negative for intended_balcon_amount)."""
     path = DATA_DIR / "baf" / "{}.csv".format(variant)
     if not path.exists():
         raise FileNotFoundError(
@@ -194,8 +196,13 @@ def load_baf(variant="Base"):
     X = df.drop(columns="fraud_bool")
     num = [c for c in X.columns
            if pd.api.types.is_numeric_dtype(X[c]) and c != "month"]
-    return Dataset("baf", X, y, numerical=num,
+    return Dataset(name, X, y, numerical=num,
                    special_codes=[-1], time_column="month")
+
+
+BAF_VARIANTS = {"baf": "Base", "baf-v1": "Variant I",
+                "baf-v2": "Variant II", "baf-v3": "Variant III",
+                "baf-v4": "Variant IV", "baf-v5": "Variant V"}
 
 
 _HIGGS_URLS = (
@@ -370,7 +377,9 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
 REGISTRY = {"german": load_german, "taiwan": load_taiwan,
             "hmeq": load_hmeq, "gmsc": load_gmsc, "heloc": load_heloc,
             "adult": load_adult, "diabetes": load_diabetes,
-            "baf": load_baf, "higgs-small": load_higgs_small}
+            "higgs-small": load_higgs_small}
+for _key, _variant in BAF_VARIANTS.items():
+    REGISTRY[_key] = partial(load_baf, _variant, _key)
 
 
 def load(name, **synthetic_kwargs):

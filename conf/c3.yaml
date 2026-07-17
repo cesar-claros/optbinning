@@ -5,6 +5,9 @@ dataset: synthetic-smooth
 n: 6000
 data_seed: 0
 arms: [raw, quantile_ple, target_ple, ot_ple, lightgbm]
+# extra arm ot_frozen: stage-1 trains the layer end-to-end, then freezes
+# its edges and trains a fresh head on their PLE encoding -- isolates
+# jointness (ot_ple - ot_frozen) from estimator (ot_frozen - target_ple)
 backbones: [linear, mlp]   # options: linear | mlp | ft
 n_bins: 8
 sinkhorn_iters: 15      # training-time unroll; hardening uses 60 internally

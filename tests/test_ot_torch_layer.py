@@ -167,6 +167,25 @@ def test_tokenized_net_ple_interp_under_ft():
     assert assign is not None and assign.shape == (64, 4, 8)
 
 
+def test_tokenized_net_ot_frozen_arm():
+    # frozen-edge PLE arm: consumes full edge arrays, trains head only.
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet
+
+    torch.manual_seed(0)
+    edges = [np.concatenate(([0.0], np.sort(np.random.rand(7)), [1.0]))
+             for _ in range(3)]
+    net = TokenizedNet("ot_frozen", edges, n_bins=8, backbone="linear",
+                       hidden=16)
+    x = torch.rand(64, 3)
+    logits, assign = net(x, need_assign=False)
+    assert logits.shape == (64,) and assign is None
+    assert not hasattr(net, "ot")            # no layer in stage 2
+    tok, _ = net.tokens(x, eps=0.1)
+    assert tok.shape == (64, 3, 8)
+    assert torch.all(tok >= 0) and torch.all(tok <= 1)
+
+
 def test_annealed_recovery_small():
     # short-budget version of C1: contiguity (P6 Thm. 3.1) and a modest
     # polished gap to the exhaustive monotone optimum.

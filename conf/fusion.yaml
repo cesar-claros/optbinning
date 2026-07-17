@@ -1,0 +1,28 @@
+# Experiment: a learnable transform upstream of the binning (P6 Sec. 4.3 on
+# real feature groups). Fuse a correlated feature GROUP into one score, then
+# bin it; end-to-end (learned fusion) vs two-stage (fixed fusion) vs oracle.
+dataset: taiwan
+group_key: pay         # see GROUPS in run_fusion.py: taiwan {pay,bill,payamt}, gmsc {delinq,afford}, hmeq {stress,value}
+n_bins: 8
+# --- end-to-end OT-layer training (mirrors C3/C4) ---
+epochs: 40
+batch_size: 4096
+lr: 0.01
+sinkhorn_iters: 15
+eps_start: 0.15
+eps_end: 0.02
+aux_iv: 1.0            # IV/PAV auxiliary weight; the reported metric is IV, so drive the fusion with it
+# --- exact-binning eval + oracle search ---
+ob_solver: mip        # certified metric solver; 'cp' matches C3/C4 (may stall in some sandboxes)
+oracle_search_n: 20000  # cap train rows used during the Powell oracle search (final scoring uses the full split)
+oracle_maxiter: 30
+oracle_maxfev: 400
+# --- protocol ---
+n_seeds: 5
+seed_offset: 0
+test_size: 0.35
+device: cpu           # the fused feature is scalar; cpu is fine. 'cuda' on GPU nodes
+out: outputs/a1_fusion
+hydra:
+  job:
+    chdir: false

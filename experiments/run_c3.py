@@ -72,7 +72,7 @@ class TokenizedNet(nn.Module):
                                           sinkhorn_iters=sinkhorn_iters)
             token_dim = n_bins + (1 if token_mode == "cumulative_plus_raw"
                                   else 0)
-        elif arm in ("quantile_ple", "target_ple"):
+        elif arm in ("quantile_ple", "target_ple", "ot_frozen"):
             for i, e in enumerate(edges):
                 self.register_buffer(f"edges_{i}",
                                      torch.as_tensor(e, dtype=torch.float32))
@@ -127,7 +127,7 @@ class TokenizedNet(nn.Module):
         cols = []
         for i in range(self.n_features):
             xi = x[:, i]
-            if self.arm in ("quantile_ple", "target_ple"):
+            if self.arm in ("quantile_ple", "target_ple", "ot_frozen"):
                 enc = _ple_encode(xi, getattr(self, f"edges_{i}"))
                 pad = self.token_dim - enc.shape[1]
                 if pad:
@@ -178,10 +178,46 @@ def _quantile_transform(xtr: np.ndarray,
     return qtr, qte
 
 
+def _make_optim(net: nn.Module, backbone: str,
+                cfg: DictConfig) -> torch.optim.Optimizer:
+    if backbone == "ft":
+        # transformers want a lower lr + decoupled weight decay than the
+        # flat heads; lr_ft keeps mixed-backbone sweeps fair.
+        return torch.optim.AdamW(
+            net.parameters(), lr=cfg.get("lr_ft") or cfg.lr,
+            weight_decay=cfg.get("ft_weight_decay", 1e-5))
+    return torch.optim.Adam(net.parameters(), lr=cfg.lr)
+
+
+def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
+                xtr: Tensor, ytr: Tensor, cfg: DictConfig,
+                use_aux: bool) -> None:
+    bce = nn.BCEWithLogitsLoss()
+    n = len(ytr)
+    for epoch in range(cfg.epochs):
+        frac = epoch / max(cfg.epochs - 1, 1)
+        eps = cfg.eps_start * (cfg.eps_end / cfg.eps_start) ** frac
+        perm = torch.randperm(n, device=xtr.device)
+        for lo in range(0, n, cfg.batch_size):
+            idx = perm[lo:lo + cfg.batch_size]
+            if len(idx) < cfg.n_bins * 4:
+                continue
+            logits, assign = net(xtr[idx], eps=eps, need_assign=use_aux)
+            loss = bce(logits, ytr[idx])
+            if assign is not None and use_aux:
+                loss = loss - cfg.aux_iv * soft_iv_multi(assign, ytr[idx])
+                loss = loss + cfg.aux_iv * pav_penalty_multi(assign,
+                                                             ytr[idx])
+            optim.zero_grad()
+            loss.backward()
+            optim.step()
+
+
 def _train_eval(arm: str, backbone: str, data: dict,
                 cfg: DictConfig) -> dict:
     device = torch.device(cfg.device)
-    if arm == "ot_ple" and cfg.get("ot_input", "quantile") == "quantile":
+    if arm in ("ot_ple", "ot_frozen") \
+            and cfg.get("ot_input", "quantile") == "quantile":
         data = dict(data)
         data["xtr"], data["xte"] = _quantile_transform(data["xtr"],
                                                        data["xte"])
@@ -189,45 +225,40 @@ def _train_eval(arm: str, backbone: str, data: dict,
     ytr = torch.as_tensor(data["ytr"], dtype=torch.float32, device=device)
     xte = torch.as_tensor(data["xte"], dtype=torch.float32, device=device)
 
-    edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins)
-    net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
-                       token_mode=cfg.get("token_mode", "cumulative"),
-                       sinkhorn_iters=cfg.get("sinkhorn_iters", 15),
-                       ft_layers=cfg.get("ft_layers", 2),
-                       ft_heads=cfg.get("ft_heads", 4))
-    net.to(device)
-    if arm == "ot_ple":
-        net.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
-    if backbone == "ft":
-        # transformers want a lower lr + decoupled weight decay than the
-        # flat heads; lr_ft keeps mixed-backbone sweeps fair.
-        optim: torch.optim.Optimizer = torch.optim.AdamW(
-            net.parameters(), lr=cfg.get("lr_ft") or cfg.lr,
-            weight_decay=cfg.get("ft_weight_decay", 1e-5))
-    else:
-        optim = torch.optim.Adam(net.parameters(), lr=cfg.lr)
-    bce = nn.BCEWithLogitsLoss()
-
+    kwargs = dict(token_mode=cfg.get("token_mode", "cumulative"),
+                  sinkhorn_iters=cfg.get("sinkhorn_iters", 15),
+                  ft_layers=cfg.get("ft_layers", 2),
+                  ft_heads=cfg.get("ft_heads", 4))
     start = time.perf_counter()
-    n = len(ytr)
-    for epoch in range(cfg.epochs):
-        frac = epoch / max(cfg.epochs - 1, 1)
-        eps = cfg.eps_start * (cfg.eps_end / cfg.eps_start) ** frac
-        perm = torch.randperm(n, device=device)
-        for lo in range(0, n, cfg.batch_size):
-            idx = perm[lo:lo + cfg.batch_size]
-            if len(idx) < cfg.n_bins * 4:
-                continue
-            logits, assign = net(xtr[idx], eps=eps,
-                                 need_assign=cfg.aux_iv > 0)
-            loss = bce(logits, ytr[idx])
-            if assign is not None and cfg.aux_iv > 0:
-                loss = loss - cfg.aux_iv * soft_iv_multi(assign, ytr[idx])
-                loss = loss + cfg.aux_iv * pav_penalty_multi(assign,
-                                                             ytr[idx])
-            optim.zero_grad()
-            loss.backward()
-            optim.step()
+    if arm == "ot_frozen":
+        # two-stage control isolating JOINTNESS from the estimator:
+        # stage 1 trains the layer end-to-end exactly as ot_ple; the
+        # learned edges are then frozen and a fresh head is trained on
+        # their PLE encoding. (ot_ple - ot_frozen) = value of joint
+        # training; (ot_frozen - target_ple) = value of the smoothed
+        # estimator at fixed two-stage protocol.
+        placeholder = [np.linspace(0, 1, cfg.n_bins + 1)] * \
+            data["xtr"].shape[1]
+        pre = TokenizedNet("ot_ple", placeholder, cfg.n_bins, backbone,
+                           cfg.hidden, **kwargs).to(device)
+        pre.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
+        _run_epochs(pre, _make_optim(pre, backbone, cfg), xtr, ytr, cfg,
+                    use_aux=cfg.aux_iv > 0)
+        eb = pre.ot.bin_edges().detach().cpu().numpy()
+        edges = [np.concatenate(([data["xtr"][:, j].min() - 1e-6], eb[j],
+                                 [data["xtr"][:, j].max() + 1e-6]))
+                 for j in range(eb.shape[0])]
+        net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
+                           **kwargs).to(device)
+    else:
+        edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins)
+        net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
+                           **kwargs).to(device)
+        if arm == "ot_ple":
+            net.ot.set_range(xtr.min(dim=0).values,
+                             xtr.max(dim=0).values)
+    _run_epochs(net, _make_optim(net, backbone, cfg), xtr, ytr, cfg,
+                use_aux=cfg.aux_iv > 0)
     fit_time = time.perf_counter() - start
 
     net.eval()
@@ -258,6 +289,10 @@ def _train_eval(arm: str, backbone: str, data: dict,
                                                     for h in hard]))
             row["mean_n_cuts"] = float(np.mean([len(h["cuts"])
                                                 for h in hard]))
+    elif arm == "ot_frozen":
+        row["contiguous_frac"] = 1.0
+        row["mean_n_cuts"] = float(np.mean(
+            [len(np.unique(np.round(e[1:-1], 6))) for e in edges]))
     return row
 
 
