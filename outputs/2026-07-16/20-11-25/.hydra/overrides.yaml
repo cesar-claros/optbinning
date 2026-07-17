@@ -1,0 +1,6 @@
+- dataset=synthetic-smooth
+- arms=[uncal,platt,hist]
+- base=lightgbm
+- n_resamples=5
+- device=cpu
+- out=/tmp/cal2

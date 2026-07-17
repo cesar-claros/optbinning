@@ -164,14 +164,23 @@ def _perf(p, y):
 # --------------------------------------------------------------------- #
 
 def _base_scores(cfg, x, y, tr_base, rng):
+    model = None
     if cfg.base == "lightgbm":
-        from lightgbm import LGBMClassifier
-        model = LGBMClassifier(n_estimators=300, learning_rate=0.05,
-                               random_state=cfg.seed, verbose=-1)
-    else:
+        try:
+            from lightgbm import LGBMClassifier
+            model = LGBMClassifier(n_estimators=300, learning_rate=0.05,
+                                   random_state=cfg.seed, verbose=-1)
+        except (ImportError, OSError):
+            # missing wheel or missing libgomp runtime: fall back so the
+            # calibration comparison still runs (base model is not the
+            # object under study).
+            logger.warning("lightgbm unavailable; falling back to "
+                           "logistic base model")
+    if model is None:
         model = LogisticRegression(max_iter=1000)
     model.fit(x[tr_base], y[tr_base])
-    return lambda idx: model.predict_proba(x[idx])[:, 1]
+    base_used = type(model).__name__
+    return (lambda idx: model.predict_proba(x[idx])[:, 1]), base_used
 
 
 def run(cfg):
@@ -188,7 +197,7 @@ def run(cfg):
     perm = rng.permutation(len(y))
     n1, n2 = int(0.4 * len(y)), int(0.7 * len(y))
     tr_base, cal_idx, te = perm[:n1], perm[n1:n2], perm[n2:]
-    score = _base_scores(cfg, x, y, tr_base, rng)
+    score, base_used = _base_scores(cfg, x, y, tr_base, rng)
     s_cal, y_cal = score(cal_idx), y[cal_idx]
     s_te, y_te = score(te), y[te]
 
@@ -223,8 +232,8 @@ def run(cfg):
         logger.info("%s: ece=%.4f brier=%.4f curve_sd=%.4f",
                     arm, row["ece_eqmass"], row["brier"], curve_sd)
 
-    common = dict(dataset=str(cfg.dataset), base=cfg.base, seed=cfg.seed,
-                  n_cal=len(cal_idx))
+    common = dict(dataset=str(cfg.dataset), base=base_used,
+                  seed=cfg.seed, n_cal=len(cal_idx))
     for r in perf_rows + stab_rows:
         r.update(common)
     out = Path(cfg.out)
