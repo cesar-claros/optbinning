@@ -212,6 +212,30 @@ def test_tokenized_net_sentinel_token_routing():
         net.tokens(x, eps=0.1, codes=None)
 
 
+def test_tokenized_net_multiclass_and_regression_heads():
+    # Gorishniy-suite task support: multiclass heads emit (B, C) under
+    # every backbone; loss selection matches the task.
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet, _loss_fn
+
+    torch.manual_seed(0)
+    edges = [np.linspace(0, 1, 9)] * 3
+    x = torch.rand(32, 3)
+    for backbone, shape in [("linear", (32, 7)), ("mlp", (32, 7)),
+                            ("ft", (32, 7))]:
+        net = TokenizedNet("ot_ple", edges, n_bins=8, backbone=backbone,
+                           hidden=32, token_mode="ple_interp", n_out=7)
+        logits, _ = net(x, need_assign=False)
+        assert logits.shape == shape, (backbone, logits.shape)
+    net1 = TokenizedNet("ot_ple", edges, n_bins=8, backbone="linear",
+                        hidden=16, token_mode="ple_interp", n_out=1)
+    logits, _ = net1(x, need_assign=False)
+    assert logits.shape == (32,)                 # squeezed for 1-dim
+    assert type(_loss_fn("multiclass")).__name__ == "CrossEntropyLoss"
+    assert type(_loss_fn("regression")).__name__ == "MSELoss"
+    assert type(_loss_fn("binary")).__name__ == "BCEWithLogitsLoss"
+
+
 def test_annealed_recovery_small():
     # short-budget version of C1: contiguity (P6 Thm. 3.1) and a modest
     # polished gap to the exhaustive monotone optimum.

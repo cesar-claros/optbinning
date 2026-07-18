@@ -48,7 +48,7 @@ class FeatureTokenTransformer(nn.Module):
 
     def __init__(self, n_features: int, token_dim: int, d_model: int = 64,
                  n_layers: int = 2, n_heads: int = 4,
-                 dropout: float = 0.1) -> None:
+                 dropout: float = 0.1, n_out: int = 1) -> None:
         super().__init__()
         if d_model % n_heads:
             raise ValueError(
@@ -69,7 +69,7 @@ class FeatureTokenTransformer(nn.Module):
         self.encoder = nn.TransformerEncoder(layer, num_layers=n_layers,
                                              enable_nested_tensor=False)
         self.head = nn.Sequential(nn.LayerNorm(d_model), nn.ReLU(),
-                                  nn.Linear(d_model, 1))
+                                  nn.Linear(d_model, n_out))
 
     def forward(self, tokens: Tensor) -> Tensor:
         """Logits of shape ``(batch,)`` from per-feature tokens of shape

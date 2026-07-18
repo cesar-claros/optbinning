@@ -32,6 +32,7 @@ class Dataset:
     numerical: list = field(default_factory=list)
     special_codes: list = field(default_factory=list)
     time_column: str = None
+    task: str = "binary"          # binary | multiclass | regression
 
 
 def _cache_path(name):
@@ -283,6 +284,161 @@ def load_higgs_small():
 
 
 # --------------------------------------------------------------------- #
+# Gorishniy et al. suite completion (tasks: binary/multiclass/regression)
+# --------------------------------------------------------------------- #
+
+def _from_openml(cache_name, data_id, target_to_str=False):
+    def fetch():
+        from sklearn.datasets import fetch_openml
+        d = fetch_openml(data_id=data_id, as_frame=True, parser="auto")
+        df = d.data.copy()
+        t = d.target
+        df["__target__"] = (t.astype(str) if target_to_str
+                            else t).values
+        return df
+
+    return _from_cache_or(cache_name, fetch)
+
+
+def load_gesture():
+    """Gesture Phase Segmentation (OpenML 4538; n=9873, 5 classes)."""
+    df = _from_openml("gesture", 4538, target_to_str=True)
+    y = pd.Categorical(df["__target__"]).codes.astype(int)
+    X = df.drop(columns="__target__")
+    num = [c for c in X.columns if pd.api.types.is_numeric_dtype(X[c])]
+    return Dataset("gesture", X, y, numerical=num, task="multiclass")
+
+
+def load_churn():
+    """Churn Modelling (Kaggle; manual). Place Churn_Modelling.csv at
+    data/churn/. y = Exited (binary)."""
+    path = DATA_DIR / "churn" / "Churn_Modelling.csv"
+    if not path.exists():
+        raise FileNotFoundError(
+            "Churn Modelling requires a manual Kaggle download "
+            "(shrutimechlearn/churn-modelling). Place "
+            "Churn_Modelling.csv at {}.".format(path))
+    df = pd.read_csv(path).drop(
+        columns=["RowNumber", "CustomerId", "Surname"], errors="ignore")
+    y = df["Exited"].values.astype(int)
+    X = df.drop(columns="Exited")
+    num = [c for c in X.columns if pd.api.types.is_numeric_dtype(X[c])]
+    return Dataset("churn", X, y, numerical=num)
+
+
+def load_california():
+    """California Housing (sklearn; regression on MedHouseVal)."""
+    def fetch():
+        from sklearn.datasets import fetch_california_housing
+        d = fetch_california_housing(as_frame=True)
+        df = d.data.copy()
+        df["__target__"] = d.target.values
+        return df
+
+    df = _from_cache_or("california", fetch)
+    y = df["__target__"].values.astype(float)
+    X = df.drop(columns="__target__")
+    return Dataset("california", X, y, numerical=list(X.columns),
+                   task="regression")
+
+
+def load_house16h():
+    """House 16H (OpenML 574; regression on price)."""
+    df = _from_openml("house16h", 574)
+    y = df["__target__"].values.astype(float)
+    X = df.drop(columns="__target__")
+    num = [c for c in X.columns if pd.api.types.is_numeric_dtype(X[c])]
+    return Dataset("house16h", X, y, numerical=num, task="regression")
+
+
+def load_otto():
+    """Otto Group Products (Kaggle; manual). Place train.csv at
+    data/otto/. 9 classes; integer count features (tie-heavy -- the
+    regime map predicts this is hard territory for learned knots)."""
+    path = DATA_DIR / "otto" / "train.csv"
+    if not path.exists():
+        raise FileNotFoundError(
+            "Otto requires a manual Kaggle download (competition "
+            "otto-group-product-classification-challenge). Place "
+            "train.csv at {}.".format(path))
+    df = pd.read_csv(path).drop(columns="id", errors="ignore")
+    y = pd.Categorical(df["target"]).codes.astype(int)
+    X = df.drop(columns="target")
+    return Dataset("otto", X, y, numerical=list(X.columns),
+                   task="multiclass")
+
+
+def load_facebook():
+    """Facebook Comment Volume (UCI id=363; regression). Auto-fetches
+    the zip and uses Features_Variant_5 (closest to the Gorishniy
+    count; approximate replication, noted)."""
+    def fetch():
+        import io
+        import urllib.request
+        import zipfile
+        url = ("https://archive.ics.uci.edu/static/public/363/"
+               "facebook+comment+volume+dataset.zip")
+        raw = urllib.request.urlopen(url).read()
+        with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+            member = next(m for m in zf.namelist()
+                          if "Variant_5.csv" in m and "Train" in m)
+            df = pd.read_csv(zf.open(member), header=None)
+        df.columns = [f"f{i}" for i in range(df.shape[1] - 1)] \
+            + ["__target__"]
+        return df
+
+    df = _from_cache_or("facebook", fetch)
+    y = df["__target__"].values.astype(float)
+    X = df.drop(columns="__target__")
+    return Dataset("facebook", X, y, numerical=list(X.columns),
+                   task="regression")
+
+
+def load_santander():
+    """Santander Customer Transactions (Kaggle; manual). Place
+    train.csv at data/santander/. Binary; 200 numeric features."""
+    path = DATA_DIR / "santander" / "train.csv"
+    if not path.exists():
+        raise FileNotFoundError(
+            "Santander requires a manual Kaggle download (competition "
+            "santander-customer-transaction-prediction). Place "
+            "train.csv at {}.".format(path))
+    df = pd.read_csv(path).drop(columns="ID_code", errors="ignore")
+    y = df["target"].values.astype(int)
+    X = df.drop(columns="target")
+    return Dataset("santander", X, y, numerical=list(X.columns))
+
+
+def load_covertype():
+    """Covertype (sklearn; n=581012, 7 classes; all 54 columns treated
+    as numerical, following the Gorishniy protocol)."""
+    from sklearn.datasets import fetch_covtype
+    d = fetch_covtype()                    # sklearn caches internally
+    X = pd.DataFrame(d.data, columns=[f"f{i}" for i in range(54)])
+    y = d.target.astype(int) - 1
+    return Dataset("covertype", X, y, numerical=list(X.columns),
+                   task="multiclass")
+
+
+def load_mslr():
+    """MSLR-WEB10K Fold 1 (manual; regression on relevance 0-4).
+    Download from the Microsoft LETOR page and place Fold1/train.txt at
+    data/mslr/Fold1/train.txt (svmlight format; we use the train file
+    and our own splits -- a deviation from the official folds, noted)."""
+    path = DATA_DIR / "mslr" / "Fold1" / "train.txt"
+    if not path.exists():
+        raise FileNotFoundError(
+            "MSLR-WEB10K requires a manual download (Microsoft LETOR). "
+            "Place Fold1/train.txt at {}.".format(path))
+    from sklearn.datasets import load_svmlight_file
+    xs, y = load_svmlight_file(str(path))
+    X = pd.DataFrame(np.asarray(xs.todense(), dtype=np.float32),
+                     columns=[f"f{i}" for i in range(xs.shape[1])])
+    return Dataset("mslr", X, y.astype(float),
+                   numerical=list(X.columns), task="regression")
+
+
+# --------------------------------------------------------------------- #
 # Synthetic generator (paper designs)
 # --------------------------------------------------------------------- #
 
@@ -377,7 +533,12 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
 REGISTRY = {"german": load_german, "taiwan": load_taiwan,
             "hmeq": load_hmeq, "gmsc": load_gmsc, "heloc": load_heloc,
             "adult": load_adult, "diabetes": load_diabetes,
-            "higgs-small": load_higgs_small}
+            "higgs-small": load_higgs_small,
+            "gesture": load_gesture, "churn": load_churn,
+            "california": load_california, "house16h": load_house16h,
+            "otto": load_otto, "facebook": load_facebook,
+            "santander": load_santander, "covertype": load_covertype,
+            "mslr": load_mslr}
 for _key, _variant in BAF_VARIANTS.items():
     REGISTRY[_key] = partial(load_baf, _variant, _key)
 

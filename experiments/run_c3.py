@@ -61,7 +61,8 @@ class TokenizedNet(nn.Module):
                  backbone: str, hidden: int,
                  token_mode: str = "cumulative",
                  sinkhorn_iters: int = 15, ft_layers: int = 2,
-                 ft_heads: int = 4, n_special: int = 0) -> None:
+                 ft_heads: int = 4, n_special: int = 0,
+                 n_out: int = 1) -> None:
         super().__init__()
         self.arm = arm
         self.backbone = backbone
@@ -89,14 +90,15 @@ class TokenizedNet(nn.Module):
             # CLS readout; consumes tokens as (batch, features, dim).
             self.head: nn.Module = FeatureTokenTransformer(
                 self.n_features, token_dim, d_model=hidden,
-                n_layers=ft_layers, n_heads=ft_heads)
+                n_layers=ft_layers, n_heads=ft_heads, n_out=n_out)
         elif backbone == "linear":
-            self.head = nn.Linear(self.n_features * token_dim, 1)
+            self.head = nn.Linear(self.n_features * token_dim, n_out)
         else:
             in_dim = self.n_features * token_dim
             self.head = nn.Sequential(
                 nn.Linear(in_dim, hidden), nn.ReLU(),
-                nn.Linear(hidden, hidden), nn.ReLU(), nn.Linear(hidden, 1))
+                nn.Linear(hidden, hidden), nn.ReLU(),
+                nn.Linear(hidden, n_out))
 
     def tokens(self, x: Tensor, eps: float, need_assign: bool = True,
                codes: Tensor | None = None) -> tuple[Tensor,
@@ -173,13 +175,22 @@ class TokenizedNet(nn.Module):
 
 
 def _edges_for_arm(arm: str, xtr: np.ndarray, ytr: np.ndarray,
-                   n_bins: int) -> list[np.ndarray]:
+                   n_bins: int, task: str = "binary") -> list[np.ndarray]:
     edges = []
     for i in range(xtr.shape[1]):
         col = xtr[:, i]
         if arm == "target_ple":
-            optb = OptimalBinning(dtype="numerical", solver="cp",
-                                  max_n_bins=n_bins).fit(col, ytr)
+            if task == "regression":
+                from optbinning import ContinuousOptimalBinning
+                optb = ContinuousOptimalBinning(
+                    dtype="numerical", max_n_bins=n_bins).fit(col, ytr)
+            elif task == "multiclass":
+                from optbinning import MulticlassOptimalBinning
+                optb = MulticlassOptimalBinning(
+                    max_n_bins=n_bins).fit(col, ytr)
+            else:
+                optb = OptimalBinning(dtype="numerical", solver="cp",
+                                      max_n_bins=n_bins).fit(col, ytr)
             inner = np.asarray(optb.splits, dtype=float)
         else:
             inner = np.unique(np.quantile(
@@ -234,10 +245,19 @@ def _make_optim(net: nn.Module, backbone: str,
     return torch.optim.Adam(net.parameters(), lr=cfg.lr)
 
 
+def _loss_fn(task: str):
+    if task == "multiclass":
+        return nn.CrossEntropyLoss()
+    if task == "regression":
+        return nn.MSELoss()
+    return nn.BCEWithLogitsLoss()
+
+
 def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
                 xtr: Tensor, ytr: Tensor, cfg: DictConfig,
-                use_aux: bool, codes: Tensor | None = None) -> None:
-    bce = nn.BCEWithLogitsLoss()
+                use_aux: bool, codes: Tensor | None = None,
+                task: str = "binary") -> None:
+    bce = _loss_fn(task)
     n = len(ytr)
     for epoch in range(cfg.epochs):
         frac = epoch / max(cfg.epochs - 1, 1)
@@ -263,7 +283,13 @@ def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
 def _train_eval(arm: str, backbone: str, data: dict,
                 cfg: DictConfig) -> dict:
     device = torch.device(cfg.device)
+    task = data.get("task", "binary")
     n_special = int(data.get("n_special", 0))
+    n_out = (int(data["ytr"].max()) + 1 if task == "multiclass" else 1)
+    use_aux = cfg.aux_iv > 0 and task == "binary"
+    y_mu, y_sd = 0.0, 1.0
+    if task == "regression":
+        y_mu, y_sd = float(data["ytr"].mean()), float(data["ytr"].std())
     if arm in ("ot_ple", "ot_frozen") \
             and cfg.get("ot_input", "quantile") == "quantile":
         data = dict(data)
@@ -274,7 +300,12 @@ def _train_eval(arm: str, backbone: str, data: dict,
             data["xtr"], data["xte"] = _quantile_transform(data["xtr"],
                                                            data["xte"])
     xtr = torch.as_tensor(data["xtr"], dtype=torch.float32, device=device)
-    ytr = torch.as_tensor(data["ytr"], dtype=torch.float32, device=device)
+    if task == "multiclass":
+        ytr = torch.as_tensor(data["ytr"], dtype=torch.long,
+                              device=device)
+    else:
+        ytr = torch.as_tensor((data["ytr"] - y_mu) / y_sd,
+                              dtype=torch.float32, device=device)
     xte = torch.as_tensor(data["xte"], dtype=torch.float32, device=device)
     ctr = cte = None
     if n_special:
@@ -286,7 +317,8 @@ def _train_eval(arm: str, backbone: str, data: dict,
     kwargs = dict(token_mode=cfg.get("token_mode", "cumulative"),
                   sinkhorn_iters=cfg.get("sinkhorn_iters", 15),
                   ft_layers=cfg.get("ft_layers", 2),
-                  ft_heads=cfg.get("ft_heads", 4), n_special=n_special)
+                  ft_heads=cfg.get("ft_heads", 4), n_special=n_special,
+                  n_out=n_out)
     start = time.perf_counter()
     if arm == "ot_frozen":
         # two-stage control isolating JOINTNESS from the estimator:
@@ -301,7 +333,7 @@ def _train_eval(arm: str, backbone: str, data: dict,
                            cfg.hidden, **kwargs).to(device)
         pre.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
         _run_epochs(pre, _make_optim(pre, backbone, cfg), xtr, ytr, cfg,
-                    use_aux=cfg.aux_iv > 0, codes=ctr)
+                    use_aux=use_aux, codes=ctr, task=task)
         eb = pre.ot.bin_edges().detach().cpu().numpy()
         edges = [np.concatenate(([data["xtr"][:, j].min() - 1e-6], eb[j],
                                  [data["xtr"][:, j].max() + 1e-6]))
@@ -309,14 +341,15 @@ def _train_eval(arm: str, backbone: str, data: dict,
         net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
                            **kwargs).to(device)
     else:
-        edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins)
+        edges = _edges_for_arm(arm, data["xtr"], data["ytr"], cfg.n_bins,
+                               task=task)
         net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
                            **kwargs).to(device)
         if arm == "ot_ple":
             net.ot.set_range(xtr.min(dim=0).values,
                              xtr.max(dim=0).values)
     _run_epochs(net, _make_optim(net, backbone, cfg), xtr, ytr, cfg,
-                use_aux=cfg.aux_iv > 0, codes=ctr)
+                use_aux=use_aux, codes=ctr, task=task)
     fit_time = time.perf_counter() - start
 
     net.eval()
@@ -324,17 +357,29 @@ def _train_eval(arm: str, backbone: str, data: dict,
         # chunked eval: exact (attention is across features, not batch);
         # a single 350k-row forward overflows the fused transformer
         # kernel's launch config on large test sets (BAF).
-        probs = []
+        outs = []
         for lo in range(0, len(xte), cfg.batch_size):
             logits, _ = net(xte[lo:lo + cfg.batch_size], eps=cfg.eps_end,
                             need_assign=False,
                             codes=None if cte is None
                             else cte[lo:lo + cfg.batch_size])
-            probs.append(torch.sigmoid(logits))
-        prob = torch.cat(probs).cpu().numpy()
-    row = dict(auc=float(roc_auc_score(data["yte"], prob)),
-               logloss=float(log_loss(data["yte"], prob)),
-               fit_time=fit_time)
+            outs.append(logits)
+        out = torch.cat(outs).cpu().numpy()
+    if task == "multiclass":
+        row = dict(score=float((out.argmax(1) == data["yte"]).mean()),
+                   metric="accuracy", auc=np.nan, logloss=np.nan)
+    elif task == "regression":
+        pred = out * y_sd + y_mu
+        row = dict(score=float(np.sqrt(np.mean(
+            (pred - data["yte"]) ** 2))), metric="rmse",
+            auc=np.nan, logloss=np.nan)
+    else:
+        prob = 1 / (1 + np.exp(-out))
+        row = dict(score=float(roc_auc_score(data["yte"], prob)),
+                   metric="auc",
+                   auc=float(roc_auc_score(data["yte"], prob)),
+                   logloss=float(log_loss(data["yte"], prob)))
+    row["fit_time"] = fit_time
     if arm == "ot_ple":
         if net.token_mode == "ple_interp":
             # interval bins by construction: contiguity is structural
@@ -356,16 +401,30 @@ def _train_eval(arm: str, backbone: str, data: dict,
     return row
 
 
-def _lightgbm_row(data: dict, seed: int) -> dict:
-    from lightgbm import LGBMClassifier
+def _lightgbm_row(data: dict, seed: int, task: str = "binary") -> dict:
+    from lightgbm import LGBMClassifier, LGBMRegressor
     start = time.perf_counter()
-    model = LGBMClassifier(n_estimators=300, learning_rate=0.05,
-                           random_state=seed, verbose=-1)
+    cls = LGBMRegressor if task == "regression" else LGBMClassifier
+    model = cls(n_estimators=300, learning_rate=0.05,
+                random_state=seed, verbose=-1)
     model.fit(data["xtr"], data["ytr"])
-    prob = model.predict_proba(data["xte"])[:, 1]
-    return dict(auc=float(roc_auc_score(data["yte"], prob)),
-                logloss=float(log_loss(data["yte"], prob)),
-                fit_time=time.perf_counter() - start)
+    if task == "regression":
+        pred = model.predict(data["xte"])
+        row = dict(score=float(np.sqrt(np.mean(
+            (pred - data["yte"]) ** 2))), metric="rmse",
+            auc=np.nan, logloss=np.nan)
+    elif task == "multiclass":
+        pred = model.predict(data["xte"])
+        row = dict(score=float((pred == data["yte"]).mean()),
+                   metric="accuracy", auc=np.nan, logloss=np.nan)
+    else:
+        prob = model.predict_proba(data["xte"])[:, 1]
+        row = dict(score=float(roc_auc_score(data["yte"], prob)),
+                   metric="auc",
+                   auc=float(roc_auc_score(data["yte"], prob)),
+                   logloss=float(log_loss(data["yte"], prob)))
+    row["fit_time"] = time.perf_counter() - start
+    return row
 
 
 def run(cfg: DictConfig) -> Path:
@@ -388,9 +447,10 @@ def run(cfg: DictConfig) -> Path:
     rows = []
     tr, te = datasets.split_indices(len(ds.y), cfg.test_size, cfg.seed)
     mu, sd = x[tr].mean(axis=0), x[tr].std(axis=0) + 1e-9
+    task = getattr(ds, "task", "binary")
     data = dict(xtr=(x[tr] - mu) / sd, ytr=ds.y[tr],
                 xte=(x[te] - mu) / sd, yte=ds.y[te],
-                n_special=n_special)
+                n_special=n_special, task=task)
     if code_idx is not None:
         data["ctr"], data["cte"] = code_idx[tr], code_idx[te]
     data_lgb = dict(xtr=x_lgb[tr], ytr=ds.y[tr],
@@ -400,25 +460,26 @@ def run(cfg: DictConfig) -> Path:
     for arm in cfg.arms:
         if arm == "lightgbm":
             try:
-                row = _lightgbm_row(data_lgb, cfg.seed)
+                row = _lightgbm_row(data_lgb, cfg.seed, task=task)
             except Exception:
                 logger.exception("arm %s failed", arm)
-                row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
+                row = dict(score=np.nan, auc=np.nan, logloss=np.nan,
+                           fit_time=np.nan)
             row.update(dataset=ds.name, arm=arm, backbone="gbdt",
-                       seed=cfg.seed, special_handling=mode)
+                       seed=cfg.seed, special_handling=mode, task=task)
             rows.append(row)
             continue
         for backbone in cfg.backbones:
             try:
                 row = _train_eval(arm, backbone, data, cfg)
-                logger.info("%s/%s: auc=%.4f", arm, backbone, row["auc"])
+                logger.info("%s/%s: %s=%.4f", arm, backbone,
+                            row["metric"], row["score"])
             except Exception:
                 logger.exception("arm %s/%s failed", arm, backbone)
-                row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
+                row = dict(score=np.nan, auc=np.nan, logloss=np.nan,
+                           fit_time=np.nan)
             row.update(dataset=ds.name, arm=arm, backbone=backbone,
-                       seed=cfg.seed,
-                       special_handling=cfg.get("special_handling",
-                                                "ignore"))
+                       seed=cfg.seed, special_handling=mode, task=task)
             rows.append(row)
 
     out = Path(cfg.out) / f"c3_{cfg.dataset}_{cfg.seed}"
