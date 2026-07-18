@@ -405,7 +405,7 @@ def run(cfg: DictConfig) -> Path:
                 logger.exception("arm %s failed", arm)
                 row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
             row.update(dataset=ds.name, arm=arm, backbone="gbdt",
-                       seed=cfg.seed)
+                       seed=cfg.seed, special_handling=mode)
             rows.append(row)
             continue
         for backbone in cfg.backbones:
