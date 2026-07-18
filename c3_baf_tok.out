@@ -1,9 +1,62 @@
 nohup: ignoring input
-[2026-07-18 00:06:46,907][HYDRA] Launching 5 jobs locally
-[2026-07-18 00:06:46,907][HYDRA] 	#0 : dataset=baf seed=0 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
-[2026-07-18 00:07:07,935][__main__][INFO] - raw/linear: auc=0.8491
-[2026-07-18 00:07:28,794][__main__][INFO] - raw/mlp: auc=0.8366
-[2026-07-18 00:07:59,010][__main__][INFO] - quantile_ple/linear: auc=0.8731
-[2026-07-18 00:08:40,291][__main__][INFO] - quantile_ple/mlp: auc=0.8690
-[2026-07-18 00:09:20,859][__main__][INFO] - target_ple/linear: auc=0.8725
-[2026-07-18 00:10:13,943][__main__][INFO] - target_ple/mlp: auc=0.8700
+[2026-07-18 00:36:08,049][HYDRA] Launching 5 jobs locally
+[2026-07-18 00:36:08,049][HYDRA] 	#0 : dataset=baf seed=0 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
+[2026-07-18 00:36:28,838][__main__][INFO] - raw/linear: auc=0.8491
+[2026-07-18 00:36:49,630][__main__][INFO] - raw/mlp: auc=0.8366
+[2026-07-18 00:37:19,687][__main__][INFO] - quantile_ple/linear: auc=0.8731
+[2026-07-18 00:38:01,065][__main__][INFO] - quantile_ple/mlp: auc=0.8690
+[2026-07-18 00:38:42,061][__main__][INFO] - target_ple/linear: auc=0.8725
+[2026-07-18 00:39:37,706][__main__][INFO] - target_ple/mlp: auc=0.8700
+[2026-07-18 00:51:44,788][__main__][INFO] - ot_ple/linear: auc=0.8719
+[2026-07-18 01:03:48,410][__main__][INFO] - ot_ple/mlp: auc=0.8675
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 01:03:52,615][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_baf_tok/c3_baf_0.parquet
+[2026-07-18 01:03:52,626][HYDRA] 	#1 : dataset=baf seed=1 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
+[2026-07-18 01:04:11,665][__main__][INFO] - raw/linear: auc=0.8462
+[2026-07-18 01:04:32,498][__main__][INFO] - raw/mlp: auc=0.8447
+[2026-07-18 01:05:02,978][__main__][INFO] - quantile_ple/linear: auc=0.8704
+[2026-07-18 01:05:44,109][__main__][INFO] - quantile_ple/mlp: auc=0.8688
+[2026-07-18 01:06:25,175][__main__][INFO] - target_ple/linear: auc=0.8695
+[2026-07-18 01:07:20,421][__main__][INFO] - target_ple/mlp: auc=0.8589
+[2026-07-18 01:19:28,493][__main__][INFO] - ot_ple/linear: auc=0.8714
+[2026-07-18 01:31:49,695][__main__][INFO] - ot_ple/mlp: auc=0.8613
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 01:31:54,045][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_baf_tok/c3_baf_1.parquet
+[2026-07-18 01:31:54,066][HYDRA] 	#2 : dataset=baf seed=2 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
+[2026-07-18 01:32:13,043][__main__][INFO] - raw/linear: auc=0.8500
+[2026-07-18 01:32:33,670][__main__][INFO] - raw/mlp: auc=0.8461
+[2026-07-18 01:33:03,751][__main__][INFO] - quantile_ple/linear: auc=0.8737
+[2026-07-18 01:33:45,836][__main__][INFO] - quantile_ple/mlp: auc=0.8662
+[2026-07-18 01:34:25,826][__main__][INFO] - target_ple/linear: auc=0.8727
+[2026-07-18 01:35:19,720][__main__][INFO] - target_ple/mlp: auc=0.8652
+[2026-07-18 01:47:36,694][__main__][INFO] - ot_ple/linear: auc=0.8719
+[2026-07-18 01:59:46,353][__main__][INFO] - ot_ple/mlp: auc=0.8693
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 01:59:50,630][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_baf_tok/c3_baf_2.parquet
+[2026-07-18 01:59:50,643][HYDRA] 	#3 : dataset=baf seed=3 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
+[2026-07-18 02:00:09,355][__main__][INFO] - raw/linear: auc=0.8496
+[2026-07-18 02:00:29,982][__main__][INFO] - raw/mlp: auc=0.8447
+[2026-07-18 02:01:00,206][__main__][INFO] - quantile_ple/linear: auc=0.8738
+[2026-07-18 02:01:41,816][__main__][INFO] - quantile_ple/mlp: auc=0.8679
+[2026-07-18 02:02:22,394][__main__][INFO] - target_ple/linear: auc=0.8720
+[2026-07-18 02:03:16,108][__main__][INFO] - target_ple/mlp: auc=0.8662
+[2026-07-18 02:15:11,300][__main__][INFO] - ot_ple/linear: auc=0.8724
+[2026-07-18 02:27:21,767][__main__][INFO] - ot_ple/mlp: auc=0.8712
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 02:27:25,993][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_baf_tok/c3_baf_3.parquet
+[2026-07-18 02:27:26,043][HYDRA] 	#4 : dataset=baf seed=4 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
+[2026-07-18 02:27:45,075][__main__][INFO] - raw/linear: auc=0.8464
+[2026-07-18 02:28:05,757][__main__][INFO] - raw/mlp: auc=0.8416
+[2026-07-18 02:28:35,729][__main__][INFO] - quantile_ple/linear: auc=0.8701
+[2026-07-18 02:29:17,544][__main__][INFO] - quantile_ple/mlp: auc=0.8675
+[2026-07-18 02:29:57,805][__main__][INFO] - target_ple/linear: auc=0.8687
+[2026-07-18 02:30:50,898][__main__][INFO] - target_ple/mlp: auc=0.8610
+[2026-07-18 02:42:28,672][__main__][INFO] - ot_ple/linear: auc=0.8687
+[2026-07-18 02:54:09,087][__main__][INFO] - ot_ple/mlp: auc=0.8664
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 02:54:13,311][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_baf_tok/c3_baf_4.parquet
