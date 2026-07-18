@@ -103,8 +103,11 @@ class FSQ(nn.Module):
         self.n_codes = n_levels ** dim
 
     def _round(self, zb: Tensor) -> Tensor:
-        half = (self.n_levels - 1) / 2
-        zq = torch.round(zb * half) / half
+        # shift-scale so round() yields EXACTLY n_levels integer values
+        # (a symmetric round(zb * half) / half hits n_levels + 1
+        # off-grid values for even n_levels and disagrees with codes()).
+        idx = torch.round((zb + 1) / 2 * (self.n_levels - 1))
+        zq = idx / (self.n_levels - 1) * 2 - 1
         return zb + (zq - zb).detach()          # straight-through
 
     def codes(self, z: Tensor) -> Tensor:

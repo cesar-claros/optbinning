@@ -22,13 +22,15 @@ from experiments.paperq.quantizers import (FSQ, OTQuantizer,  # noqa: E402
 def test_vqema_shapes_and_ema():
     torch.manual_seed(0)
     q = VQEMA(n_codes=32, dim=4)
-    z = torch.randn(256, 4)
+    z = torch.randn(256, 4, requires_grad=True)     # encoder output
     before = q.codebook.clone()
     q.train()
     zq, loss = q(z)
     assert zq.shape == z.shape and loss.item() >= 0
     assert not torch.allclose(q.codebook, before)   # EMA moved codes
     zq.sum().backward()                             # straight-through
+    assert z.grad is not None
+    assert float(z.grad.abs().sum()) > 0
     codes = q.codes(z)
     assert codes.shape == (256,) and codes.max() < 32
 
