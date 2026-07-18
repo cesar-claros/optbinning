@@ -1,0 +1,62 @@
+nohup: ignoring input
+[2026-07-17 22:40:02,157][HYDRA] Launching 5 jobs locally
+[2026-07-17 22:40:02,157][HYDRA] 	#0 : dataset=heloc seed=0 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_heloc_tok
+[2026-07-17 22:40:04,357][__main__][INFO] - raw/linear: auc=0.8003
+[2026-07-17 22:40:04,658][__main__][INFO] - raw/mlp: auc=0.7731
+[2026-07-17 22:40:05,043][__main__][INFO] - quantile_ple/linear: auc=0.8035
+[2026-07-17 22:40:05,563][__main__][INFO] - quantile_ple/mlp: auc=0.8017
+[2026-07-17 22:40:06,691][__main__][INFO] - target_ple/linear: auc=0.8034
+[2026-07-17 22:40:07,994][__main__][INFO] - target_ple/mlp: auc=0.7968
+[2026-07-17 22:40:18,346][__main__][INFO] - ot_ple/linear: auc=0.8018
+[2026-07-17 22:40:28,416][__main__][INFO] - ot_ple/mlp: auc=0.7781
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-17 22:40:28,853][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_heloc_tok/c3_heloc_0.parquet
+[2026-07-17 22:40:28,854][HYDRA] 	#1 : dataset=heloc seed=1 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_heloc_tok
+[2026-07-17 22:40:29,228][__main__][INFO] - raw/linear: auc=0.7955
+[2026-07-17 22:40:29,534][__main__][INFO] - raw/mlp: auc=0.7654
+[2026-07-17 22:40:29,917][__main__][INFO] - quantile_ple/linear: auc=0.7988
+[2026-07-17 22:40:30,444][__main__][INFO] - quantile_ple/mlp: auc=0.7926
+[2026-07-17 22:40:31,461][__main__][INFO] - target_ple/linear: auc=0.7990
+[2026-07-17 22:40:32,616][__main__][INFO] - target_ple/mlp: auc=0.7913
+[2026-07-17 22:40:42,579][__main__][INFO] - ot_ple/linear: auc=0.7987
+[2026-07-17 22:40:52,691][__main__][INFO] - ot_ple/mlp: auc=0.7799
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-17 22:40:53,058][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_heloc_tok/c3_heloc_1.parquet
+[2026-07-17 22:40:53,060][HYDRA] 	#2 : dataset=heloc seed=2 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_heloc_tok
+[2026-07-17 22:40:53,393][__main__][INFO] - raw/linear: auc=0.7966
+[2026-07-17 22:40:53,677][__main__][INFO] - raw/mlp: auc=0.7637
+[2026-07-17 22:40:54,088][__main__][INFO] - quantile_ple/linear: auc=0.7994
+[2026-07-17 22:40:54,614][__main__][INFO] - quantile_ple/mlp: auc=0.7924
+[2026-07-17 22:40:55,668][__main__][INFO] - target_ple/linear: auc=0.7983
+[2026-07-17 22:40:56,868][__main__][INFO] - target_ple/mlp: auc=0.7975
+[2026-07-17 22:41:07,021][__main__][INFO] - ot_ple/linear: auc=0.7980
+[2026-07-17 22:41:17,218][__main__][INFO] - ot_ple/mlp: auc=0.7881
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-17 22:41:17,712][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_heloc_tok/c3_heloc_2.parquet
+[2026-07-17 22:41:17,713][HYDRA] 	#3 : dataset=heloc seed=3 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_heloc_tok
+[2026-07-17 22:41:18,061][__main__][INFO] - raw/linear: auc=0.8032
+[2026-07-17 22:41:18,354][__main__][INFO] - raw/mlp: auc=0.7765
+[2026-07-17 22:41:18,739][__main__][INFO] - quantile_ple/linear: auc=0.8054
+[2026-07-17 22:41:19,249][__main__][INFO] - quantile_ple/mlp: auc=0.7991
+[2026-07-17 22:41:20,280][__main__][INFO] - target_ple/linear: auc=0.8046
+[2026-07-17 22:41:21,462][__main__][INFO] - target_ple/mlp: auc=0.7980
+[2026-07-17 22:41:31,451][__main__][INFO] - ot_ple/linear: auc=0.8043
+[2026-07-17 22:41:41,597][__main__][INFO] - ot_ple/mlp: auc=0.7937
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-17 22:41:42,027][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_heloc_tok/c3_heloc_3.parquet
+[2026-07-17 22:41:42,029][HYDRA] 	#4 : dataset=heloc seed=4 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_heloc_tok
+[2026-07-17 22:41:42,388][__main__][INFO] - raw/linear: auc=0.7975
+[2026-07-17 22:41:42,684][__main__][INFO] - raw/mlp: auc=0.7704
+[2026-07-17 22:41:43,070][__main__][INFO] - quantile_ple/linear: auc=0.8044
+[2026-07-17 22:41:43,609][__main__][INFO] - quantile_ple/mlp: auc=0.7963
+[2026-07-17 22:41:44,741][__main__][INFO] - target_ple/linear: auc=0.8028
+[2026-07-17 22:41:46,020][__main__][INFO] - target_ple/mlp: auc=0.7919
+[2026-07-17 22:41:55,946][__main__][INFO] - ot_ple/linear: auc=0.8018
+[2026-07-17 22:42:05,904][__main__][INFO] - ot_ple/mlp: auc=0.7740
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-17 22:42:06,380][__main__][INFO] - C3: wrote 9 rows -> outputs/c3_heloc_tok/c3_heloc_4.parquet
