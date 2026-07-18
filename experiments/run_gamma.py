@@ -32,6 +32,7 @@ from omegaconf import DictConfig                        # noqa: E402
 
 from experiments import datasets                        # noqa: E402
 from experiments.common import (bootstrap_cut_sd, eval_binning,  # noqa: E402
+                                expanded_features, feature_array,
                                 make_arm, save_results)
 
 
@@ -41,13 +42,15 @@ def run(cfg):
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
 
-    features = list(cfg.features) if cfg.get("features") else ds.numerical
+    features = expanded_features(
+        ds, list(cfg.features) if cfg.get("features") else None,
+        cfg.get("special_handling", "expand"))
     gammas = [float(g) for g in cfg.gammas]
     rows = []
     for seed in range(cfg.seed_offset, cfg.seed_offset + cfg.n_seeds):
         tr, te = datasets.split_indices(len(ds.y), cfg.test_size, seed)
         for feat in features:
-            x = ds.X[feat].values.astype(float)
+            x = feature_array(ds, feat, cfg.get("special_handling", "expand"))
             mask = np.isfinite(x)
             xtr, ytr = x[tr][mask[tr]], ds.y[tr][mask[tr]]
             xte, yte = x[te][mask[te]], ds.y[te][mask[te]]

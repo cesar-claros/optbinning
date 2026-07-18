@@ -197,7 +197,7 @@ def run(cfg):
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    x = prepare_features(ds, cfg.get("special_handling", "ignore"))
+    x = prepare_features(ds, cfg.get("special_handling", "expand"))
     y = ds.y
 
     rng = np.random.default_rng(cfg.seed)

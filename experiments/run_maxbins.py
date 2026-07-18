@@ -30,8 +30,8 @@ import hydra                                            # noqa: E402
 from omegaconf import DictConfig                        # noqa: E402
 
 from experiments import datasets                        # noqa: E402
-from experiments.common import (eval_binning, make_arm,  # noqa: E402
-                                save_results)
+from experiments.common import (eval_binning, expanded_features,  # noqa: E402
+                                feature_array, make_arm, save_results)
 
 _ARMS = ("iv_mip", "hellinger_raw")
 
@@ -59,7 +59,9 @@ def run(cfg):
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
 
-    features = list(cfg.features) if cfg.get("features") else ds.numerical
+    features = expanded_features(
+        ds, list(cfg.features) if cfg.get("features") else None,
+        cfg.get("special_handling", "expand"))
     grid = [int(m) for m in cfg.max_n_bins_grid]
     # Tag the monotone mode so auto/free runs land in distinct files and stay
     # distinguishable in the pooled table (null trend -> "free").
@@ -68,7 +70,7 @@ def run(cfg):
     for seed in range(cfg.seed_offset, cfg.seed_offset + cfg.n_seeds):
         tr, te = datasets.split_indices(len(ds.y), cfg.test_size, seed)
         for feat in features:
-            x = ds.X[feat].values.astype(float)
+            x = feature_array(ds, feat, cfg.get("special_handling", "expand"))
             mask = np.isfinite(x)
             xtr, ytr = x[tr][mask[tr]], ds.y[tr][mask[tr]]
             xte, yte = x[te][mask[te]], ds.y[te][mask[te]]

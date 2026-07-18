@@ -56,20 +56,26 @@ def make_arm(arm, lam=None, gamma=None, fm_tau=None, monotonic="auto",
     raise ValueError("Unknown arm: {}".format(arm))
 
 
-def prepare_features(ds, special_handling="ignore"):
+def prepare_features(ds, special_handling="expand", return_names=False):
     """Numerical feature matrix with sentinel-code handling.
 
     special_handling:
       "ignore" -- sentinels flow through as numeric values (the harness
-        behavior of all pre-HELOC campaigns; kept as default for
-        comparability). WRONG for datasets like HELOC whose -7/-8/-9
-        codes have no ordinal relation to the scale.
-      "expand" -- sentinel values are removed from the numeric scale
+        behavior of all pre-HELOC campaigns). WRONG for datasets like HELOC
+        whose -7/-8/-9 codes have no ordinal relation to the scale; kept only
+        for reproducing those runs.
+      "expand" (default) -- sentinel values are removed from the numeric scale
         (median-imputed) and per-(feature, code) indicator columns are
-        appended, so sentinel-ness is explicit binary information and
-        every arm sees identical features. Constant indicators dropped.
+        appended, so sentinel-ness is explicit binary information and every arm
+        sees identical features. Constant indicators dropped. A no-op on
+        datasets without ``special_codes``.
+
+    With ``return_names=True`` also returns the column names (numeric feature
+    names followed by ``"feat==code"`` indicator names), so callers can label
+    the expanded columns.
     """
     x = ds.X[ds.numerical].to_numpy(dtype=float)
+    names = list(ds.numerical)
     extra = []
     if special_handling == "expand" and ds.special_codes:
         codes = list(ds.special_codes)
@@ -78,6 +84,7 @@ def prepare_features(ds, special_handling="ignore"):
                 mask = x[:, j] == c
                 if 0 < mask.sum() < len(x):
                     extra.append(mask.astype(float))
+                    names.append("{}=={}".format(ds.numerical[j], c))
             x[np.isin(x[:, j], codes), j] = np.nan
     elif special_handling != "ignore":
         raise ValueError(
@@ -87,7 +94,68 @@ def prepare_features(ds, special_handling="ignore"):
     x = np.where(np.isfinite(x), x, med)
     if extra:
         x = np.column_stack([x] + extra)
-    return x
+    return (x, names) if return_names else x
+
+
+def expanded_features(ds, base=None, special_handling="expand"):
+    """Binnable column names for the per-feature drivers.
+
+    Returns the numeric feature names and, with ``special_handling='expand'``
+    (default) on a dataset that declares ``special_codes``, one extra
+    ``"feat==code"`` name per occurring (feature, sentinel) pair, so sentinel-
+    ness is binned and reported as its own indicator while the numeric column
+    (see :func:`feature_array`) is cleaned. ``'ignore'`` returns the base names
+    unchanged. Pairs with the array loader ``feature_array``.
+    """
+    if special_handling not in ("expand", "ignore"):
+        raise ValueError("special_handling must be 'expand' or 'ignore'; got "
+                         "{}.".format(special_handling))
+    base = list(base) if base is not None else list(ds.numerical)
+    codes = list(ds.special_codes) if special_handling == "expand" else []
+    names = []
+    for feat in base:
+        names.append(feat)
+        for c in codes:
+            m = ds.X[feat].to_numpy(dtype=float) == c
+            if 0 < int(m.sum()) < len(m):
+                names.append("{}=={}".format(feat, c))
+    return names
+
+
+def feature_array(ds, name, special_handling="expand"):
+    """Values for a name from :func:`expanded_features`.
+
+    An indicator name ``"feat==code"`` yields its 0/1 column; a plain feature
+    yields its numeric values with the declared sentinels median-imputed
+    (removed from the numeric scale) when ``special_handling='expand'``, so the
+    numeric binning never sees a sentinel as an ordinary low value.
+    """
+    codes = list(ds.special_codes) if special_handling == "expand" else []
+    if codes and "==" in name:
+        feat, code = name.rsplit("==", 1)
+        return (ds.X[feat].to_numpy(dtype=float) == float(code)).astype(float)
+    col = ds.X[name].to_numpy(dtype=float)
+    if codes:
+        is_special = np.isin(col, codes)
+        if is_special.any():
+            clean = np.where(is_special, np.nan, col)
+            col = np.where(np.isfinite(clean), clean, np.nanmedian(clean))
+    return col
+
+
+def sentinel_split(ds):
+    """Sentinel routing inputs for special_handling='token': the numeric
+    matrix with sentinels replaced by NaN (caller imputes; the imputed
+    value never reaches the encoder -- token routing overrides it) and a
+    code-index matrix (0 = clean, k = position of the code in
+    ds.special_codes, 1-based)."""
+    x = ds.X[ds.numerical].to_numpy(dtype=float)
+    codes = np.zeros(x.shape, dtype=np.int64)
+    for k, c in enumerate(ds.special_codes, start=1):
+        mask = x == c
+        codes[mask] = k
+        x[mask] = np.nan
+    return x, codes
 
 
 def binned_stats(x, y, splits):

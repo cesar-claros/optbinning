@@ -32,7 +32,8 @@ import hydra                                            # noqa: E402
 from omegaconf import DictConfig                        # noqa: E402
 
 from experiments import datasets                        # noqa: E402
-from experiments.common import save_results             # noqa: E402
+from experiments.common import (expanded_features,      # noqa: E402
+                                feature_array, save_results)
 from optbinning import OptimalBinning                   # noqa: E402
 
 
@@ -69,9 +70,11 @@ def run(cfg):
         ds = datasets.load(cfg.dataset, n=cfg.get("n", 2000), seed=seed) \
             if str(cfg.dataset).startswith("synthetic") \
             else datasets.load(cfg.dataset)
-        feats = list(cfg.features) if cfg.get("features") else ds.numerical
+        feats = expanded_features(
+            ds, list(cfg.features) if cfg.get("features") else None,
+            cfg.get("special_handling", "expand"))
         for feat in feats:
-            x = ds.X[feat].values.astype(float)
+            x = feature_array(ds, feat, cfg.get("special_handling", "expand"))
             mask = np.isfinite(x)
             x, y = x[mask], ds.y[mask]
             for gamma in gammas:

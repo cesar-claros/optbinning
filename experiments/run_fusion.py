@@ -118,7 +118,8 @@ def _iv_auc(splits, u_tr, y_tr, u_te, y_te):
         e1tr = int((y_tr[mtr] == 1).sum())
         e0tr = int(mtr.sum()) - e1tr
         woe[k] = np.log(((e0tr + 0.5) / n0tr) / ((e1tr + 0.5) / n1tr))
-    score = np.fromiter((woe.get(int(k), 0.0) for k in te_idx), dtype=float,
+    # score by risk: WoE ranks low-risk high, so negate to orient AUC above 0.5
+    score = np.fromiter((-woe.get(int(k), 0.0) for k in te_idx), dtype=float,
                         count=len(te_idx))
     try:
         auc = float(roc_auc_score(y_te, score))
@@ -250,6 +251,11 @@ def run(cfg):
 
     ds = datasets.load(dataset)
     xg_all = ds.X[group].to_numpy(dtype=float)
+    # sentinels (HELOC -7/-8/-9, BAF -1) are median-imputed, not fused as
+    # ordinary numbers; a fused group is a numeric combination, so no indicators
+    if ds.special_codes:
+        xg_all = np.where(np.isin(xg_all, list(ds.special_codes)), np.nan,
+                          xg_all)
     xg_all = np.where(np.isfinite(xg_all), xg_all, np.nanmedian(xg_all, axis=0))
     solver = cfg.get("ob_solver", "mip")
 

@@ -186,6 +186,32 @@ def test_tokenized_net_ot_frozen_arm():
     assert torch.all(tok >= 0) and torch.all(tok <= 1)
 
 
+def test_tokenized_net_sentinel_token_routing():
+    # special_handling='token': sentinel entries get a one-hot in the
+    # reserved trailing channels, their base encoding is zeroed, clean
+    # entries are unaffected, and the aux assignment is masked.
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet
+
+    torch.manual_seed(0)
+    edges = [np.linspace(0, 1, 9)] * 2
+    net = TokenizedNet("ot_ple", edges, n_bins=8, backbone="linear",
+                       hidden=16, token_mode="ple_interp", n_special=3)
+    assert net.token_dim == 8 + 3
+    x = torch.rand(32, 2)
+    codes = torch.zeros(32, 2, dtype=torch.long)
+    codes[0, 0] = 2                      # one sentinel entry, code #2
+    tok, assign = net.tokens(x, eps=0.1, need_assign=True, codes=codes)
+    assert tok.shape == (32, 2, 11)
+    assert torch.all(tok[0, 0, :8] == 0)           # base zeroed
+    assert tok[0, 0, 8 + 1] == 1 and tok[0, 0, 8] == 0  # one-hot @ code
+    assert torch.all(tok[1:, :, 8:] == 0)          # clean rows: no spec
+    assert float(assign[0, 0].sum()) == 0          # aux masked
+    assert abs(float(assign[1, 0].sum()) - 1) < 1e-4
+    with pytest.raises(ValueError):
+        net.tokens(x, eps=0.1, codes=None)
+
+
 def test_annealed_recovery_small():
     # short-budget version of C1: contiguity (P6 Thm. 3.1) and a modest
     # polished gap to the exhaustive monotone optimum.

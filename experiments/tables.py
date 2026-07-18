@@ -194,6 +194,32 @@ def table_maxbins_feat(pattern):
             .agg(**_MAXBINS_AGG).round(4).reset_index())
 
 
+def table_fusion(pattern):
+    """End-to-end feature fusion upstream of binning, per (dataset, group, arm).
+
+    All arms are scored by the same certified metric (out-of-sample IV of the
+    exact binning of the fused score), so pct_oracle = test_iv / oracle test_iv
+    reads how close each fusion gets to the ceiling: the story is
+    endtoend >> equal (learning the upstream transform helps) and
+    endtoend -> oracle (it approaches the best attainable fusion).
+    """
+    df = collect(pattern)
+    g = (df.groupby(["dataset", "group", "arm"]).agg(
+        n=("seed", "count"),
+        test_iv=("test_iv", "mean"), test_iv_sd=("test_iv", "std"),
+        test_auc=("test_auc", "mean"), train_iv=("train_iv", "mean"),
+        n_bins=("n_bins", "mean")).round(4).reset_index())
+    orc = (g[g["arm"] == "oracle"].set_index(["dataset", "group"])["test_iv"]
+           .rename("oracle_iv"))
+    g = g.merge(orc, on=["dataset", "group"], how="left")
+    g["pct_oracle"] = (g["test_iv"] / g["oracle_iv"].replace(0, np.nan)).round(3)
+    order = {"equal": 0, "pca1": 1, "best_single": 2, "endtoend": 3,
+             "oracle": 4}
+    g["_o"] = g["arm"].map(order).fillna(9)
+    return (g.sort_values(["dataset", "group", "_o"])
+            .drop(columns=["oracle_iv", "_o"]).reset_index(drop=True))
+
+
 def table_b2(pattern):
     df = collect(pattern)
     agg = df.groupby(["design", "drift", "magnitude"]).agg(
@@ -212,6 +238,6 @@ if __name__ == "__main__":
     table = {"a1": table_a1, "a1_spike": table_a1_spike, "b2": table_b2,
              "gamma": table_gamma, "spikesel": table_spikesel,
              "fmtau": table_fmtau, "fmtau_feat": table_fmtau_feat,
-             "maxbins": table_maxbins,
-             "maxbins_feat": table_maxbins_feat}[kind](pattern)
+             "maxbins": table_maxbins, "maxbins_feat": table_maxbins_feat,
+             "fusion": table_fusion}[kind](pattern)
     print(table.to_markdown(index=False))

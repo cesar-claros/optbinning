@@ -34,5 +34,8 @@ token_mode: cumulative   # cumulative | assign | cumulative_plus_raw (lossless; 
                          #   basis-rich; interval bins by construction; Sinkhorn only for aux)
 ot_input: quantile       # ot_ple bin geometry: quantile (rank space; heavy-tail safe) | standard
 
-special_handling: ignore  # 'expand' for sentinel-coded datasets (heloc: -7/-8/-9, baf: -1):
-                          # sentinels -> median + per-code indicator features
+special_handling: ignore  # ignore | expand | token, for sentinel-coded datasets
+                          # (heloc: -7/-8/-9, baf: -1). expand: sentinels -> median +
+                          # per-code indicator features. token: sentinels routed to
+                          # reserved per-code token channels (no median atom; clean-row
+                          # ECDF; aux sees clean rates; lightgbm gets native codes)

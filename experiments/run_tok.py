@@ -173,7 +173,7 @@ def run(cfg):
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    x = prepare_features(ds, cfg.get("special_handling", "ignore"))
+    x = prepare_features(ds, cfg.get("special_handling", "expand"))
     tr, te = datasets.split_indices(len(ds.y), cfg.test_size, cfg.seed)
     data = dict(xtr=x[tr], ytr=ds.y[tr], xte=x[te], yte=ds.y[te])
 

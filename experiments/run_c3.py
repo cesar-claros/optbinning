@@ -61,12 +61,13 @@ class TokenizedNet(nn.Module):
                  backbone: str, hidden: int,
                  token_mode: str = "cumulative",
                  sinkhorn_iters: int = 15, ft_layers: int = 2,
-                 ft_heads: int = 4) -> None:
+                 ft_heads: int = 4, n_special: int = 0) -> None:
         super().__init__()
         self.arm = arm
         self.backbone = backbone
         self.token_mode = token_mode
         self.n_features = len(edges)
+        self.n_special = n_special
         if arm == "ot_ple":
             self.ot = MultiOTBinningLayer(len(edges), n_bins=n_bins,
                                           sinkhorn_iters=sinkhorn_iters)
@@ -80,6 +81,8 @@ class TokenizedNet(nn.Module):
             self._dims = [len(e) - 1 for e in edges]
         else:                                            # raw
             token_dim = 1
+        self._base_dim = token_dim
+        token_dim += n_special       # reserved per-code one-hot channels
         self.token_dim = token_dim
         if backbone == "ft":
             # FT-Transformer pattern: per-feature tokens + attention +
@@ -95,12 +98,34 @@ class TokenizedNet(nn.Module):
                 nn.Linear(in_dim, hidden), nn.ReLU(),
                 nn.Linear(hidden, hidden), nn.ReLU(), nn.Linear(hidden, 1))
 
-    def tokens(self, x: Tensor, eps: float,
-               need_assign: bool = True) -> tuple[Tensor, Tensor | None]:
+    def tokens(self, x: Tensor, eps: float, need_assign: bool = True,
+               codes: Tensor | None = None) -> tuple[Tensor,
+                                                     Tensor | None]:
         """Per-feature tokens ``(batch, n_features, token_dim)`` and, for
-        ot_ple, the soft assignment reused by the auxiliary loss (one
-        Sinkhorn pass total; None when not needed -- ple_interp tokens
-        skip Sinkhorn entirely outside auxiliary training)."""
+        ot_ple, the soft assignment reused by the auxiliary loss.
+
+        With ``n_special > 0`` (special_handling='token'), sentinel
+        entries (codes > 0) are ROUTED: their base encoding is zeroed and
+        a one-hot is set in the reserved trailing channel of their code
+        -- the tokenizer analogue of optbinning's special bins (per-code
+        audit rows; no median atom; sentinel rows are also masked out of
+        the returned assignment so the IV/PAV auxiliary sees clean
+        rates)."""
+        tok, assign = self._base_tokens(x, eps, need_assign)
+        if self.n_special:
+            if codes is None:
+                raise ValueError(
+                    "n_special > 0 requires a codes matrix.")
+            clean = (codes == 0).unsqueeze(-1).float()
+            spec = nn.functional.one_hot(
+                codes.clamp_min(0), self.n_special + 1)[..., 1:].float()
+            tok = torch.cat([tok * clean, spec], dim=2)
+            if assign is not None:
+                assign = assign * clean
+        return tok, assign
+
+    def _base_tokens(self, x: Tensor, eps: float,
+                     need_assign: bool) -> tuple[Tensor, Tensor | None]:
         if self.arm == "ot_ple":
             if self.token_mode == "ple_interp":
                 # learned-knot PLE: spline ramps on the layer's own bin
@@ -129,7 +154,7 @@ class TokenizedNet(nn.Module):
             xi = x[:, i]
             if self.arm in ("quantile_ple", "target_ple", "ot_frozen"):
                 enc = _ple_encode(xi, getattr(self, f"edges_{i}"))
-                pad = self.token_dim - enc.shape[1]
+                pad = self._base_dim - enc.shape[1]
                 if pad:
                     enc = nn.functional.pad(enc, (0, pad))
             else:
@@ -138,8 +163,10 @@ class TokenizedNet(nn.Module):
         return torch.stack(cols, dim=1), None
 
     def forward(self, x: Tensor, eps: float = 0.05,
-                need_assign: bool = True) -> tuple[Tensor, Tensor | None]:
-        tok, assign = self.tokens(x, eps, need_assign)
+                need_assign: bool = True,
+                codes: Tensor | None = None) -> tuple[Tensor,
+                                                      Tensor | None]:
+        tok, assign = self.tokens(x, eps, need_assign, codes)
         if self.backbone == "ft":
             return self.head(tok), assign
         return self.head(tok.reshape(len(x), -1)).squeeze(-1), assign
@@ -178,6 +205,24 @@ def _quantile_transform(xtr: np.ndarray,
     return qtr, qte
 
 
+def _quantile_transform_clean(xtr: np.ndarray, xte: np.ndarray,
+                              ctr: np.ndarray) -> tuple[np.ndarray,
+                                                        np.ndarray]:
+    """Train-ECDF rank transform fit on CLEAN rows only (sentinel rows
+    would inject a median atom into the bin geometry; their rank value
+    is overridden by token routing anyway)."""
+    qtr = np.empty_like(xtr)
+    qte = np.empty_like(xte)
+    for j in range(xtr.shape[1]):
+        col = xtr[ctr[:, j] == 0, j]
+        srt = np.sort(col if len(col) else xtr[:, j])
+        qtr[:, j] = np.searchsorted(srt, xtr[:, j],
+                                    side="right") / len(srt)
+        qte[:, j] = np.searchsorted(srt, xte[:, j],
+                                    side="right") / len(srt)
+    return qtr, qte
+
+
 def _make_optim(net: nn.Module, backbone: str,
                 cfg: DictConfig) -> torch.optim.Optimizer:
     if backbone == "ft":
@@ -191,7 +236,7 @@ def _make_optim(net: nn.Module, backbone: str,
 
 def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
                 xtr: Tensor, ytr: Tensor, cfg: DictConfig,
-                use_aux: bool) -> None:
+                use_aux: bool, codes: Tensor | None = None) -> None:
     bce = nn.BCEWithLogitsLoss()
     n = len(ytr)
     for epoch in range(cfg.epochs):
@@ -202,7 +247,9 @@ def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
             idx = perm[lo:lo + cfg.batch_size]
             if len(idx) < cfg.n_bins * 4:
                 continue
-            logits, assign = net(xtr[idx], eps=eps, need_assign=use_aux)
+            logits, assign = net(xtr[idx], eps=eps, need_assign=use_aux,
+                                 codes=None if codes is None
+                                 else codes[idx])
             loss = bce(logits, ytr[idx])
             if assign is not None and use_aux:
                 loss = loss - cfg.aux_iv * soft_iv_multi(assign, ytr[idx])
@@ -216,19 +263,30 @@ def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
 def _train_eval(arm: str, backbone: str, data: dict,
                 cfg: DictConfig) -> dict:
     device = torch.device(cfg.device)
+    n_special = int(data.get("n_special", 0))
     if arm in ("ot_ple", "ot_frozen") \
             and cfg.get("ot_input", "quantile") == "quantile":
         data = dict(data)
-        data["xtr"], data["xte"] = _quantile_transform(data["xtr"],
-                                                       data["xte"])
+        if n_special:
+            data["xtr"], data["xte"] = _quantile_transform_clean(
+                data["xtr"], data["xte"], data["ctr"])
+        else:
+            data["xtr"], data["xte"] = _quantile_transform(data["xtr"],
+                                                           data["xte"])
     xtr = torch.as_tensor(data["xtr"], dtype=torch.float32, device=device)
     ytr = torch.as_tensor(data["ytr"], dtype=torch.float32, device=device)
     xte = torch.as_tensor(data["xte"], dtype=torch.float32, device=device)
+    ctr = cte = None
+    if n_special:
+        ctr = torch.as_tensor(data["ctr"], dtype=torch.long,
+                              device=device)
+        cte = torch.as_tensor(data["cte"], dtype=torch.long,
+                              device=device)
 
     kwargs = dict(token_mode=cfg.get("token_mode", "cumulative"),
                   sinkhorn_iters=cfg.get("sinkhorn_iters", 15),
                   ft_layers=cfg.get("ft_layers", 2),
-                  ft_heads=cfg.get("ft_heads", 4))
+                  ft_heads=cfg.get("ft_heads", 4), n_special=n_special)
     start = time.perf_counter()
     if arm == "ot_frozen":
         # two-stage control isolating JOINTNESS from the estimator:
@@ -243,7 +301,7 @@ def _train_eval(arm: str, backbone: str, data: dict,
                            cfg.hidden, **kwargs).to(device)
         pre.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
         _run_epochs(pre, _make_optim(pre, backbone, cfg), xtr, ytr, cfg,
-                    use_aux=cfg.aux_iv > 0)
+                    use_aux=cfg.aux_iv > 0, codes=ctr)
         eb = pre.ot.bin_edges().detach().cpu().numpy()
         edges = [np.concatenate(([data["xtr"][:, j].min() - 1e-6], eb[j],
                                  [data["xtr"][:, j].max() + 1e-6]))
@@ -258,7 +316,7 @@ def _train_eval(arm: str, backbone: str, data: dict,
             net.ot.set_range(xtr.min(dim=0).values,
                              xtr.max(dim=0).values)
     _run_epochs(net, _make_optim(net, backbone, cfg), xtr, ytr, cfg,
-                use_aux=cfg.aux_iv > 0)
+                use_aux=cfg.aux_iv > 0, codes=ctr)
     fit_time = time.perf_counter() - start
 
     net.eval()
@@ -269,7 +327,9 @@ def _train_eval(arm: str, backbone: str, data: dict,
         probs = []
         for lo in range(0, len(xte), cfg.batch_size):
             logits, _ = net(xte[lo:lo + cfg.batch_size], eps=cfg.eps_end,
-                            need_assign=False)
+                            need_assign=False,
+                            codes=None if cte is None
+                            else cte[lo:lo + cfg.batch_size])
             probs.append(torch.sigmoid(logits))
         prob = torch.cat(probs).cpu().numpy()
     row = dict(auc=float(roc_auc_score(data["yte"], prob)),
@@ -313,19 +373,34 @@ def run(cfg: DictConfig) -> Path:
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    x = prepare_features(ds, cfg.get("special_handling", "ignore"))
+    mode = cfg.get("special_handling", "expand")
+    if mode == "token" and ds.special_codes:
+        from experiments.common import sentinel_split
+        x, code_idx = sentinel_split(ds)
+        med = np.nanmedian(x, axis=0)
+        x = np.where(np.isfinite(x), x, med)
+        x_lgb = ds.X[ds.numerical].to_numpy(dtype=float)  # native codes
+        n_special = len(ds.special_codes)
+    else:
+        x = prepare_features(ds, "ignore" if mode == "token" else mode)
+        code_idx, x_lgb, n_special = None, x, 0
 
     rows = []
     tr, te = datasets.split_indices(len(ds.y), cfg.test_size, cfg.seed)
     mu, sd = x[tr].mean(axis=0), x[tr].std(axis=0) + 1e-9
     data = dict(xtr=(x[tr] - mu) / sd, ytr=ds.y[tr],
-                xte=(x[te] - mu) / sd, yte=ds.y[te])
+                xte=(x[te] - mu) / sd, yte=ds.y[te],
+                n_special=n_special)
+    if code_idx is not None:
+        data["ctr"], data["cte"] = code_idx[tr], code_idx[te]
+    data_lgb = dict(xtr=x_lgb[tr], ytr=ds.y[tr],
+                    xte=x_lgb[te], yte=ds.y[te])
 
     torch.manual_seed(cfg.seed)
     for arm in cfg.arms:
         if arm == "lightgbm":
             try:
-                row = _lightgbm_row(data, cfg.seed)
+                row = _lightgbm_row(data_lgb, cfg.seed)
             except Exception:
                 logger.exception("arm %s failed", arm)
                 row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
@@ -341,7 +416,9 @@ def run(cfg: DictConfig) -> Path:
                 logger.exception("arm %s/%s failed", arm, backbone)
                 row = dict(auc=np.nan, logloss=np.nan, fit_time=np.nan)
             row.update(dataset=ds.name, arm=arm, backbone=backbone,
-                       seed=cfg.seed)
+                       seed=cfg.seed,
+                       special_handling=cfg.get("special_handling",
+                                                "ignore"))
             rows.append(row)
 
     out = Path(cfg.out) / f"c3_{cfg.dataset}_{cfg.seed}"

@@ -47,7 +47,8 @@ from torch import nn                                    # noqa: E402
 from optbinning import OptimalBinning                   # noqa: E402
 
 from experiments import datasets                        # noqa: E402
-from experiments.common import save_results             # noqa: E402
+from experiments.common import (prepare_features,       # noqa: E402
+                                save_results)
 from experiments.paperc.otlayer import (pav_penalty_multi,  # noqa: E402
                                         soft_iv_multi)
 from experiments.run_c3 import (TokenizedNet,           # noqa: E402
@@ -179,9 +180,10 @@ def run(cfg):
                        seed=cfg.get("data_seed", 0)) \
         if str(cfg.dataset).startswith("synthetic") \
         else datasets.load(cfg.dataset)
-    feats = ds.numerical
-    x = ds.X[feats].to_numpy(dtype=float)
-    x = np.where(np.isfinite(x), x, np.nanmedian(x, axis=0))
+    # sentinel-code handling (HELOC/BAF): median-impute + append indicator
+    # features, with names for the per-feature audit. A no-op without codes.
+    x, feats = prepare_features(ds, cfg.get("special_handling", "expand"),
+                                return_names=True)
     ot_input = cfg.get("ot_input", "quantile")
 
     rows = []

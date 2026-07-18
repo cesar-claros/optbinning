@@ -38,7 +38,7 @@ log() { echo "[$(date '+%F %T')] $*"; }
 # ones.
 if [ "$ARCHIVE" = "1" ]; then
     arch="outputs/_archive_${STAMP}"
-    for d in a1 a1_fmtau a1_maxbins a1_gamma a1_spikesel; do
+    for d in a1 a1_fmtau a1_maxbins a1_gamma a1_spikesel a1_fusion; do
         if [ -d "outputs/$d" ] && [ -n "$(ls -A "outputs/$d" 2>/dev/null)" ]; then
             mkdir -p "$arch"
             mv "outputs/$d" "$arch/"
@@ -95,6 +95,17 @@ run_step maxbins_free $PY experiments/run_maxbins.py -m dataset="$DATASETS" \
 run_step maxbins_auto $PY experiments/run_maxbins.py -m dataset="$DATASETS" \
     n_seeds="$SEEDS" seed_offset=0 monotonic=auto
 
+# feature-fusion: a learnable transform UPSTREAM of the binning (P6 Sec. 4.3 on
+# real correlated groups) -- the end-to-end edge two-stage optbinning cannot
+# reach. Taiwan repayment/bill/payment blocks, GMSC delinquency, HMEQ stress.
+run_step fusion_taiwan $PY experiments/run_fusion.py -m \
+    dataset=taiwan group_key=pay,bill,payamt \
+    n_seeds="$SEEDS" seed_offset=0
+run_step fusion_gmsc $PY experiments/run_fusion.py -m \
+    dataset=gmsc group_key=delinq,afford n_seeds="$SEEDS" seed_offset=0
+run_step fusion_hmeq $PY experiments/run_fusion.py -m \
+    dataset=hmeq group_key=stress,value n_seeds="$SEEDS" seed_offset=0
+
 log "DONE. Aggregate with:"
 log "  $PY experiments/tables.py a1       \"outputs/a1/*.parquet\""
 log "  $PY experiments/tables.py a1_spike \"outputs/a1/*.parquet\""
@@ -102,3 +113,4 @@ log "  $PY experiments/tables.py gamma    \"outputs/a1_gamma/*.parquet\""
 log "  $PY experiments/tables.py spikesel \"outputs/a1_spikesel/*.parquet\""
 log "  $PY experiments/tables.py fmtau    \"outputs/a1_fmtau/*.parquet\""
 log "  $PY experiments/tables.py maxbins  \"outputs/a1_maxbins/*.parquet\""
+log "  $PY experiments/tables.py fusion   \"outputs/a1_fusion/*.parquet\""
