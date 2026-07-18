@@ -12,6 +12,7 @@ lr: 0.001
 sinkhorn_iters: 15
 eps_start: 0.5
 eps_end: 0.03
+ot_commit: 0.25          # commitment weight (v2; v1's 0 -> encoder collapse)
 
 # vq arm (vanilla + EMA; no dead-code restarts by design)
 vq_decay: 0.99

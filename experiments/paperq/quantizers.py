@@ -145,11 +145,13 @@ class OTQuantizer(nn.Module):
     """
 
     def __init__(self, dim: int, n_levels: int,
-                 sinkhorn_iters: int = 15) -> None:
+                 sinkhorn_iters: int = 15,
+                 commit_beta: float = 0.25) -> None:
         super().__init__()
         self.dim = dim
         self.n_levels = n_levels
         self.n_codes = n_levels ** dim
+        self.commit_beta = commit_beta
         self.layer = MultiOTBinningLayer(dim, n_bins=n_levels,
                                          sinkhorn_iters=sinkhorn_iters)
         self.layer.set_range(-torch.ones(dim), torch.ones(dim))
@@ -176,7 +178,15 @@ class OTQuantizer(nn.Module):
         if self.training:
             assign = self.layer(zb, eps=eps)             # (B, D, M)
             zq = (assign * w[None]).sum(dim=2)
-        else:
-            idx = self._interval_index(zb)               # (B, D)
-            zq = w.detach().t().gather(0, idx)
+            # commitment (VQ's mechanism, smooth version): Sinkhorn's
+            # forced marginals will split even a collapsed latent blob
+            # across bins, hiding representation collapse from the
+            # reconstruction loss (SwAV pitfall; E-Q1 v1: 99% dead
+            # codes at eval). Pulling the encoder toward its detached
+            # dequantization makes collapse visible -- still no STE.
+            commit = self.commit_beta * nn.functional.mse_loss(
+                zb, zq.detach())
+            return zq, commit
+        idx = self._interval_index(zb)                   # (B, D)
+        zq = w.detach().t().gather(0, idx)
         return zq, z.new_zeros(())

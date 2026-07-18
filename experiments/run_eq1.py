@@ -87,7 +87,8 @@ def _build(arm, cfg):
     if arm == "fsq":
         return FSQ(d, m)
     if arm == "ot":
-        return OTQuantizer(d, m, sinkhorn_iters=cfg.sinkhorn_iters)
+        return OTQuantizer(d, m, sinkhorn_iters=cfg.sinkhorn_iters,
+                           commit_beta=cfg.get("ot_commit", 0.25))
     raise ValueError("unknown arm: {}".format(arm))
 
 

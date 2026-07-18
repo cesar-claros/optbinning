@@ -55,8 +55,12 @@ def test_ot_quantizer_soft_hard_and_grads():
     q = OTQuantizer(dim=4, n_levels=8)
     z = torch.randn(512, 4, requires_grad=True)
     q.train()
-    zq, _ = q(z, eps=0.1)
+    zq, commit = q(z, eps=0.1)
     assert zq.shape == z.shape
+    assert float(commit) > 0                    # commitment active
+    commit.backward(retain_graph=True)
+    assert z.grad is not None                   # collapse visible to enc
+    z.grad = None
     zq.sum().backward()
     assert z.grad is not None and float(z.grad.abs().sum()) > 0
     assert q.layer.theta_w.grad is not None         # knots trainable
