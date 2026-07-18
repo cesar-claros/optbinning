@@ -1,0 +1,9 @@
+nohup: ignoring input
+[2026-07-18 00:06:46,907][HYDRA] Launching 5 jobs locally
+[2026-07-18 00:06:46,907][HYDRA] 	#0 : dataset=baf seed=0 device=cuda token_mode=ple_interp special_handling=token backbones=[linear,mlp] out=outputs/c3_baf_tok
+[2026-07-18 00:07:07,935][__main__][INFO] - raw/linear: auc=0.8491
+[2026-07-18 00:07:28,794][__main__][INFO] - raw/mlp: auc=0.8366
+[2026-07-18 00:07:59,010][__main__][INFO] - quantile_ple/linear: auc=0.8731
+[2026-07-18 00:08:40,291][__main__][INFO] - quantile_ple/mlp: auc=0.8690
+[2026-07-18 00:09:20,859][__main__][INFO] - target_ple/linear: auc=0.8725
+[2026-07-18 00:10:13,943][__main__][INFO] - target_ple/mlp: auc=0.8700

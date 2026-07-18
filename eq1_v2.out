@@ -1,0 +1,32 @@
+nohup: ignoring input
+[2026-07-18 00:15:55,487][HYDRA] Launching 6 jobs locally
+[2026-07-18 00:15:55,487][HYDRA] 	#0 : dataset=mnist seed=0 device=cuda out=outputs/eq1_v2
+[2026-07-18 00:16:31,911][__main__][INFO] - vq: mse=0.00210 psnr=26.78 perplexity=147/4096 dead=0.464
+[2026-07-18 00:17:06,252][__main__][INFO] - fsq: mse=0.00167 psnr=27.77 perplexity=149/4096 dead=0.140
+[2026-07-18 00:18:15,907][__main__][INFO] - ot: mse=0.00387 psnr=24.12 perplexity=194/4096 dead=0.703
+[2026-07-18 00:18:15,932][__main__][INFO] - EQ1: wrote outputs/eq1_v2/eq1_mnist_0.parquet
+[2026-07-18 00:18:15,936][HYDRA] 	#1 : dataset=mnist seed=1 device=cuda out=outputs/eq1_v2
+[2026-07-18 00:18:50,300][__main__][INFO] - vq: mse=0.00206 psnr=26.86 perplexity=197/4096 dead=0.453
+[2026-07-18 00:19:24,595][__main__][INFO] - fsq: mse=0.00160 psnr=27.96 perplexity=133/4096 dead=0.164
+[2026-07-18 00:20:37,932][__main__][INFO] - ot: mse=0.00391 psnr=24.08 perplexity=205/4096 dead=0.699
+[2026-07-18 00:20:37,945][__main__][INFO] - EQ1: wrote outputs/eq1_v2/eq1_mnist_1.parquet
+[2026-07-18 00:20:37,948][HYDRA] 	#2 : dataset=mnist seed=2 device=cuda out=outputs/eq1_v2
+[2026-07-18 00:21:12,349][__main__][INFO] - vq: mse=0.00256 psnr=25.92 perplexity=101/4096 dead=0.671
+[2026-07-18 00:21:46,491][__main__][INFO] - fsq: mse=0.00170 psnr=27.71 perplexity=201/4096 dead=0.122
+[2026-07-18 00:22:57,477][__main__][INFO] - ot: mse=0.00398 psnr=24.00 perplexity=150/4096 dead=0.702
+[2026-07-18 00:22:57,489][__main__][INFO] - EQ1: wrote outputs/eq1_v2/eq1_mnist_2.parquet
+[2026-07-18 00:22:57,493][HYDRA] 	#3 : dataset=cifar10 seed=0 device=cuda out=outputs/eq1_v2
+[2026-07-18 00:23:31,787][__main__][INFO] - vq: mse=0.00495 psnr=23.06 perplexity=959/4096 dead=0.518
+[2026-07-18 00:24:06,038][__main__][INFO] - fsq: mse=0.00413 psnr=23.84 perplexity=1480/4096 dead=0.028
+[2026-07-18 00:25:07,826][__main__][INFO] - ot: mse=0.00449 psnr=23.48 perplexity=605/4096 dead=0.281
+[2026-07-18 00:25:07,837][__main__][INFO] - EQ1: wrote outputs/eq1_v2/eq1_cifar10_0.parquet
+[2026-07-18 00:25:07,841][HYDRA] 	#4 : dataset=cifar10 seed=1 device=cuda out=outputs/eq1_v2
+[2026-07-18 00:25:42,033][__main__][INFO] - vq: mse=0.00499 psnr=23.02 perplexity=718/4096 dead=0.763
+[2026-07-18 00:26:16,103][__main__][INFO] - fsq: mse=0.00395 psnr=24.04 perplexity=1380/4096 dead=0.060
+[2026-07-18 00:27:17,792][__main__][INFO] - ot: mse=0.00430 psnr=23.67 perplexity=740/4096 dead=0.200
+[2026-07-18 00:27:17,804][__main__][INFO] - EQ1: wrote outputs/eq1_v2/eq1_cifar10_1.parquet
+[2026-07-18 00:27:17,808][HYDRA] 	#5 : dataset=cifar10 seed=2 device=cuda out=outputs/eq1_v2
+[2026-07-18 00:27:52,139][__main__][INFO] - vq: mse=0.00487 psnr=23.13 perplexity=1106/4096 dead=0.381
+[2026-07-18 00:28:26,225][__main__][INFO] - fsq: mse=0.00392 psnr=24.07 perplexity=1483/4096 dead=0.031
+[2026-07-18 00:29:28,065][__main__][INFO] - ot: mse=0.00437 psnr=23.59 perplexity=681/4096 dead=0.249
+[2026-07-18 00:29:28,078][__main__][INFO] - EQ1: wrote outputs/eq1_v2/eq1_cifar10_2.parquet
