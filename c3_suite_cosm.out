@@ -1,0 +1,314 @@
+nohup: ignoring input
+[2026-07-19 01:08:59,437][HYDRA] Launching 20 jobs locally
+[2026-07-19 01:08:59,437][HYDRA] 	#0 : dataset=churn seed=0 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:09:01,562][__main__][INFO] - raw/linear: auc=0.7497
+[2026-07-19 01:09:01,820][__main__][INFO] - raw/mlp: auc=0.8401
+[2026-07-19 01:09:02,635][__main__][INFO] - raw/ft: auc=0.8282
+[2026-07-19 01:09:02,859][__main__][INFO] - quantile_ple/linear: auc=0.7988
+[2026-07-19 01:09:03,195][__main__][INFO] - quantile_ple/mlp: auc=0.8352
+[2026-07-19 01:09:04,124][__main__][INFO] - quantile_ple/ft: auc=0.8378
+[2026-07-19 01:09:04,978][__main__][INFO] - target_ple/linear: auc=0.7870
+[2026-07-19 01:09:05,871][__main__][INFO] - target_ple/mlp: auc=0.8339
+[2026-07-19 01:09:07,393][__main__][INFO] - target_ple/ft: auc=0.8361
+[2026-07-19 01:09:11,677][__main__][INFO] - ot_ple/linear: auc=0.7813
+[2026-07-19 01:09:15,636][__main__][INFO] - ot_ple/mlp: auc=0.8364
+[2026-07-19 01:09:19,876][__main__][INFO] - ot_ple/ft: auc=0.8322
+[2026-07-19 01:09:20,100][__main__][INFO] - periodic/linear: auc=0.8294
+[2026-07-19 01:09:20,351][__main__][INFO] - periodic/mlp: auc=0.7695
+[2026-07-19 01:09:21,220][__main__][INFO] - periodic/ft: auc=0.7914
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:09:21,616][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_churn_0.parquet
+[2026-07-19 01:09:21,619][HYDRA] 	#1 : dataset=churn seed=1 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:09:21,911][__main__][INFO] - raw/linear: auc=0.7266
+[2026-07-19 01:09:22,145][__main__][INFO] - raw/mlp: auc=0.8285
+[2026-07-19 01:09:22,954][__main__][INFO] - raw/ft: auc=0.8259
+[2026-07-19 01:09:23,178][__main__][INFO] - quantile_ple/linear: auc=0.7849
+[2026-07-19 01:09:23,535][__main__][INFO] - quantile_ple/mlp: auc=0.8256
+[2026-07-19 01:09:24,472][__main__][INFO] - quantile_ple/ft: auc=0.8292
+[2026-07-19 01:09:25,232][__main__][INFO] - target_ple/linear: auc=0.7693
+[2026-07-19 01:09:26,081][__main__][INFO] - target_ple/mlp: auc=0.8249
+[2026-07-19 01:09:27,562][__main__][INFO] - target_ple/ft: auc=0.8250
+[2026-07-19 01:09:31,518][__main__][INFO] - ot_ple/linear: auc=0.7667
+[2026-07-19 01:09:35,438][__main__][INFO] - ot_ple/mlp: auc=0.8322
+[2026-07-19 01:09:40,117][__main__][INFO] - ot_ple/ft: auc=0.8297
+[2026-07-19 01:09:40,324][__main__][INFO] - periodic/linear: auc=0.8114
+[2026-07-19 01:09:40,589][__main__][INFO] - periodic/mlp: auc=0.7625
+[2026-07-19 01:09:41,481][__main__][INFO] - periodic/ft: auc=0.8092
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:09:41,883][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_churn_1.parquet
+[2026-07-19 01:09:41,887][HYDRA] 	#2 : dataset=churn seed=2 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:09:42,181][__main__][INFO] - raw/linear: auc=0.7432
+[2026-07-19 01:09:42,414][__main__][INFO] - raw/mlp: auc=0.8400
+[2026-07-19 01:09:43,214][__main__][INFO] - raw/ft: auc=0.8431
+[2026-07-19 01:09:43,450][__main__][INFO] - quantile_ple/linear: auc=0.7993
+[2026-07-19 01:09:43,811][__main__][INFO] - quantile_ple/mlp: auc=0.8401
+[2026-07-19 01:09:44,774][__main__][INFO] - quantile_ple/ft: auc=0.8449
+[2026-07-19 01:09:45,486][__main__][INFO] - target_ple/linear: auc=0.7842
+[2026-07-19 01:09:46,317][__main__][INFO] - target_ple/mlp: auc=0.8354
+[2026-07-19 01:09:47,764][__main__][INFO] - target_ple/ft: auc=0.8443
+[2026-07-19 01:09:51,590][__main__][INFO] - ot_ple/linear: auc=0.7858
+[2026-07-19 01:09:55,481][__main__][INFO] - ot_ple/mlp: auc=0.8331
+[2026-07-19 01:09:59,788][__main__][INFO] - ot_ple/ft: auc=0.8448
+[2026-07-19 01:09:59,978][__main__][INFO] - periodic/linear: auc=0.8336
+[2026-07-19 01:10:00,233][__main__][INFO] - periodic/mlp: auc=0.7863
+[2026-07-19 01:10:01,102][__main__][INFO] - periodic/ft: auc=0.8254
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:10:01,384][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_churn_2.parquet
+[2026-07-19 01:10:01,386][HYDRA] 	#3 : dataset=churn seed=3 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:10:01,681][__main__][INFO] - raw/linear: auc=0.7451
+[2026-07-19 01:10:01,920][__main__][INFO] - raw/mlp: auc=0.8523
+[2026-07-19 01:10:02,741][__main__][INFO] - raw/ft: auc=0.8517
+[2026-07-19 01:10:02,936][__main__][INFO] - quantile_ple/linear: auc=0.8106
+[2026-07-19 01:10:03,286][__main__][INFO] - quantile_ple/mlp: auc=0.8596
+[2026-07-19 01:10:04,211][__main__][INFO] - quantile_ple/ft: auc=0.8593
+[2026-07-19 01:10:04,983][__main__][INFO] - target_ple/linear: auc=0.7975
+[2026-07-19 01:10:05,849][__main__][INFO] - target_ple/mlp: auc=0.8602
+[2026-07-19 01:10:07,360][__main__][INFO] - target_ple/ft: auc=0.8611
+[2026-07-19 01:10:11,015][__main__][INFO] - ot_ple/linear: auc=0.7891
+[2026-07-19 01:10:14,688][__main__][INFO] - ot_ple/mlp: auc=0.8534
+[2026-07-19 01:10:18,821][__main__][INFO] - ot_ple/ft: auc=0.8619
+[2026-07-19 01:10:19,010][__main__][INFO] - periodic/linear: auc=0.8514
+[2026-07-19 01:10:19,258][__main__][INFO] - periodic/mlp: auc=0.7623
+[2026-07-19 01:10:20,124][__main__][INFO] - periodic/ft: auc=0.8472
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:10:20,483][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_churn_3.parquet
+[2026-07-19 01:10:20,486][HYDRA] 	#4 : dataset=churn seed=4 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:10:20,781][__main__][INFO] - raw/linear: auc=0.7537
+[2026-07-19 01:10:21,021][__main__][INFO] - raw/mlp: auc=0.8458
+[2026-07-19 01:10:21,820][__main__][INFO] - raw/ft: auc=0.8445
+[2026-07-19 01:10:22,061][__main__][INFO] - quantile_ple/linear: auc=0.8034
+[2026-07-19 01:10:22,422][__main__][INFO] - quantile_ple/mlp: auc=0.8441
+[2026-07-19 01:10:23,390][__main__][INFO] - quantile_ple/ft: auc=0.8477
+[2026-07-19 01:10:24,129][__main__][INFO] - target_ple/linear: auc=0.7815
+[2026-07-19 01:10:24,958][__main__][INFO] - target_ple/mlp: auc=0.8451
+[2026-07-19 01:10:26,373][__main__][INFO] - target_ple/ft: auc=0.8463
+[2026-07-19 01:10:30,149][__main__][INFO] - ot_ple/linear: auc=0.8043
+[2026-07-19 01:10:33,927][__main__][INFO] - ot_ple/mlp: auc=0.8482
+[2026-07-19 01:10:38,133][__main__][INFO] - ot_ple/ft: auc=0.8509
+[2026-07-19 01:10:38,320][__main__][INFO] - periodic/linear: auc=0.8412
+[2026-07-19 01:10:38,568][__main__][INFO] - periodic/mlp: auc=0.7666
+[2026-07-19 01:10:39,435][__main__][INFO] - periodic/ft: auc=0.8271
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:10:39,778][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_churn_4.parquet
+[2026-07-19 01:10:39,780][HYDRA] 	#5 : dataset=otto seed=0 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:10:41,486][__main__][INFO] - raw/linear: accuracy=0.7583
+[2026-07-19 01:10:43,268][__main__][INFO] - raw/mlp: accuracy=0.7864
+[2026-07-19 01:11:17,337][__main__][INFO] - raw/ft: accuracy=0.7922
+[2026-07-19 01:11:23,449][__main__][INFO] - quantile_ple/linear: accuracy=0.7466
+[2026-07-19 01:11:29,862][__main__][INFO] - quantile_ple/mlp: accuracy=0.7834
+[2026-07-19 01:12:05,317][__main__][INFO] - quantile_ple/ft: accuracy=0.7945
+[2026-07-19 01:12:13,653][__main__][INFO] - target_ple/linear: accuracy=0.7610
+[2026-07-19 01:12:22,303][__main__][INFO] - target_ple/mlp: accuracy=0.7823
+[2026-07-19 01:12:59,917][__main__][INFO] - target_ple/ft: accuracy=0.7933
+[2026-07-19 01:13:01,648][__main__][INFO] - ot_ple/linear: accuracy=0.7787
+[2026-07-19 01:13:03,655][__main__][INFO] - ot_ple/mlp: accuracy=0.7684
+[2026-07-19 01:13:38,644][__main__][INFO] - ot_ple/ft: accuracy=0.7962
+[2026-07-19 01:13:39,508][__main__][INFO] - periodic/linear: accuracy=0.7683
+[2026-07-19 01:13:40,655][__main__][INFO] - periodic/mlp: accuracy=0.7573
+[2026-07-19 01:14:15,363][__main__][INFO] - periodic/ft: accuracy=0.7691
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:14:23,239][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_otto_0.parquet
+[2026-07-19 01:14:23,242][HYDRA] 	#6 : dataset=otto seed=1 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:14:24,986][__main__][INFO] - raw/linear: accuracy=0.7585
+[2026-07-19 01:14:26,801][__main__][INFO] - raw/mlp: accuracy=0.7901
+[2026-07-19 01:15:00,876][__main__][INFO] - raw/ft: accuracy=0.7944
+[2026-07-19 01:15:07,113][__main__][INFO] - quantile_ple/linear: accuracy=0.7580
+[2026-07-19 01:15:13,640][__main__][INFO] - quantile_ple/mlp: accuracy=0.7811
+[2026-07-19 01:15:49,085][__main__][INFO] - quantile_ple/ft: accuracy=0.7923
+[2026-07-19 01:15:57,468][__main__][INFO] - target_ple/linear: accuracy=0.7646
+[2026-07-19 01:16:06,118][__main__][INFO] - target_ple/mlp: accuracy=0.7814
+[2026-07-19 01:16:43,785][__main__][INFO] - target_ple/ft: accuracy=0.7973
+[2026-07-19 01:16:45,565][__main__][INFO] - ot_ple/linear: accuracy=0.7806
+[2026-07-19 01:16:47,586][__main__][INFO] - ot_ple/mlp: accuracy=0.7720
+[2026-07-19 01:17:22,591][__main__][INFO] - ot_ple/ft: accuracy=0.7924
+[2026-07-19 01:17:23,462][__main__][INFO] - periodic/linear: accuracy=0.7621
+[2026-07-19 01:17:24,614][__main__][INFO] - periodic/mlp: accuracy=0.7717
+[2026-07-19 01:17:59,336][__main__][INFO] - periodic/ft: accuracy=0.7708
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:18:06,827][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_otto_1.parquet
+[2026-07-19 01:18:06,831][HYDRA] 	#7 : dataset=otto seed=2 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:18:08,549][__main__][INFO] - raw/linear: accuracy=0.7619
+[2026-07-19 01:18:10,380][__main__][INFO] - raw/mlp: accuracy=0.7864
+[2026-07-19 01:18:44,450][__main__][INFO] - raw/ft: accuracy=0.7927
+[2026-07-19 01:18:50,680][__main__][INFO] - quantile_ple/linear: accuracy=0.7528
+[2026-07-19 01:18:57,186][__main__][INFO] - quantile_ple/mlp: accuracy=0.7764
+[2026-07-19 01:19:32,635][__main__][INFO] - quantile_ple/ft: accuracy=0.7899
+[2026-07-19 01:19:40,891][__main__][INFO] - target_ple/linear: accuracy=0.7616
+[2026-07-19 01:19:49,504][__main__][INFO] - target_ple/mlp: accuracy=0.7799
+[2026-07-19 01:20:27,082][__main__][INFO] - target_ple/ft: accuracy=0.7931
+[2026-07-19 01:20:28,839][__main__][INFO] - ot_ple/linear: accuracy=0.7803
+[2026-07-19 01:20:30,866][__main__][INFO] - ot_ple/mlp: accuracy=0.7785
+[2026-07-19 01:21:05,870][__main__][INFO] - ot_ple/ft: accuracy=0.7960
+[2026-07-19 01:21:06,764][__main__][INFO] - periodic/linear: accuracy=0.7674
+[2026-07-19 01:21:07,911][__main__][INFO] - periodic/mlp: accuracy=0.7482
+[2026-07-19 01:21:42,615][__main__][INFO] - periodic/ft: accuracy=0.7696
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:21:49,959][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_otto_2.parquet
+[2026-07-19 01:21:49,964][HYDRA] 	#8 : dataset=otto seed=3 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:21:51,716][__main__][INFO] - raw/linear: accuracy=0.7580
+[2026-07-19 01:21:53,511][__main__][INFO] - raw/mlp: accuracy=0.7882
+[2026-07-19 01:22:27,573][__main__][INFO] - raw/ft: accuracy=0.7918
+[2026-07-19 01:22:33,687][__main__][INFO] - quantile_ple/linear: accuracy=0.7531
+[2026-07-19 01:22:40,174][__main__][INFO] - quantile_ple/mlp: accuracy=0.7719
+[2026-07-19 01:23:15,635][__main__][INFO] - quantile_ple/ft: accuracy=0.7915
+[2026-07-19 01:23:24,012][__main__][INFO] - target_ple/linear: accuracy=0.7600
+[2026-07-19 01:23:32,677][__main__][INFO] - target_ple/mlp: accuracy=0.7838
+[2026-07-19 01:24:10,266][__main__][INFO] - target_ple/ft: accuracy=0.7956
+[2026-07-19 01:24:12,095][__main__][INFO] - ot_ple/linear: accuracy=0.7775
+[2026-07-19 01:24:14,109][__main__][INFO] - ot_ple/mlp: accuracy=0.7715
+[2026-07-19 01:24:49,115][__main__][INFO] - ot_ple/ft: accuracy=0.7904
+[2026-07-19 01:24:49,970][__main__][INFO] - periodic/linear: accuracy=0.7674
+[2026-07-19 01:24:51,124][__main__][INFO] - periodic/mlp: accuracy=0.7689
+[2026-07-19 01:25:25,843][__main__][INFO] - periodic/ft: accuracy=0.7652
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:25:33,382][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_otto_3.parquet
+[2026-07-19 01:25:33,387][HYDRA] 	#9 : dataset=otto seed=4 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:25:35,103][__main__][INFO] - raw/linear: accuracy=0.7608
+[2026-07-19 01:25:36,866][__main__][INFO] - raw/mlp: accuracy=0.7879
+[2026-07-19 01:26:10,926][__main__][INFO] - raw/ft: accuracy=0.7950
+[2026-07-19 01:26:16,992][__main__][INFO] - quantile_ple/linear: accuracy=0.7563
+[2026-07-19 01:26:23,374][__main__][INFO] - quantile_ple/mlp: accuracy=0.7826
+[2026-07-19 01:26:58,840][__main__][INFO] - quantile_ple/ft: accuracy=0.7954
+[2026-07-19 01:27:07,231][__main__][INFO] - target_ple/linear: accuracy=0.7583
+[2026-07-19 01:27:15,889][__main__][INFO] - target_ple/mlp: accuracy=0.7827
+[2026-07-19 01:27:53,575][__main__][INFO] - target_ple/ft: accuracy=0.7913
+[2026-07-19 01:27:55,297][__main__][INFO] - ot_ple/linear: accuracy=0.7777
+[2026-07-19 01:27:57,309][__main__][INFO] - ot_ple/mlp: accuracy=0.7672
+[2026-07-19 01:28:32,319][__main__][INFO] - ot_ple/ft: accuracy=0.7917
+[2026-07-19 01:28:33,189][__main__][INFO] - periodic/linear: accuracy=0.7622
+[2026-07-19 01:28:34,333][__main__][INFO] - periodic/mlp: accuracy=0.7708
+[2026-07-19 01:29:09,053][__main__][INFO] - periodic/ft: accuracy=0.7681
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 01:29:17,934][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_otto_4.parquet
+[2026-07-19 01:29:17,937][HYDRA] 	#10 : dataset=santander seed=0 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 01:29:28,904][__main__][INFO] - raw/linear: auc=0.8588
+[2026-07-19 01:29:37,846][__main__][INFO] - raw/mlp: auc=0.7252
+[2026-07-19 01:34:47,656][__main__][INFO] - raw/ft: auc=0.8877
+[2026-07-19 01:35:19,092][__main__][INFO] - quantile_ple/linear: auc=0.8854
+[2026-07-19 01:35:52,113][__main__][INFO] - quantile_ple/mlp: auc=0.8844
+[2026-07-19 01:41:09,365][__main__][INFO] - quantile_ple/ft: auc=0.8784
+[2026-07-19 01:42:31,978][__main__][INFO] - target_ple/linear: auc=0.8909
+[2026-07-19 01:43:55,257][__main__][INFO] - target_ple/mlp: auc=0.8852
+[2026-07-19 01:49:58,759][__main__][INFO] - target_ple/ft: auc=0.8701
+[2026-07-19 02:05:51,783][__main__][INFO] - ot_ple/linear: auc=0.8900
+[2026-07-19 02:21:50,267][__main__][INFO] - ot_ple/mlp: auc=0.8870
+[2026-07-19 02:42:19,099][__main__][INFO] - ot_ple/ft: auc=0.8709
+[2026-07-19 02:42:22,500][__main__][INFO] - periodic/linear: auc=0.8759
+[2026-07-19 02:42:26,815][__main__][INFO] - periodic/mlp: auc=0.7948
+[2026-07-19 02:47:41,171][__main__][INFO] - periodic/ft: auc=0.6620
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 02:47:46,508][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_santander_0.parquet
+[2026-07-19 02:47:46,514][HYDRA] 	#11 : dataset=santander seed=1 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 02:47:57,038][__main__][INFO] - raw/linear: auc=0.8571
+[2026-07-19 02:48:05,970][__main__][INFO] - raw/mlp: auc=0.7121
+[2026-07-19 02:53:16,125][__main__][INFO] - raw/ft: auc=0.8913
+[2026-07-19 02:53:47,992][__main__][INFO] - quantile_ple/linear: auc=0.8858
+[2026-07-19 02:54:20,789][__main__][INFO] - quantile_ple/mlp: auc=0.8859
+[2026-07-19 02:59:38,041][__main__][INFO] - quantile_ple/ft: auc=0.8629
+[2026-07-19 03:01:00,607][__main__][INFO] - target_ple/linear: auc=0.8909
+[2026-07-19 03:02:24,008][__main__][INFO] - target_ple/mlp: auc=0.8895
+[2026-07-19 03:08:27,528][__main__][INFO] - target_ple/ft: auc=0.8733
+[2026-07-19 03:24:13,143][__main__][INFO] - ot_ple/linear: auc=0.8904
+[2026-07-19 03:39:58,513][__main__][INFO] - ot_ple/mlp: auc=0.8871
+[2026-07-19 04:00:24,982][__main__][INFO] - ot_ple/ft: auc=0.8674
+[2026-07-19 04:00:28,379][__main__][INFO] - periodic/linear: auc=0.8736
+[2026-07-19 04:00:32,642][__main__][INFO] - periodic/mlp: auc=0.7840
+[2026-07-19 04:05:47,008][__main__][INFO] - periodic/ft: auc=0.6999
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 04:05:52,173][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_santander_1.parquet
+[2026-07-19 04:05:52,206][HYDRA] 	#12 : dataset=santander seed=2 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 04:06:02,766][__main__][INFO] - raw/linear: auc=0.8626
+[2026-07-19 04:06:11,695][__main__][INFO] - raw/mlp: auc=0.6872
+[2026-07-19 04:11:21,919][__main__][INFO] - raw/ft: auc=0.8807
+[2026-07-19 04:11:53,749][__main__][INFO] - quantile_ple/linear: auc=0.8902
+[2026-07-19 04:12:26,548][__main__][INFO] - quantile_ple/mlp: auc=0.8883
+[2026-07-19 04:17:43,785][__main__][INFO] - quantile_ple/ft: auc=0.8752
+[2026-07-19 04:19:04,827][__main__][INFO] - target_ple/linear: auc=0.8954
+[2026-07-19 04:20:26,281][__main__][INFO] - target_ple/mlp: auc=0.8960
+[2026-07-19 04:26:28,569][__main__][INFO] - target_ple/ft: auc=0.8822
+[2026-07-19 04:42:23,446][__main__][INFO] - ot_ple/linear: auc=0.8943
+[2026-07-19 04:58:12,055][__main__][INFO] - ot_ple/mlp: auc=0.8916
+[2026-07-19 05:18:42,691][__main__][INFO] - ot_ple/ft: auc=0.8631
+[2026-07-19 05:18:46,092][__main__][INFO] - periodic/linear: auc=0.8788
+[2026-07-19 05:18:50,425][__main__][INFO] - periodic/mlp: auc=0.7912
+[2026-07-19 05:24:04,802][__main__][INFO] - periodic/ft: auc=0.7000
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 05:24:09,973][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_santander_2.parquet
+[2026-07-19 05:24:09,984][HYDRA] 	#13 : dataset=santander seed=3 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 05:24:20,536][__main__][INFO] - raw/linear: auc=0.8583
+[2026-07-19 05:24:29,475][__main__][INFO] - raw/mlp: auc=0.6785
+[2026-07-19 05:29:39,589][__main__][INFO] - raw/ft: auc=0.8798
+[2026-07-19 05:30:11,649][__main__][INFO] - quantile_ple/linear: auc=0.8862
+[2026-07-19 05:30:44,657][__main__][INFO] - quantile_ple/mlp: auc=0.8822
+[2026-07-19 05:36:01,867][__main__][INFO] - quantile_ple/ft: auc=0.8787
+[2026-07-19 05:37:23,719][__main__][INFO] - target_ple/linear: auc=0.8915
+[2026-07-19 05:38:46,527][__main__][INFO] - target_ple/mlp: auc=0.8866
+[2026-07-19 05:44:49,870][__main__][INFO] - target_ple/ft: auc=0.8729
+[2026-07-19 06:00:44,616][__main__][INFO] - ot_ple/linear: auc=0.8901
+[2026-07-19 06:16:38,541][__main__][INFO] - ot_ple/mlp: auc=0.8881
+[2026-07-19 06:37:23,798][__main__][INFO] - ot_ple/ft: auc=0.8827
+[2026-07-19 06:37:27,262][__main__][INFO] - periodic/linear: auc=0.8762
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/run_c3.py:393: RuntimeWarning: overflow encountered in exp
+  prob = 1 / (1 + np.exp(-out))
+[2026-07-19 06:37:31,685][__main__][INFO] - periodic/mlp: auc=0.7810
+[2026-07-19 06:42:45,947][__main__][INFO] - periodic/ft: auc=0.6846
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 06:42:51,086][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_santander_3.parquet
+[2026-07-19 06:42:51,100][HYDRA] 	#14 : dataset=santander seed=4 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 06:43:01,732][__main__][INFO] - raw/linear: auc=0.8596
+[2026-07-19 06:43:10,672][__main__][INFO] - raw/mlp: auc=0.7108
+[2026-07-19 06:48:20,759][__main__][INFO] - raw/ft: auc=0.8931
+[2026-07-19 06:48:52,386][__main__][INFO] - quantile_ple/linear: auc=0.8860
+[2026-07-19 06:49:25,015][__main__][INFO] - quantile_ple/mlp: auc=0.8792
+[2026-07-19 06:54:42,249][__main__][INFO] - quantile_ple/ft: auc=0.8829
+[2026-07-19 06:56:03,820][__main__][INFO] - target_ple/linear: auc=0.8925
+[2026-07-19 06:57:26,797][__main__][INFO] - target_ple/mlp: auc=0.8892
+[2026-07-19 07:03:30,120][__main__][INFO] - target_ple/ft: auc=0.8770
+[2026-07-19 07:19:43,848][__main__][INFO] - ot_ple/linear: auc=0.8911
+[2026-07-19 07:35:52,441][__main__][INFO] - ot_ple/mlp: auc=0.8864
+[2026-07-19 07:56:38,926][__main__][INFO] - ot_ple/ft: auc=0.8707
+[2026-07-19 07:56:42,370][__main__][INFO] - periodic/linear: auc=0.8788
+[2026-07-19 07:56:46,658][__main__][INFO] - periodic/mlp: auc=0.7875
+[2026-07-19 08:02:01,040][__main__][INFO] - periodic/ft: auc=0.6882
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-19 08:02:06,164][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_santander_4.parquet
+[2026-07-19 08:02:06,174][HYDRA] 	#15 : dataset=mslr seed=0 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 08:04:36,750][__main__][INFO] - raw/linear: rmse=0.8226
+[2026-07-19 08:05:02,466][__main__][INFO] - raw/mlp: rmse=0.7429
+[2026-07-19 08:16:47,726][__main__][INFO] - raw/ft: rmse=0.7426
+[2026-07-19 08:18:22,598][__main__][INFO] - quantile_ple/linear: rmse=0.7701
+[2026-07-19 08:20:00,693][__main__][INFO] - quantile_ple/mlp: rmse=0.7450
+[2026-07-19 08:32:09,849][__main__][INFO] - quantile_ple/ft: rmse=0.7306
+[2026-07-19 08:34:13,613][__main__][INFO] - target_ple/linear: rmse=0.7564
+[2026-07-19 08:36:21,908][__main__][INFO] - target_ple/mlp: rmse=0.7425
+[2026-07-19 08:49:02,562][__main__][INFO] - target_ple/ft: rmse=0.7331
+[2026-07-19 08:49:35,742][__main__][INFO] - ot_ple/linear: rmse=0.7559
+[2026-07-19 08:50:12,387][__main__][INFO] - ot_ple/mlp: rmse=0.7399
+[2026-07-19 09:02:25,559][__main__][INFO] - ot_ple/ft: rmse=0.7292
+[2026-07-19 09:02:36,515][__main__][INFO] - periodic/linear: rmse=0.7698
+[2026-07-19 09:02:50,509][__main__][INFO] - periodic/mlp: rmse=0.7496
+[2026-07-19 09:14:48,662][__main__][INFO] - periodic/ft: rmse=0.7564
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+[2026-07-19 09:14:57,689][__main__][INFO] - C3: wrote 16 rows -> outputs/c3_suite/c3_mslr_0.parquet
+[2026-07-19 09:14:57,699][HYDRA] 	#16 : dataset=mslr seed=1 device=cuda token_mode=ple_interp arms=[raw,quantile_ple,target_ple,ot_ple,periodic,lightgbm] backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-19 09:17:34,824][__main__][INFO] - raw/linear: rmse=0.7735
+[2026-07-19 09:18:00,525][__main__][INFO] - raw/mlp: rmse=0.7436
+[2026-07-19 09:29:45,699][__main__][INFO] - raw/ft: rmse=0.7345
+[2026-07-19 09:31:20,252][__main__][INFO] - quantile_ple/linear: rmse=0.7679
+[2026-07-19 09:32:58,345][__main__][INFO] - quantile_ple/mlp: rmse=0.7427

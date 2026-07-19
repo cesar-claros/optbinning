@@ -1,0 +1,152 @@
+nohup: ignoring input
+[2026-07-19 15:10:24,178][HYDRA] Launching 30 jobs locally
+[2026-07-19 15:10:24,178][HYDRA] 	#0 : dataset=gesture seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:27,597][__main__][INFO] - periodic/linear: accuracy=0.5056
+[2026-07-19 15:10:27,896][__main__][INFO] - periodic/mlp: accuracy=0.5410
+[2026-07-19 15:10:30,058][__main__][INFO] - periodic/ft: accuracy=0.5276
+[2026-07-19 15:10:30,103][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_gesture_0.parquet
+[2026-07-19 15:10:30,104][HYDRA] 	#1 : dataset=gesture seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:30,460][__main__][INFO] - periodic/linear: accuracy=0.5210
+[2026-07-19 15:10:30,711][__main__][INFO] - periodic/mlp: accuracy=0.5094
+[2026-07-19 15:10:32,760][__main__][INFO] - periodic/ft: accuracy=0.5314
+[2026-07-19 15:10:32,766][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_gesture_1.parquet
+[2026-07-19 15:10:32,767][HYDRA] 	#2 : dataset=gesture seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:33,097][__main__][INFO] - periodic/linear: accuracy=0.5181
+[2026-07-19 15:10:33,339][__main__][INFO] - periodic/mlp: accuracy=0.5401
+[2026-07-19 15:10:35,388][__main__][INFO] - periodic/ft: accuracy=0.5117
+[2026-07-19 15:10:35,395][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_gesture_2.parquet
+[2026-07-19 15:10:35,396][HYDRA] 	#3 : dataset=gesture seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:35,738][__main__][INFO] - periodic/linear: accuracy=0.5094
+[2026-07-19 15:10:35,979][__main__][INFO] - periodic/mlp: accuracy=0.5250
+[2026-07-19 15:10:38,030][__main__][INFO] - periodic/ft: accuracy=0.5355
+[2026-07-19 15:10:38,037][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_gesture_3.parquet
+[2026-07-19 15:10:38,039][HYDRA] 	#4 : dataset=gesture seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:38,387][__main__][INFO] - periodic/linear: accuracy=0.5114
+[2026-07-19 15:10:38,640][__main__][INFO] - periodic/mlp: accuracy=0.5268
+[2026-07-19 15:10:40,690][__main__][INFO] - periodic/ft: accuracy=0.5274
+[2026-07-19 15:10:40,697][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_gesture_4.parquet
+[2026-07-19 15:10:40,701][HYDRA] 	#5 : dataset=california seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:41,312][__main__][INFO] - periodic/linear: rmse=0.6237
+[2026-07-19 15:10:41,757][__main__][INFO] - periodic/mlp: rmse=0.5433
+[2026-07-19 15:10:43,508][__main__][INFO] - periodic/ft: rmse=0.5118
+[2026-07-19 15:10:43,515][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_california_0.parquet
+[2026-07-19 15:10:43,519][HYDRA] 	#6 : dataset=california seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:44,002][__main__][INFO] - periodic/linear: rmse=0.5890
+[2026-07-19 15:10:44,465][__main__][INFO] - periodic/mlp: rmse=0.5608
+[2026-07-19 15:10:46,218][__main__][INFO] - periodic/ft: rmse=0.4870
+[2026-07-19 15:10:46,224][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_california_1.parquet
+[2026-07-19 15:10:46,225][HYDRA] 	#7 : dataset=california seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:46,715][__main__][INFO] - periodic/linear: rmse=0.6048
+[2026-07-19 15:10:47,176][__main__][INFO] - periodic/mlp: rmse=0.5372
+[2026-07-19 15:10:48,942][__main__][INFO] - periodic/ft: rmse=0.5068
+[2026-07-19 15:10:48,953][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_california_2.parquet
+[2026-07-19 15:10:48,957][HYDRA] 	#8 : dataset=california seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:49,445][__main__][INFO] - periodic/linear: rmse=0.6356
+[2026-07-19 15:10:49,909][__main__][INFO] - periodic/mlp: rmse=0.5379
+[2026-07-19 15:10:51,660][__main__][INFO] - periodic/ft: rmse=0.5073
+[2026-07-19 15:10:51,667][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_california_3.parquet
+[2026-07-19 15:10:51,669][HYDRA] 	#9 : dataset=california seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:52,131][__main__][INFO] - periodic/linear: rmse=0.6031
+[2026-07-19 15:10:52,575][__main__][INFO] - periodic/mlp: rmse=0.5543
+[2026-07-19 15:10:54,326][__main__][INFO] - periodic/ft: rmse=0.5059
+[2026-07-19 15:10:54,332][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_california_4.parquet
+[2026-07-19 15:10:54,333][HYDRA] 	#10 : dataset=house16h seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:54,841][__main__][INFO] - periodic/linear: rmse=39584.2468
+[2026-07-19 15:10:55,297][__main__][INFO] - periodic/mlp: rmse=40685.6136
+[2026-07-19 15:10:58,080][__main__][INFO] - periodic/ft: rmse=36855.3046
+[2026-07-19 15:10:58,089][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_house16h_0.parquet
+[2026-07-19 15:10:58,093][HYDRA] 	#11 : dataset=house16h seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:10:58,574][__main__][INFO] - periodic/linear: rmse=37771.7138
+[2026-07-19 15:10:59,037][__main__][INFO] - periodic/mlp: rmse=37964.8675
+[2026-07-19 15:11:01,825][__main__][INFO] - periodic/ft: rmse=35663.7023
+[2026-07-19 15:11:01,833][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_house16h_1.parquet
+[2026-07-19 15:11:01,835][HYDRA] 	#12 : dataset=house16h seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:11:02,345][__main__][INFO] - periodic/linear: rmse=36828.1323
+[2026-07-19 15:11:02,829][__main__][INFO] - periodic/mlp: rmse=39237.9880
+[2026-07-19 15:11:05,617][__main__][INFO] - periodic/ft: rmse=33922.8579
+[2026-07-19 15:11:05,623][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_house16h_2.parquet
+[2026-07-19 15:11:05,625][HYDRA] 	#13 : dataset=house16h seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:11:06,140][__main__][INFO] - periodic/linear: rmse=40089.4144
+[2026-07-19 15:11:06,634][__main__][INFO] - periodic/mlp: rmse=37836.4135
+[2026-07-19 15:11:09,428][__main__][INFO] - periodic/ft: rmse=38194.4201
+[2026-07-19 15:11:09,434][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_house16h_3.parquet
+[2026-07-19 15:11:09,436][HYDRA] 	#14 : dataset=house16h seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:11:09,966][__main__][INFO] - periodic/linear: rmse=38983.5654
+[2026-07-19 15:11:10,425][__main__][INFO] - periodic/mlp: rmse=37945.1571
+[2026-07-19 15:11:13,213][__main__][INFO] - periodic/ft: rmse=35940.3272
+[2026-07-19 15:11:13,221][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_house16h_4.parquet
+[2026-07-19 15:11:13,224][HYDRA] 	#15 : dataset=facebook seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:11:17,089][__main__][INFO] - periodic/linear: rmse=25.7630
+[2026-07-19 15:11:20,623][__main__][INFO] - periodic/mlp: rmse=19.3588
+[2026-07-19 15:12:17,650][__main__][INFO] - periodic/ft: rmse=19.3932
+[2026-07-19 15:12:17,657][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_facebook_0.parquet
+[2026-07-19 15:12:17,663][HYDRA] 	#16 : dataset=facebook seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:12:21,440][__main__][INFO] - periodic/linear: rmse=27.4999
+[2026-07-19 15:12:24,955][__main__][INFO] - periodic/mlp: rmse=21.0402
+[2026-07-19 15:13:21,978][__main__][INFO] - periodic/ft: rmse=20.9577
+[2026-07-19 15:13:21,985][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_facebook_1.parquet
+[2026-07-19 15:13:21,987][HYDRA] 	#17 : dataset=facebook seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:13:25,755][__main__][INFO] - periodic/linear: rmse=27.1996
+[2026-07-19 15:13:29,276][__main__][INFO] - periodic/mlp: rmse=21.3321
+[2026-07-19 15:14:26,296][__main__][INFO] - periodic/ft: rmse=21.2925
+[2026-07-19 15:14:26,303][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_facebook_2.parquet
+[2026-07-19 15:14:26,308][HYDRA] 	#18 : dataset=facebook seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:14:30,280][__main__][INFO] - periodic/linear: rmse=25.7966
+[2026-07-19 15:14:33,782][__main__][INFO] - periodic/mlp: rmse=19.1380
+[2026-07-19 15:15:30,823][__main__][INFO] - periodic/ft: rmse=19.2000
+[2026-07-19 15:15:30,832][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_facebook_3.parquet
+[2026-07-19 15:15:30,842][HYDRA] 	#19 : dataset=facebook seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:15:34,668][__main__][INFO] - periodic/linear: rmse=27.6628
+[2026-07-19 15:15:38,232][__main__][INFO] - periodic/mlp: rmse=21.5979
+[2026-07-19 15:16:35,247][__main__][INFO] - periodic/ft: rmse=21.0764
+[2026-07-19 15:16:35,255][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_facebook_4.parquet
+[2026-07-19 15:16:35,262][HYDRA] 	#20 : dataset=covertype seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:16:45,183][__main__][INFO] - periodic/linear: accuracy=0.7389
+[2026-07-19 15:16:55,137][__main__][INFO] - periodic/mlp: accuracy=0.8397
+[2026-07-19 15:19:44,697][__main__][INFO] - periodic/ft: accuracy=0.9404
+[2026-07-19 15:19:44,704][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_covertype_0.parquet
+[2026-07-19 15:19:44,708][HYDRA] 	#21 : dataset=covertype seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:19:54,215][__main__][INFO] - periodic/linear: accuracy=0.7310
+[2026-07-19 15:20:04,400][__main__][INFO] - periodic/mlp: accuracy=0.8295
+[2026-07-19 15:22:53,969][__main__][INFO] - periodic/ft: accuracy=0.9394
+[2026-07-19 15:22:53,977][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_covertype_1.parquet
+[2026-07-19 15:22:53,982][HYDRA] 	#22 : dataset=covertype seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:23:03,491][__main__][INFO] - periodic/linear: accuracy=0.7306
+[2026-07-19 15:23:13,601][__main__][INFO] - periodic/mlp: accuracy=0.8144
+[2026-07-19 15:26:03,120][__main__][INFO] - periodic/ft: accuracy=0.9405
+[2026-07-19 15:26:03,128][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_covertype_2.parquet
+[2026-07-19 15:26:03,134][HYDRA] 	#23 : dataset=covertype seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:26:12,731][__main__][INFO] - periodic/linear: accuracy=0.7316
+[2026-07-19 15:26:22,696][__main__][INFO] - periodic/mlp: accuracy=0.8372
+[2026-07-19 15:29:12,231][__main__][INFO] - periodic/ft: accuracy=0.9439
+[2026-07-19 15:29:12,260][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_covertype_3.parquet
+[2026-07-19 15:29:12,265][HYDRA] 	#24 : dataset=covertype seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:29:21,764][__main__][INFO] - periodic/linear: accuracy=0.7321
+[2026-07-19 15:29:31,747][__main__][INFO] - periodic/mlp: accuracy=0.8229
+[2026-07-19 15:32:21,253][__main__][INFO] - periodic/ft: accuracy=0.9417
+[2026-07-19 15:32:21,260][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_covertype_4.parquet
+[2026-07-19 15:32:21,265][HYDRA] 	#25 : dataset=mslr seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:35:14,150][__main__][INFO] - periodic/linear: rmse=0.7641
+[2026-07-19 15:35:28,621][__main__][INFO] - periodic/mlp: rmse=0.7453
+[2026-07-19 15:47:26,588][__main__][INFO] - periodic/ft: rmse=0.7583
+[2026-07-19 15:47:26,595][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_mslr_0.parquet
+[2026-07-19 15:47:26,638][HYDRA] 	#26 : dataset=mslr seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 15:49:58,475][__main__][INFO] - periodic/linear: rmse=0.7730
+[2026-07-19 15:50:13,163][__main__][INFO] - periodic/mlp: rmse=0.7430
+[2026-07-19 16:02:11,251][__main__][INFO] - periodic/ft: rmse=0.7584
+[2026-07-19 16:02:11,274][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_mslr_1.parquet
+[2026-07-19 16:02:11,285][HYDRA] 	#27 : dataset=mslr seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 16:05:00,760][__main__][INFO] - periodic/linear: rmse=0.7727
+[2026-07-19 16:05:15,390][__main__][INFO] - periodic/mlp: rmse=0.7482
+[2026-07-19 16:17:13,346][__main__][INFO] - periodic/ft: rmse=0.7595
+[2026-07-19 16:17:13,353][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_mslr_2.parquet
+[2026-07-19 16:17:13,368][HYDRA] 	#28 : dataset=mslr seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 16:20:02,492][__main__][INFO] - periodic/linear: rmse=0.7950
+[2026-07-19 16:20:17,166][__main__][INFO] - periodic/mlp: rmse=0.7465
+[2026-07-19 16:32:15,247][__main__][INFO] - periodic/ft: rmse=0.7571
+[2026-07-19 16:32:15,254][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_mslr_3.parquet
+[2026-07-19 16:32:15,285][HYDRA] 	#29 : dataset=mslr seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 16:34:47,493][__main__][INFO] - periodic/linear: rmse=0.7873
+[2026-07-19 16:35:02,031][__main__][INFO] - periodic/mlp: rmse=0.7440
+[2026-07-19 16:46:59,954][__main__][INFO] - periodic/ft: rmse=0.7637
+[2026-07-19 16:46:59,961][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_mslr_4.parquet
