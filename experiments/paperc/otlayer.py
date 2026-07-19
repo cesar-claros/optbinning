@@ -42,12 +42,15 @@ class OTBinningLayer(nn.Module):
     """
 
     def __init__(self, n_bins: int = 8, sinkhorn_iters: int = 40,
-                 learn_masses: bool = True) -> None:
+                 learn_masses: bool = True, min_gap: float = _MIN_GAP,
+                 mass_floor: float = _MASS_FLOOR) -> None:
         super().__init__()
         if n_bins < 2:
             raise ValueError(f"n_bins must be >= 2; got {n_bins}.")
         self.n_bins = n_bins
         self.sinkhorn_iters = sinkhorn_iters
+        self.min_gap = min_gap          # collapse cure: ablatable (C1)
+        self.mass_floor = mass_floor
         self.theta_w = nn.Parameter(torch.zeros(n_bins))
         self.theta_b = nn.Parameter(torch.zeros(n_bins),
                                     requires_grad=learn_masses)
@@ -61,7 +64,7 @@ class OTBinningLayer(nn.Module):
 
     def bin_positions(self) -> Tensor:
         """Ordered bin representatives with a floored minimum separation."""
-        inc = _MIN_GAP + nn.functional.softplus(self.theta_w)
+        inc = self.min_gap + nn.functional.softplus(self.theta_w)
         cum = torch.cumsum(inc, dim=0)
         unit = (cum - inc / 2) / cum[-1]
         return self.x_lo + (self.x_hi - self.x_lo) * (0.02 + 0.96 * unit)
@@ -69,7 +72,8 @@ class OTBinningLayer(nn.Module):
     def bin_masses(self) -> Tensor:
         """Bin mass marginals with an additive floor (no empty bins)."""
         beta = torch.softmax(self.theta_b, dim=0)
-        return (1 - _MASS_FLOOR) / self.n_bins + _MASS_FLOOR * beta
+        return ((1 - self.mass_floor) / self.n_bins
+                + self.mass_floor * beta)
 
     def forward(self, x: Tensor, eps: float = 0.1) -> Tensor:
         """Soft assignment matrix of shape ``(batch, n_bins)``.

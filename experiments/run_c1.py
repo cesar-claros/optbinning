@@ -49,15 +49,20 @@ def _sample(seed: int, n: int) -> tuple[np.ndarray, np.ndarray]:
     return x, y
 
 
-def _train_torch(x: np.ndarray, y: np.ndarray, cfg: DictConfig) -> dict:
+def _train_torch(x: np.ndarray, y: np.ndarray, cfg: DictConfig,
+                 floors: bool = True) -> dict:
     device = torch.device(cfg.device)
     xt = torch.as_tensor(x, dtype=torch.float32, device=device)
     yt = torch.as_tensor(y, dtype=torch.float32, device=device)
     lo, hi = float(np.quantile(x, 0.005)), float(np.quantile(x, 0.995))
     xt = (xt - lo) / (hi - lo)
 
-    layer = OTBinningLayer(n_bins=cfg.n_bins,
-                           sinkhorn_iters=cfg.sinkhorn_iters).to(device)
+    # floors=False ablates the bin-collapse cure (Sec. 5.2): no minimum
+    # knot separation, no additive mass floor -- pure softmax masses.
+    layer = OTBinningLayer(
+        n_bins=cfg.n_bins, sinkhorn_iters=cfg.sinkhorn_iters,
+        min_gap=0.35 if floors else 1e-4,
+        mass_floor=0.95 if floors else 1.0).to(device)
     layer.set_range(0.0, 1.0)
     optim = torch.optim.Adam(layer.parameters(), lr=cfg.lr)
 
@@ -76,6 +81,7 @@ def _train_torch(x: np.ndarray, y: np.ndarray, cfg: DictConfig) -> dict:
     hard = layer.harden(xt)
     cuts = lo + (hi - lo) * hard["cuts"]
     return {"cuts": cuts, "contiguous": hard["contiguous"],
+            "n_bins_used": int(len(np.unique(hard["assign"]))),
             "train_time": train_time}
 
 
@@ -86,26 +92,30 @@ def run(cfg: DictConfig) -> Path:
         reps, ne, ev = grid_summary(x, y, cfg.n_prebins)
         exact = exact_monotone_optimum(ne, ev, cfg.n_bins)
 
-        result = _train_torch(x, y, cfg)
-        bounds = cuts_to_bounds(result["cuts"], reps)
-        iv_hard = iv_monotone(bounds, ne, ev)
-        bounds_pol, iv_pol = polish(bounds, ne, ev, cfg.n_bins)
-        rows.append(dict(seed=seed, method="torch",
-                         contiguous=result["contiguous"],
-                         gap_hard=(exact - iv_hard) / exact,
-                         gap_polished=(exact - iv_pol) / exact,
-                         time=result["train_time"]))
+        for method, floors in [("torch", True), ("torch_nofloor", False)]:
+            if method == "torch_nofloor" and not cfg.get("run_nofloor",
+                                                         True):
+                continue
+            result = _train_torch(x, y, cfg, floors=floors)
+            bounds = cuts_to_bounds(result["cuts"], reps)
+            iv_hard = iv_monotone(bounds, ne, ev)
+            bounds_pol, iv_pol = polish(bounds, ne, ev, cfg.n_bins)
+            rows.append(dict(seed=seed, method=method, n=cfg.n,
+                             contiguous=result["contiguous"],
+                             n_bins_used=result["n_bins_used"],
+                             gap_hard=(exact - iv_hard) / exact,
+                             gap_polished=(exact - iv_pol) / exact,
+                             time=result["train_time"]))
 
         start = time.perf_counter()
         sb = SoftBinning(n_bins=cfg.n_bins, n_restarts=2,
                          random_state=seed).fit(reps, ne, ev)
-        rows.append(dict(seed=seed, method="numpy",
+        rows.append(dict(seed=seed, method="numpy", n=cfg.n,
                          contiguous=sb.contiguous_,
-                         gap_hard=np.nan,
+                         n_bins_used=np.nan, gap_hard=np.nan,
                          gap_polished=(exact - sb.iv_) / exact,
                          time=time.perf_counter() - start))
-        logger.info("seed %d done (torch polished gap %.3f)", seed,
-                    rows[-2]["gap_polished"])
+        logger.info("seed %d done", seed)
 
     out = Path(cfg.out) / f"c1_{cfg.seed_offset}"
     path = save_results(rows, out)

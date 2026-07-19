@@ -50,6 +50,21 @@ def test_forward_shape_and_marginals():
     assert torch.all(beta > 0) and abs(float(beta.sum()) - 1) < 1e-6
 
 
+def test_floor_ablation_parameters():
+    # the collapse-cure floors must be ablatable (C1 nofloor arm):
+    # without them, masses are pure softmax (can approach 0) and knot
+    # increments lose the minimum separation.
+    layer = OTBinningLayer(n_bins=6, min_gap=1e-4, mass_floor=1.0)
+    with torch.no_grad():
+        layer.theta_b.copy_(torch.tensor([8., 0., -8., -8., -8., -8.]))
+    beta = layer.bin_masses()
+    assert float(beta.min()) < 1e-4          # floor disabled
+    default = OTBinningLayer(n_bins=6)
+    with torch.no_grad():
+        default.theta_b.copy_(torch.tensor([8., 0., -8., -8., -8., -8.]))
+    assert float(default.bin_masses().min()) > 5e-3   # floor active
+
+
 def test_gradients_flow():
     xt, yt, _, _ = _data()
     layer = OTBinningLayer(n_bins=5)

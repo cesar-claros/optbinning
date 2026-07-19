@@ -297,6 +297,10 @@ def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
 def _train_eval(arm: str, backbone: str, data: dict,
                 cfg: DictConfig) -> dict:
     device = torch.device(cfg.device)
+    # per-cell reseed: results must not depend on which arms ran before
+    # this one in the same process (discovered via a duplicated
+    # mslr/periodic cell whose two runs differed by arm-list order).
+    torch.manual_seed(cfg.seed)
     task = data.get("task", "binary")
     n_special = int(data.get("n_special", 0))
     n_out = (int(data["ytr"].max()) + 1 if task == "multiclass" else 1)

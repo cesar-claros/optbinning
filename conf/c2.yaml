@@ -1,0 +1,19 @@
+# Experiment C2 — end-to-end vs two-stage fusion, torch (Paper C §5.3).
+n: 8000
+n_test: 4000
+n_bins: 5
+n_prebins: 25
+sinkhorn_iters: 30
+train_steps: 400
+lr: 0.03
+eps_start: 0.25
+eps_end: 0.01
+rho_max: 40.0
+seed_offset: 0
+n_seeds: 8
+torch_seed: 0
+device: cuda
+out: outputs/c2
+hydra:
+  job:
+    chdir: false
