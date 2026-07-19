@@ -1,0 +1,90 @@
+nohup: ignoring input
+[2026-07-19 17:39:53,104][HYDRA] Launching 24 jobs locally
+[2026-07-19 17:39:53,104][HYDRA] 	#0 : seed_offset=0 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:40:36,346][__main__][INFO] - seed 0 done
+[2026-07-19 17:40:36,368][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_0.parquet
+[2026-07-19 17:40:36,370][HYDRA] 	#1 : seed_offset=0 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:41:16,604][__main__][INFO] - seed 0 done
+[2026-07-19 17:41:16,607][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_0.parquet
+[2026-07-19 17:41:16,611][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_0.parquet
+[2026-07-19 17:41:16,613][HYDRA] 	#2 : seed_offset=0 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:41:57,450][__main__][INFO] - seed 0 done
+[2026-07-19 17:41:57,452][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_0.parquet
+[2026-07-19 17:41:57,456][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_0.parquet
+[2026-07-19 17:41:57,458][HYDRA] 	#3 : seed_offset=1 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:42:37,773][__main__][INFO] - seed 1 done
+[2026-07-19 17:42:37,779][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_1.parquet
+[2026-07-19 17:42:37,780][HYDRA] 	#4 : seed_offset=1 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:43:18,182][__main__][INFO] - seed 1 done
+[2026-07-19 17:43:18,184][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_1.parquet
+[2026-07-19 17:43:18,188][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_1.parquet
+[2026-07-19 17:43:18,189][HYDRA] 	#5 : seed_offset=1 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:43:59,036][__main__][INFO] - seed 1 done
+[2026-07-19 17:43:59,038][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_1.parquet
+[2026-07-19 17:43:59,042][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_1.parquet
+[2026-07-19 17:43:59,045][HYDRA] 	#6 : seed_offset=2 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:44:39,442][__main__][INFO] - seed 2 done
+[2026-07-19 17:44:39,449][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2.parquet
+[2026-07-19 17:44:39,451][HYDRA] 	#7 : seed_offset=2 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:45:19,957][__main__][INFO] - seed 2 done
+[2026-07-19 17:45:19,959][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_2.parquet
+[2026-07-19 17:45:19,963][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2.parquet
+[2026-07-19 17:45:19,964][HYDRA] 	#8 : seed_offset=2 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:46:00,798][__main__][INFO] - seed 2 done
+[2026-07-19 17:46:00,800][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_2.parquet
+[2026-07-19 17:46:00,804][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2.parquet
+[2026-07-19 17:46:00,805][HYDRA] 	#9 : seed_offset=3 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:46:41,027][__main__][INFO] - seed 3 done
+[2026-07-19 17:46:41,035][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_3.parquet
+[2026-07-19 17:46:41,038][HYDRA] 	#10 : seed_offset=3 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:47:20,928][__main__][INFO] - seed 3 done
+[2026-07-19 17:47:20,930][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_3.parquet
+[2026-07-19 17:47:20,934][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_3.parquet
+[2026-07-19 17:47:20,936][HYDRA] 	#11 : seed_offset=3 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:48:01,901][__main__][INFO] - seed 3 done
+[2026-07-19 17:48:01,903][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_3.parquet
+[2026-07-19 17:48:01,908][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_3.parquet
+[2026-07-19 17:48:01,910][HYDRA] 	#12 : seed_offset=4 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:48:41,921][__main__][INFO] - seed 4 done
+[2026-07-19 17:48:41,929][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_4.parquet
+[2026-07-19 17:48:41,932][HYDRA] 	#13 : seed_offset=4 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:49:21,859][__main__][INFO] - seed 4 done
+[2026-07-19 17:49:21,861][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_4.parquet
+[2026-07-19 17:49:21,865][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_4.parquet
+[2026-07-19 17:49:21,866][HYDRA] 	#14 : seed_offset=4 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:50:02,520][__main__][INFO] - seed 4 done
+[2026-07-19 17:50:02,522][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_4.parquet
+[2026-07-19 17:50:02,526][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_4.parquet
+[2026-07-19 17:50:02,528][HYDRA] 	#15 : seed_offset=5 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:50:42,481][__main__][INFO] - seed 5 done
+[2026-07-19 17:50:42,487][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_5.parquet
+[2026-07-19 17:50:42,488][HYDRA] 	#16 : seed_offset=5 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:51:22,462][__main__][INFO] - seed 5 done
+[2026-07-19 17:51:22,465][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_5.parquet
+[2026-07-19 17:51:22,470][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_5.parquet
+[2026-07-19 17:51:22,471][HYDRA] 	#17 : seed_offset=5 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:52:03,281][__main__][INFO] - seed 5 done
+[2026-07-19 17:52:03,283][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_5.parquet
+[2026-07-19 17:52:03,287][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_5.parquet
+[2026-07-19 17:52:03,288][HYDRA] 	#18 : seed_offset=6 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:52:43,263][__main__][INFO] - seed 6 done
+[2026-07-19 17:52:43,269][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_6.parquet
+[2026-07-19 17:52:43,271][HYDRA] 	#19 : seed_offset=6 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:53:23,174][__main__][INFO] - seed 6 done
+[2026-07-19 17:53:23,176][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_6.parquet
+[2026-07-19 17:53:23,180][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_6.parquet
+[2026-07-19 17:53:23,183][HYDRA] 	#20 : seed_offset=6 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:54:03,938][__main__][INFO] - seed 6 done
+[2026-07-19 17:54:03,939][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_6.parquet
+[2026-07-19 17:54:03,945][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_6.parquet
+[2026-07-19 17:54:03,947][HYDRA] 	#21 : seed_offset=7 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 17:54:44,309][__main__][INFO] - seed 7 done
+[2026-07-19 17:54:44,315][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_7.parquet
+[2026-07-19 17:54:44,316][HYDRA] 	#22 : seed_offset=7 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:55:24,430][__main__][INFO] - seed 7 done
+[2026-07-19 17:55:24,431][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_7.parquet
+[2026-07-19 17:55:24,435][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_7.parquet
+[2026-07-19 17:55:24,436][HYDRA] 	#23 : seed_offset=7 n_seeds=1 n=40000 device=cuda out=outputs/c1_scale
+[2026-07-19 17:56:05,133][__main__][INFO] - seed 7 done
+[2026-07-19 17:56:05,135][experiments.common][WARNING] - overwriting existing results file outputs/c1_scale/c1_7.parquet
+[2026-07-19 17:56:05,138][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_7.parquet
