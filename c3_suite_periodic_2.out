@@ -1,0 +1,56 @@
+nohup: ignoring input
+[2026-07-19 17:05:19,819][HYDRA] Launching 10 jobs locally
+[2026-07-19 17:05:19,819][HYDRA] 	#0 : dataset=adult seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:05:22,659][__main__][INFO] - periodic/linear: auc=0.8583
+[2026-07-19 17:05:23,590][__main__][INFO] - periodic/mlp: auc=0.8378
+[2026-07-19 17:05:27,201][__main__][INFO] - periodic/ft: auc=0.8491
+[2026-07-19 17:05:27,226][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_adult_0.parquet
+[2026-07-19 17:05:27,228][HYDRA] 	#1 : dataset=adult seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:05:28,140][__main__][INFO] - periodic/linear: auc=0.8519
+[2026-07-19 17:05:29,047][__main__][INFO] - periodic/mlp: auc=0.8235
+[2026-07-19 17:05:32,664][__main__][INFO] - periodic/ft: auc=0.8531
+[2026-07-19 17:05:32,673][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_adult_1.parquet
+[2026-07-19 17:05:32,676][HYDRA] 	#2 : dataset=adult seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:05:33,570][__main__][INFO] - periodic/linear: auc=0.8550
+[2026-07-19 17:05:34,497][__main__][INFO] - periodic/mlp: auc=0.8251
+[2026-07-19 17:05:38,094][__main__][INFO] - periodic/ft: auc=0.8489
+[2026-07-19 17:05:38,102][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_adult_2.parquet
+[2026-07-19 17:05:38,103][HYDRA] 	#3 : dataset=adult seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:05:39,001][__main__][INFO] - periodic/linear: auc=0.8581
+[2026-07-19 17:05:39,908][__main__][INFO] - periodic/mlp: auc=0.8358
+[2026-07-19 17:05:43,505][__main__][INFO] - periodic/ft: auc=0.8585
+[2026-07-19 17:05:43,511][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_adult_3.parquet
+[2026-07-19 17:05:43,514][HYDRA] 	#4 : dataset=adult seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:05:44,409][__main__][INFO] - periodic/linear: auc=0.8547
+[2026-07-19 17:05:45,329][__main__][INFO] - periodic/mlp: auc=0.8270
+[2026-07-19 17:05:48,927][__main__][INFO] - periodic/ft: auc=0.8576
+[2026-07-19 17:05:48,933][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_adult_4.parquet
+[2026-07-19 17:05:48,935][HYDRA] 	#5 : dataset=higgs-small seed=0 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:05:50,784][__main__][INFO] - periodic/linear: auc=0.7718
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/run_c3.py:393: RuntimeWarning: overflow encountered in exp
+  prob = 1 / (1 + np.exp(-out))
+[2026-07-19 17:05:52,644][__main__][INFO] - periodic/mlp: auc=0.6991
+[2026-07-19 17:06:09,720][__main__][INFO] - periodic/ft: auc=0.7413
+[2026-07-19 17:06:09,726][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_higgs-small_0.parquet
+[2026-07-19 17:06:09,729][HYDRA] 	#6 : dataset=higgs-small seed=1 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:06:11,573][__main__][INFO] - periodic/linear: auc=0.7666
+[2026-07-19 17:06:13,436][__main__][INFO] - periodic/mlp: auc=0.6938
+[2026-07-19 17:06:30,509][__main__][INFO] - periodic/ft: auc=0.7456
+[2026-07-19 17:06:30,515][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_higgs-small_1.parquet
+[2026-07-19 17:06:30,517][HYDRA] 	#7 : dataset=higgs-small seed=2 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:06:32,361][__main__][INFO] - periodic/linear: auc=0.7664
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/run_c3.py:393: RuntimeWarning: overflow encountered in exp
+  prob = 1 / (1 + np.exp(-out))
+[2026-07-19 17:06:34,202][__main__][INFO] - periodic/mlp: auc=0.6979
+[2026-07-19 17:06:51,277][__main__][INFO] - periodic/ft: auc=0.7450
+[2026-07-19 17:06:51,284][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_higgs-small_2.parquet
+[2026-07-19 17:06:51,287][HYDRA] 	#8 : dataset=higgs-small seed=3 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:06:53,122][__main__][INFO] - periodic/linear: auc=0.7690
+[2026-07-19 17:06:54,972][__main__][INFO] - periodic/mlp: auc=0.6907
+[2026-07-19 17:07:12,046][__main__][INFO] - periodic/ft: auc=0.7558
+[2026-07-19 17:07:12,051][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_higgs-small_3.parquet
+[2026-07-19 17:07:12,053][HYDRA] 	#9 : dataset=higgs-small seed=4 device=cuda arms=[periodic] backbones=[linear,mlp,ft] out=outputs/c3_suite_periodic
+[2026-07-19 17:07:13,912][__main__][INFO] - periodic/linear: auc=0.7674
+[2026-07-19 17:07:15,771][__main__][INFO] - periodic/mlp: auc=0.6962
+[2026-07-19 17:07:32,847][__main__][INFO] - periodic/ft: auc=0.7451
+[2026-07-19 17:07:32,855][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_suite_periodic/c3_higgs-small_4.parquet
