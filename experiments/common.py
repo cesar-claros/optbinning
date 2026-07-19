@@ -217,10 +217,18 @@ def bootstrap_cut_sd(fit_factory, x, y, n_boot=10, seed=0):
 
 
 def save_results(rows, out_path):
-    """Append-style results writer; parquet with csv fallback."""
+    """Results writer; parquet with csv fallback. OVERWRITES the target
+    (rerun semantics) -- partial reruns (e.g. a single-arm top-up) must
+    use a fresh out dir and be merged at analysis time, or they clobber
+    the full-arm files (near-miss logged 2026-07; hence the warning)."""
+    import logging
     df = pd.DataFrame(rows)
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    if out_path.with_suffix(".parquet").exists():
+        logging.getLogger(__name__).warning(
+            "overwriting existing results file %s",
+            out_path.with_suffix(".parquet"))
     try:
         df.to_parquet(out_path.with_suffix(".parquet"), index=False)
         return out_path.with_suffix(".parquet")
