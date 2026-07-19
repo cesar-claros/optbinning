@@ -1,0 +1,9 @@
+nohup: ignoring input
+[2026-07-18 21:23:38,664][HYDRA] Launching 5 jobs locally
+[2026-07-18 21:23:38,664][HYDRA] 	#0 : dataset=mslr seed=0 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:23:49,254][HYDRA] 	#1 : dataset=mslr seed=1 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:24:09,804][__main__][INFO] - raw/linear: rmse=0.7834
+[2026-07-18 21:24:15,505][__main__][INFO] - raw/mlp: rmse=0.7457
+[2026-07-18 21:26:52,546][__main__][INFO] - raw/ft: rmse=0.7419
+[2026-07-18 21:27:13,453][__main__][INFO] - quantile_ple/linear: rmse=0.7423
+[2026-07-18 21:27:35,179][__main__][INFO] - quantile_ple/mlp: rmse=0.7332

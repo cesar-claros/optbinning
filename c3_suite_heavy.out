@@ -1,0 +1,183 @@
+nohup: ignoring input
+[2026-07-18 19:31:22,584][HYDRA] Launching 15 jobs locally
+[2026-07-18 19:31:22,584][HYDRA] 	#0 : dataset=facebook seed=0 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 19:31:36,826][__main__][INFO] - raw/linear: rmse=26.7722
+[2026-07-18 19:31:41,433][__main__][INFO] - raw/mlp: rmse=20.4938
+[2026-07-18 19:32:36,700][__main__][INFO] - raw/ft: rmse=19.9162
+[2026-07-18 19:32:47,418][__main__][INFO] - quantile_ple/linear: rmse=25.8892
+[2026-07-18 19:33:00,131][__main__][INFO] - quantile_ple/mlp: rmse=20.2988
+[2026-07-18 19:33:58,160][__main__][INFO] - quantile_ple/ft: rmse=19.9567
+[2026-07-18 19:34:13,034][__main__][INFO] - target_ple/linear: rmse=25.5716
+[2026-07-18 19:34:29,630][__main__][INFO] - target_ple/mlp: rmse=19.3796
+[2026-07-18 19:35:31,710][__main__][INFO] - target_ple/ft: rmse=20.5344
+[2026-07-18 19:35:37,748][__main__][INFO] - ot_ple/linear: rmse=25.7147
+[2026-07-18 19:35:44,581][__main__][INFO] - ot_ple/mlp: rmse=18.6856
+[2026-07-18 19:36:43,045][__main__][INFO] - ot_ple/ft: rmse=19.0096
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+[2026-07-18 19:36:44,266][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_facebook_0.parquet
+[2026-07-18 19:36:44,272][HYDRA] 	#1 : dataset=facebook seed=1 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 19:36:48,308][__main__][INFO] - raw/linear: rmse=28.9364
+[2026-07-18 19:36:52,825][__main__][INFO] - raw/mlp: rmse=22.3965
+[2026-07-18 19:37:48,052][__main__][INFO] - raw/ft: rmse=19.8348
+[2026-07-18 19:37:58,687][__main__][INFO] - quantile_ple/linear: rmse=27.5358
+[2026-07-18 19:38:11,257][__main__][INFO] - quantile_ple/mlp: rmse=19.6923
+[2026-07-18 19:39:09,292][__main__][INFO] - quantile_ple/ft: rmse=20.2480
+[2026-07-18 19:39:23,941][__main__][INFO] - target_ple/linear: rmse=27.3394
+[2026-07-18 19:39:40,550][__main__][INFO] - target_ple/mlp: rmse=19.4418
+[2026-07-18 19:40:42,584][__main__][INFO] - target_ple/ft: rmse=19.8196
+[2026-07-18 19:40:48,538][__main__][INFO] - ot_ple/linear: rmse=27.7963
+[2026-07-18 19:40:55,409][__main__][INFO] - ot_ple/mlp: rmse=20.0400
+[2026-07-18 19:41:53,903][__main__][INFO] - ot_ple/ft: rmse=20.0871
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+[2026-07-18 19:41:54,981][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_facebook_1.parquet
+[2026-07-18 19:41:54,984][HYDRA] 	#2 : dataset=facebook seed=2 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 19:41:59,050][__main__][INFO] - raw/linear: rmse=28.3968
+[2026-07-18 19:42:03,575][__main__][INFO] - raw/mlp: rmse=21.7626
+[2026-07-18 19:42:58,798][__main__][INFO] - raw/ft: rmse=20.8139
+[2026-07-18 19:43:09,495][__main__][INFO] - quantile_ple/linear: rmse=27.1208
+[2026-07-18 19:43:22,110][__main__][INFO] - quantile_ple/mlp: rmse=19.4031
+[2026-07-18 19:44:20,173][__main__][INFO] - quantile_ple/ft: rmse=20.1623
+[2026-07-18 19:44:34,793][__main__][INFO] - target_ple/linear: rmse=26.8031
+[2026-07-18 19:44:51,418][__main__][INFO] - target_ple/mlp: rmse=19.4211
+[2026-07-18 19:45:53,551][__main__][INFO] - target_ple/ft: rmse=19.7668
+[2026-07-18 19:45:59,524][__main__][INFO] - ot_ple/linear: rmse=26.7648
+[2026-07-18 19:46:06,392][__main__][INFO] - ot_ple/mlp: rmse=19.4781
+[2026-07-18 19:47:04,894][__main__][INFO] - ot_ple/ft: rmse=19.7510
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+[2026-07-18 19:47:05,967][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_facebook_2.parquet
+[2026-07-18 19:47:05,970][HYDRA] 	#3 : dataset=facebook seed=3 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 19:47:09,988][__main__][INFO] - raw/linear: rmse=26.9681
+[2026-07-18 19:47:14,483][__main__][INFO] - raw/mlp: rmse=21.0992
+[2026-07-18 19:48:09,702][__main__][INFO] - raw/ft: rmse=18.3412
+[2026-07-18 19:48:20,351][__main__][INFO] - quantile_ple/linear: rmse=25.5034
+[2026-07-18 19:48:32,964][__main__][INFO] - quantile_ple/mlp: rmse=20.0884
+[2026-07-18 19:49:31,015][__main__][INFO] - quantile_ple/ft: rmse=19.3763
+[2026-07-18 19:49:45,809][__main__][INFO] - target_ple/linear: rmse=25.4180
+[2026-07-18 19:50:02,572][__main__][INFO] - target_ple/mlp: rmse=19.0590
+[2026-07-18 19:51:04,771][__main__][INFO] - target_ple/ft: rmse=18.7868
+[2026-07-18 19:51:10,640][__main__][INFO] - ot_ple/linear: rmse=25.6409
+[2026-07-18 19:51:17,410][__main__][INFO] - ot_ple/mlp: rmse=20.5150
+[2026-07-18 19:52:15,873][__main__][INFO] - ot_ple/ft: rmse=18.1697
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+[2026-07-18 19:52:16,943][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_facebook_3.parquet
+[2026-07-18 19:52:16,946][HYDRA] 	#4 : dataset=facebook seed=4 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 19:52:20,983][__main__][INFO] - raw/linear: rmse=29.1613
+[2026-07-18 19:52:25,463][__main__][INFO] - raw/mlp: rmse=22.2311
+[2026-07-18 19:53:20,685][__main__][INFO] - raw/ft: rmse=20.4373
+[2026-07-18 19:53:31,300][__main__][INFO] - quantile_ple/linear: rmse=27.8064
+[2026-07-18 19:53:43,844][__main__][INFO] - quantile_ple/mlp: rmse=21.4918
+[2026-07-18 19:54:41,870][__main__][INFO] - quantile_ple/ft: rmse=19.9609
+[2026-07-18 19:54:56,481][__main__][INFO] - target_ple/linear: rmse=27.5595
+[2026-07-18 19:55:13,081][__main__][INFO] - target_ple/mlp: rmse=21.2260
+[2026-07-18 19:56:15,129][__main__][INFO] - target_ple/ft: rmse=20.7187
+[2026-07-18 19:56:21,059][__main__][INFO] - ot_ple/linear: rmse=27.3139
+[2026-07-18 19:56:27,891][__main__][INFO] - ot_ple/mlp: rmse=21.3028
+[2026-07-18 19:57:26,393][__main__][INFO] - ot_ple/ft: rmse=19.8889
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMRegressor was fitted with feature names
+  warnings.warn(
+[2026-07-18 19:57:27,547][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_facebook_4.parquet
+[2026-07-18 19:57:27,550][HYDRA] 	#5 : dataset=covertype seed=0 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 19:57:27,679][sklearn.datasets._covtype][INFO] - Downloading https://ndownloader.figshare.com/files/5976039
+[2026-07-18 19:58:37,836][__main__][INFO] - raw/linear: accuracy=0.7239
+[2026-07-18 19:58:50,795][__main__][INFO] - raw/mlp: accuracy=0.8774
+[2026-07-18 20:01:35,044][__main__][INFO] - raw/ft: accuracy=0.9164
+[2026-07-18 20:02:08,754][__main__][INFO] - quantile_ple/linear: accuracy=0.7329
+[2026-07-18 20:02:47,711][__main__][INFO] - quantile_ple/mlp: accuracy=0.8322
+[2026-07-18 20:05:40,829][__main__][INFO] - quantile_ple/ft: accuracy=0.9313
+[2026-07-18 20:06:22,436][__main__][INFO] - target_ple/linear: accuracy=0.7257
+[2026-07-18 20:07:09,023][__main__][INFO] - target_ple/mlp: accuracy=0.8244
+[2026-07-18 20:10:08,802][__main__][INFO] - target_ple/ft: accuracy=0.9043
+[2026-07-18 20:10:24,609][__main__][INFO] - ot_ple/linear: accuracy=0.7359
+[2026-07-18 20:10:43,003][__main__][INFO] - ot_ple/mlp: accuracy=0.8819
+[2026-07-18 20:13:35,407][__main__][INFO] - ot_ple/ft: accuracy=0.9272
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 20:13:49,260][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_covertype_0.parquet
+[2026-07-18 20:13:49,267][HYDRA] 	#6 : dataset=covertype seed=1 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 20:14:00,803][__main__][INFO] - raw/linear: accuracy=0.7232
+[2026-07-18 20:14:13,873][__main__][INFO] - raw/mlp: accuracy=0.8797
+[2026-07-18 20:16:58,130][__main__][INFO] - raw/ft: accuracy=0.9111
+[2026-07-18 20:17:31,916][__main__][INFO] - quantile_ple/linear: accuracy=0.7345
+[2026-07-18 20:18:10,918][__main__][INFO] - quantile_ple/mlp: accuracy=0.8494
+[2026-07-18 20:21:04,022][__main__][INFO] - quantile_ple/ft: accuracy=0.9271
+[2026-07-18 20:21:45,755][__main__][INFO] - target_ple/linear: accuracy=0.7259
+[2026-07-18 20:22:32,765][__main__][INFO] - target_ple/mlp: accuracy=0.8324
+[2026-07-18 20:25:32,734][__main__][INFO] - target_ple/ft: accuracy=0.9007
+[2026-07-18 20:25:48,563][__main__][INFO] - ot_ple/linear: accuracy=0.7375
+[2026-07-18 20:26:06,993][__main__][INFO] - ot_ple/mlp: accuracy=0.8863
+[2026-07-18 20:28:59,402][__main__][INFO] - ot_ple/ft: accuracy=0.9238
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 20:29:13,697][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_covertype_1.parquet
+[2026-07-18 20:29:13,702][HYDRA] 	#7 : dataset=covertype seed=2 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 20:29:25,135][__main__][INFO] - raw/linear: accuracy=0.7225
+[2026-07-18 20:29:38,120][__main__][INFO] - raw/mlp: accuracy=0.8785
+[2026-07-18 20:32:22,376][__main__][INFO] - raw/ft: accuracy=0.9144
+[2026-07-18 20:32:56,107][__main__][INFO] - quantile_ple/linear: accuracy=0.7316
+[2026-07-18 20:33:35,136][__main__][INFO] - quantile_ple/mlp: accuracy=0.8429
+[2026-07-18 20:36:28,236][__main__][INFO] - quantile_ple/ft: accuracy=0.9272
+[2026-07-18 20:37:09,283][__main__][INFO] - target_ple/linear: accuracy=0.7262
+[2026-07-18 20:37:55,676][__main__][INFO] - target_ple/mlp: accuracy=0.8102
+[2026-07-18 20:40:55,295][__main__][INFO] - target_ple/ft: accuracy=0.9071
+[2026-07-18 20:41:11,076][__main__][INFO] - ot_ple/linear: accuracy=0.7364
+[2026-07-18 20:41:29,468][__main__][INFO] - ot_ple/mlp: accuracy=0.8882
+[2026-07-18 20:44:21,861][__main__][INFO] - ot_ple/ft: accuracy=0.9275
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 20:44:35,866][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_covertype_2.parquet
+[2026-07-18 20:44:35,872][HYDRA] 	#8 : dataset=covertype seed=3 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 20:44:47,311][__main__][INFO] - raw/linear: accuracy=0.7263
+[2026-07-18 20:45:00,297][__main__][INFO] - raw/mlp: accuracy=0.8818
+[2026-07-18 20:47:44,528][__main__][INFO] - raw/ft: accuracy=0.9108
+[2026-07-18 20:48:18,247][__main__][INFO] - quantile_ple/linear: accuracy=0.7349
+[2026-07-18 20:48:57,205][__main__][INFO] - quantile_ple/mlp: accuracy=0.8652
+[2026-07-18 20:51:50,287][__main__][INFO] - quantile_ple/ft: accuracy=0.9313
+[2026-07-18 20:52:31,585][__main__][INFO] - target_ple/linear: accuracy=0.7284
+[2026-07-18 20:53:18,017][__main__][INFO] - target_ple/mlp: accuracy=0.8111
+[2026-07-18 20:56:17,609][__main__][INFO] - target_ple/ft: accuracy=0.9092
+[2026-07-18 20:56:33,378][__main__][INFO] - ot_ple/linear: accuracy=0.7406
+[2026-07-18 20:56:51,753][__main__][INFO] - ot_ple/mlp: accuracy=0.8805
+[2026-07-18 20:59:44,149][__main__][INFO] - ot_ple/ft: accuracy=0.9282
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 20:59:59,466][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_covertype_3.parquet
+[2026-07-18 20:59:59,473][HYDRA] 	#9 : dataset=covertype seed=4 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:00:10,911][__main__][INFO] - raw/linear: accuracy=0.7247
+[2026-07-18 21:00:23,923][__main__][INFO] - raw/mlp: accuracy=0.8737
+[2026-07-18 21:03:08,156][__main__][INFO] - raw/ft: accuracy=0.9095
+[2026-07-18 21:03:41,828][__main__][INFO] - quantile_ple/linear: accuracy=0.7342
+[2026-07-18 21:04:20,804][__main__][INFO] - quantile_ple/mlp: accuracy=0.8470
+[2026-07-18 21:07:13,889][__main__][INFO] - quantile_ple/ft: accuracy=0.9298
+[2026-07-18 21:07:54,895][__main__][INFO] - target_ple/linear: accuracy=0.7263
+[2026-07-18 21:08:41,462][__main__][INFO] - target_ple/mlp: accuracy=0.8251
+[2026-07-18 21:11:40,981][__main__][INFO] - target_ple/ft: accuracy=0.9122
+[2026-07-18 21:11:56,747][__main__][INFO] - ot_ple/linear: accuracy=0.7364
+[2026-07-18 21:12:15,088][__main__][INFO] - ot_ple/mlp: accuracy=0.8814
+[2026-07-18 21:15:07,477][__main__][INFO] - ot_ple/ft: accuracy=0.9262
+/usr/local/lib/python3.12/site-packages/sklearn/utils/validation.py:2827: UserWarning: X does not have valid feature names, but LGBMClassifier was fitted with feature names
+  warnings.warn(
+[2026-07-18 21:15:21,911][__main__][INFO] - C3: wrote 13 rows -> outputs/c3_suite/c3_covertype_4.parquet
+[2026-07-18 21:15:21,917][HYDRA] 	#10 : dataset=mslr seed=0 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:15:22,037][HYDRA] 	#11 : dataset=mslr seed=1 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:15:22,134][HYDRA] 	#12 : dataset=mslr seed=2 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:15:22,236][HYDRA] 	#13 : dataset=mslr seed=3 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+[2026-07-18 21:15:22,353][HYDRA] 	#14 : dataset=mslr seed=4 device=cuda token_mode=ple_interp backbones=[linear,mlp,ft] out=outputs/c3_suite
+Error executing job with overrides: ['dataset=mslr', 'seed=0', 'device=cuda', 'token_mode=ple_interp', 'backbones=[linear,mlp,ft]', 'out=outputs/c3_suite']
+Traceback (most recent call last):
+  File "/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/run_c3.py", line 493, in main
+    run(cfg)
+  File "/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/run_c3.py", line 434, in run
+    else datasets.load(cfg.dataset)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py", line 550, in load
+    return REGISTRY[name]()
+           ^^^^^^^^^^^^^^^^
+  File "/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py", line 430, in load_mslr
+    raise FileNotFoundError(
+FileNotFoundError: MSLR-WEB10K requires a manual download (Microsoft LETOR). Place Fold1/train.txt at /work/cniel/sw/singularity_containers/ot_woe/optbinning/data/mslr/Fold1/train.txt.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
