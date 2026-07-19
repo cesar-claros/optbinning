@@ -1,0 +1,26 @@
+nohup: ignoring input
+[2026-07-19 18:07:23,914][HYDRA] Launching 8 jobs locally
+[2026-07-19 18:07:23,914][HYDRA] 	#0 : seed_offset=0 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:07:41,157][__main__][INFO] - seed 0: alpha_hat=0.769 frac=1.000
+[2026-07-19 18:07:41,178][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_0.parquet
+[2026-07-19 18:07:41,180][HYDRA] 	#1 : seed_offset=1 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:07:56,346][__main__][INFO] - seed 1: alpha_hat=0.766 frac=1.007
+[2026-07-19 18:07:56,354][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_1.parquet
+[2026-07-19 18:07:56,357][HYDRA] 	#2 : seed_offset=2 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:08:11,509][__main__][INFO] - seed 2: alpha_hat=0.775 frac=0.988
+[2026-07-19 18:08:11,517][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_2.parquet
+[2026-07-19 18:08:11,520][HYDRA] 	#3 : seed_offset=3 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:08:26,685][__main__][INFO] - seed 3: alpha_hat=0.746 frac=1.008
+[2026-07-19 18:08:26,693][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_3.parquet
+[2026-07-19 18:08:26,695][HYDRA] 	#4 : seed_offset=4 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:08:41,685][__main__][INFO] - seed 4: alpha_hat=0.771 frac=1.008
+[2026-07-19 18:08:41,691][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_4.parquet
+[2026-07-19 18:08:41,692][HYDRA] 	#5 : seed_offset=5 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:08:56,976][__main__][INFO] - seed 5: alpha_hat=0.737 frac=1.006
+[2026-07-19 18:08:56,980][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_5.parquet
+[2026-07-19 18:08:56,981][HYDRA] 	#6 : seed_offset=6 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:09:11,850][__main__][INFO] - seed 6: alpha_hat=0.794 frac=0.985
+[2026-07-19 18:09:11,856][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_6.parquet
+[2026-07-19 18:09:11,859][HYDRA] 	#7 : seed_offset=7 n_seeds=1 device=cuda out=outputs/c2
+[2026-07-19 18:09:26,949][__main__][INFO] - seed 7: alpha_hat=0.767 frac=1.012
+[2026-07-19 18:09:26,957][__main__][INFO] - C2: wrote 3 rows -> outputs/c2/c2_7.parquet
