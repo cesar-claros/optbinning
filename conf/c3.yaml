@@ -5,6 +5,10 @@ dataset: synthetic-smooth
 n: 6000
 data_seed: 0
 arms: [raw, quantile_ple, target_ple, ot_ple, lightgbm]
+# extra arm periodic: Gorishniy's "P" block (learnable sin/cos frequencies)
+# under the same heads -- the maximally free, bin-less baseline
+periodic_k: 8            # frequencies per feature (token dim = 2k)
+periodic_sigma: 1.0      # frequency init scale (Gorishniy tunes this; we fix it)
 # extra arm ot_frozen: stage-1 trains the layer end-to-end, then freezes
 # its edges and trains a fresh head on their PLE encoding -- isolates
 # jointness (ot_ple - ot_frozen) from estimator (ot_frozen - target_ple)

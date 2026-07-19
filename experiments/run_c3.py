@@ -62,7 +62,8 @@ class TokenizedNet(nn.Module):
                  token_mode: str = "cumulative",
                  sinkhorn_iters: int = 15, ft_layers: int = 2,
                  ft_heads: int = 4, n_special: int = 0,
-                 n_out: int = 1) -> None:
+                 n_out: int = 1, periodic_k: int = 8,
+                 periodic_sigma: float = 1.0) -> None:
         super().__init__()
         self.arm = arm
         self.backbone = backbone
@@ -80,6 +81,15 @@ class TokenizedNet(nn.Module):
                                      torch.as_tensor(e, dtype=torch.float32))
             token_dim = max(len(e) - 1 for e in edges)
             self._dims = [len(e) - 1 for e in edges]
+        elif arm == "periodic":
+            # Gorishniy et al. (2022) "P" block: learnable-frequency
+            # sin/cos features -- the maximally free (bin-less,
+            # unauditable) basis; the far end of the basis-richness
+            # axis. The L+R of full PLR is supplied per feature by the
+            # ft backbone's embedding, or absorbed by the flat heads.
+            self.freq = nn.Parameter(
+                torch.randn(len(edges), periodic_k) * periodic_sigma)
+            token_dim = 2 * periodic_k
         else:                                            # raw
             token_dim = 1
         self._base_dim = token_dim
@@ -151,6 +161,10 @@ class TokenizedNet(nn.Module):
                 # the earlier global concat -- same model class).
                 tok = torch.cat([tok, x[:, :, None]], dim=2)
             return tok, assign
+        if self.arm == "periodic":
+            ang = 2 * torch.pi * self.freq[None] * x[:, :, None]
+            return torch.cat([torch.sin(ang), torch.cos(ang)],
+                             dim=2), None
         cols = []
         for i in range(self.n_features):
             xi = x[:, i]
@@ -318,7 +332,9 @@ def _train_eval(arm: str, backbone: str, data: dict,
                   sinkhorn_iters=cfg.get("sinkhorn_iters", 15),
                   ft_layers=cfg.get("ft_layers", 2),
                   ft_heads=cfg.get("ft_heads", 4), n_special=n_special,
-                  n_out=n_out)
+                  n_out=n_out,
+                  periodic_k=cfg.get("periodic_k", 8),
+                  periodic_sigma=cfg.get("periodic_sigma", 1.0))
     start = time.perf_counter()
     if arm == "ot_frozen":
         # two-stage control isolating JOINTNESS from the estimator:

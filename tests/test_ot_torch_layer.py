@@ -236,6 +236,34 @@ def test_tokenized_net_multiclass_and_regression_heads():
     assert type(_loss_fn("binary")).__name__ == "BCEWithLogitsLoss"
 
 
+def test_tokenized_net_periodic_arm():
+    # Gorishniy "P" block: sin/cos tokens in [-1, 1], learnable
+    # frequencies receive gradients, works under sentinel routing.
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet
+
+    torch.manual_seed(0)
+    edges = [np.linspace(0, 1, 9)] * 3
+    net = TokenizedNet("periodic", edges, n_bins=8, backbone="linear",
+                       hidden=16, periodic_k=4)
+    x = torch.randn(64, 3)
+    tok, assign = net.tokens(x, eps=0.1, need_assign=False)
+    assert tok.shape == (64, 3, 8) and assign is None
+    assert torch.all(tok >= -1) and torch.all(tok <= 1)
+    logits, _ = net(x)
+    logits.sum().backward()
+    assert net.freq.grad is not None
+    assert float(net.freq.grad.abs().sum()) > 0
+
+    net_s = TokenizedNet("periodic", edges, n_bins=8, backbone="linear",
+                         hidden=16, periodic_k=4, n_special=2)
+    codes = torch.zeros(64, 3, dtype=torch.long)
+    codes[0, 1] = 2
+    tok, _ = net_s.tokens(x, eps=0.1, need_assign=False, codes=codes)
+    assert tok.shape == (64, 3, 10)
+    assert torch.all(tok[0, 1, :8] == 0) and tok[0, 1, 9] == 1
+
+
 def test_annealed_recovery_small():
     # short-budget version of C1: contiguity (P6 Thm. 3.1) and a modest
     # polished gap to the exhaustive monotone optimum.

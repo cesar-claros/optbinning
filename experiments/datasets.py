@@ -431,7 +431,11 @@ def load_mslr():
             "MSLR-WEB10K requires a manual download (Microsoft LETOR). "
             "Place Fold1/train.txt at {}.".format(path))
     from sklearn.datasets import load_svmlight_file
-    xs, y = load_svmlight_file(str(path))
+    # LETOR files carry qid: tokens; query_id=True is required to parse
+    # them. Query structure is then discarded: we treat relevance as a
+    # plain regression target with row-level splits (a deviation from
+    # the LTR protocol, noted -- consistent with the Gorishniy usage).
+    xs, y, _qid = load_svmlight_file(str(path), query_id=True)
     X = pd.DataFrame(np.asarray(xs.todense(), dtype=np.float32),
                      columns=[f"f{i}" for i in range(xs.shape[1])])
     return Dataset("mslr", X, y.astype(float),
