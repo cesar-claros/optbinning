@@ -1,0 +1,50 @@
+nohup: ignoring input
+[2026-07-19 18:18:58,385][HYDRA] Launching 16 jobs locally
+[2026-07-19 18:18:58,385][HYDRA] 	#0 : seed_offset=0 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:19:40,597][__main__][INFO] - seed 0 done
+[2026-07-19 18:19:40,615][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_0.parquet
+[2026-07-19 18:19:40,617][HYDRA] 	#1 : seed_offset=0 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:20:20,961][__main__][INFO] - seed 0 done
+[2026-07-19 18:20:20,969][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_0.parquet
+[2026-07-19 18:20:20,971][HYDRA] 	#2 : seed_offset=1 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:21:01,281][__main__][INFO] - seed 1 done
+[2026-07-19 18:21:01,286][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_1.parquet
+[2026-07-19 18:21:01,287][HYDRA] 	#3 : seed_offset=1 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:21:41,583][__main__][INFO] - seed 1 done
+[2026-07-19 18:21:41,590][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_1.parquet
+[2026-07-19 18:21:41,593][HYDRA] 	#4 : seed_offset=2 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:22:21,962][__main__][INFO] - seed 2 done
+[2026-07-19 18:22:21,970][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_2.parquet
+[2026-07-19 18:22:21,972][HYDRA] 	#5 : seed_offset=2 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:23:02,331][__main__][INFO] - seed 2 done
+[2026-07-19 18:23:02,337][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_2.parquet
+[2026-07-19 18:23:02,339][HYDRA] 	#6 : seed_offset=3 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:23:42,852][__main__][INFO] - seed 3 done
+[2026-07-19 18:23:42,860][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_3.parquet
+[2026-07-19 18:23:42,862][HYDRA] 	#7 : seed_offset=3 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:24:23,201][__main__][INFO] - seed 3 done
+[2026-07-19 18:24:23,208][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_3.parquet
+[2026-07-19 18:24:23,210][HYDRA] 	#8 : seed_offset=4 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:25:03,437][__main__][INFO] - seed 4 done
+[2026-07-19 18:25:03,443][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_4.parquet
+[2026-07-19 18:25:03,444][HYDRA] 	#9 : seed_offset=4 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:25:43,751][__main__][INFO] - seed 4 done
+[2026-07-19 18:25:43,756][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_4.parquet
+[2026-07-19 18:25:43,757][HYDRA] 	#10 : seed_offset=5 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:26:23,935][__main__][INFO] - seed 5 done
+[2026-07-19 18:26:23,943][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_5.parquet
+[2026-07-19 18:26:23,946][HYDRA] 	#11 : seed_offset=5 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:27:04,315][__main__][INFO] - seed 5 done
+[2026-07-19 18:27:04,321][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_5.parquet
+[2026-07-19 18:27:04,322][HYDRA] 	#12 : seed_offset=6 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:27:44,615][__main__][INFO] - seed 6 done
+[2026-07-19 18:27:44,621][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_6.parquet
+[2026-07-19 18:27:44,624][HYDRA] 	#13 : seed_offset=6 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:28:24,967][__main__][INFO] - seed 6 done
+[2026-07-19 18:28:24,972][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_6.parquet
+[2026-07-19 18:28:24,974][HYDRA] 	#14 : seed_offset=7 n_seeds=1 n=2500 device=cuda out=outputs/c1_scale
+[2026-07-19 18:29:05,357][__main__][INFO] - seed 7 done
+[2026-07-19 18:29:05,363][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_2500_7.parquet
+[2026-07-19 18:29:05,366][HYDRA] 	#15 : seed_offset=7 n_seeds=1 n=10000 device=cuda out=outputs/c1_scale
+[2026-07-19 18:29:45,713][__main__][INFO] - seed 7 done
+[2026-07-19 18:29:45,719][__main__][INFO] - C1: wrote 3 rows -> outputs/c1_scale/c1_10000_7.parquet
