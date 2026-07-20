@@ -1,0 +1,5 @@
+- model=logreg
+- device=cpu
+- n_folds=4
+- n_permutations=60
+- out=/tmp/compas

@@ -442,6 +442,34 @@ def load_mslr():
                    numerical=list(X.columns), task="regression")
 
 
+def load_compas():
+    """ProPublica COMPAS two-year recidivism (auto-fetch).
+
+    Audit CASE STUDY for Paper C Sec. 6 -- deliberately not a benchmark
+    row. Standard ProPublica/Dressel-Farid filtering (screening window
+    [-30, 30] days, is_recid != -1, ordinary-traffic charges excluded,
+    valid score_text). Predictors EXCLUDE protected attributes; race and
+    sex are kept as plain columns solely for the group-disparity
+    certificate. Provenance and contested aspects discussed in-draft."""
+    def fetch():
+        url = ("https://raw.githubusercontent.com/propublica/"
+               "compas-analysis/master/compas-scores-two-years.csv")
+        return pd.read_csv(url)
+
+    df = _from_cache_or("compas", fetch)
+    mask = (df["days_b_screening_arrest"].between(-30, 30)
+            & (df["is_recid"] != -1)
+            & (df["c_charge_degree"] != "O")
+            & (df["score_text"] != "N/A"))
+    df = df[mask].copy()
+    df["charge_degree_F"] = (df["c_charge_degree"] == "F").astype(float)
+    y = df["two_year_recid"].values.astype(int)
+    num = ["age", "priors_count", "juv_fel_count", "juv_misd_count",
+           "juv_other_count", "charge_degree_F"]
+    X = df[num + ["race", "sex"]].reset_index(drop=True)
+    return Dataset("compas", X, y, numerical=num)
+
+
 # --------------------------------------------------------------------- #
 # Synthetic generator (paper designs)
 # --------------------------------------------------------------------- #
@@ -542,7 +570,7 @@ REGISTRY = {"german": load_german, "taiwan": load_taiwan,
             "california": load_california, "house16h": load_house16h,
             "otto": load_otto, "facebook": load_facebook,
             "santander": load_santander, "covertype": load_covertype,
-            "mslr": load_mslr}
+            "mslr": load_mslr, "compas": load_compas}
 for _key, _variant in BAF_VARIANTS.items():
     REGISTRY[_key] = partial(load_baf, _variant, _key)
 
