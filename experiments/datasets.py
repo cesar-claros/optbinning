@@ -370,8 +370,12 @@ def load_otto():
 
 def load_facebook():
     """Facebook Comment Volume (UCI id=363; regression). Auto-fetches
-    the zip and uses Features_Variant_5 (closest to the Gorishniy
-    count; approximate replication, noted)."""
+    the zip and uses Features_Variant_5. NOTE: the Gorishniy reference
+    construction additionally clips ALL splits at the train target's
+    99th percentile and drops two degenerate columns (verified in their
+    bin/datasets.py), so published RMSEs are ~3x smaller than raw-scale
+    values; this loader is UNCLIPPED -- within-table comparisons only,
+    never cross-paper."""
     def fetch():
         import io
         import urllib.request
