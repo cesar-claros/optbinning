@@ -144,6 +144,16 @@ def run(cfg):
                     feature=name, cut=k, consensus_cut=float(cut),
                     dispersion=float(disp),
                     stability_index=float(cb.stability_index_)))
+        except RuntimeError as err:
+            # near-degenerate features (the juv_* counts are ~95%
+            # zeros) legitimately admit no reproducible split on
+            # subsample folds. "No stable cut exists" is an
+            # audit-relevant verdict, not a failure: record it.
+            logger.info("consensus: %s -> no reproducible split (%s)",
+                        name, err)
+            cons_rows.append(dict(
+                feature=name, cut=-1, consensus_cut=np.nan,
+                dispersion=np.nan, stability_index=np.nan))
         except Exception:
             logger.exception("consensus failed on %s", name)
 
