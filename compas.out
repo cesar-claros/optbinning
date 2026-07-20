@@ -1,0 +1,37 @@
+nohup: ignoring input
+[2026-07-20 00:26:42,122][HYDRA] Launching 5 jobs locally
+[2026-07-20 00:26:42,122][HYDRA] 	#0 : seed=0 device=cuda out=outputs/compas
+[2026-07-20 00:26:52,435][__main__][INFO] - COMPAS ot_ple: test auc=0.7431
+[2026-07-20 00:26:54,862][__main__][INFO] - consensus: juv_fel_count -> no reproducible split (No fold produced any split.)
+[2026-07-20 00:26:55,300][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_0_audit.parquet
+[2026-07-20 00:26:55,313][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_0_fairness.parquet
+[2026-07-20 00:26:55,320][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_0_consensus.parquet
+[2026-07-20 00:26:55,325][__main__][INFO] - AUDIT: score FM=0.0464 (p=0.002) bound_thr=0.2321 observed=0.1125; wrote outputs/compas/compas_ot_ple_0_audit.parquet
+[2026-07-20 00:26:55,327][HYDRA] 	#1 : seed=1 device=cuda out=outputs/compas
+[2026-07-20 00:27:01,950][__main__][INFO] - COMPAS ot_ple: test auc=0.7376
+[2026-07-20 00:27:04,744][__main__][INFO] - consensus: juv_fel_count -> no reproducible split (No fold produced any split.)
+[2026-07-20 00:27:05,199][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_1_audit.parquet
+[2026-07-20 00:27:05,204][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_1_fairness.parquet
+[2026-07-20 00:27:05,212][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_1_consensus.parquet
+[2026-07-20 00:27:05,217][__main__][INFO] - AUDIT: score FM=0.0485 (p=0.002) bound_thr=0.2427 observed=0.1186; wrote outputs/compas/compas_ot_ple_1_audit.parquet
+[2026-07-20 00:27:05,219][HYDRA] 	#2 : seed=2 device=cuda out=outputs/compas
+[2026-07-20 00:27:11,805][__main__][INFO] - COMPAS ot_ple: test auc=0.7377
+[2026-07-20 00:27:14,385][__main__][INFO] - consensus: juv_fel_count -> no reproducible split (No fold produced any split.)
+[2026-07-20 00:27:14,793][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_2_audit.parquet
+[2026-07-20 00:27:14,800][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_2_fairness.parquet
+[2026-07-20 00:27:14,806][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_2_consensus.parquet
+[2026-07-20 00:27:14,810][__main__][INFO] - AUDIT: score FM=0.0464 (p=0.002) bound_thr=0.2319 observed=0.1134; wrote outputs/compas/compas_ot_ple_2_audit.parquet
+[2026-07-20 00:27:14,812][HYDRA] 	#3 : seed=3 device=cuda out=outputs/compas
+[2026-07-20 00:27:21,419][__main__][INFO] - COMPAS ot_ple: test auc=0.7350
+[2026-07-20 00:27:23,893][__main__][INFO] - consensus: juv_fel_count -> no reproducible split (No fold produced any split.)
+[2026-07-20 00:27:24,354][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_3_audit.parquet
+[2026-07-20 00:27:24,359][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_3_fairness.parquet
+[2026-07-20 00:27:24,366][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_3_consensus.parquet
+[2026-07-20 00:27:24,370][__main__][INFO] - AUDIT: score FM=0.0534 (p=0.002) bound_thr=0.2669 observed=0.1282; wrote outputs/compas/compas_ot_ple_3_audit.parquet
+[2026-07-20 00:27:24,373][HYDRA] 	#4 : seed=4 device=cuda out=outputs/compas
+[2026-07-20 00:27:30,975][__main__][INFO] - COMPAS ot_ple: test auc=0.7382
+[2026-07-20 00:27:33,416][__main__][INFO] - consensus: juv_fel_count -> no reproducible split (No fold produced any split.)
+[2026-07-20 00:27:33,813][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_4_audit.parquet
+[2026-07-20 00:27:33,818][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_4_fairness.parquet
+[2026-07-20 00:27:33,826][experiments.common][WARNING] - overwriting existing results file outputs/compas/compas_ot_ple_4_consensus.parquet
+[2026-07-20 00:27:33,830][__main__][INFO] - AUDIT: score FM=0.0524 (p=0.002) bound_thr=0.2622 observed=0.1296; wrote outputs/compas/compas_ot_ple_4_audit.parquet
