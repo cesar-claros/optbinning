@@ -59,13 +59,21 @@ logger = logging.getLogger(__name__)
 # Cut extraction per arm (raw feature units)
 # --------------------------------------------------------------------- #
 
-def _cuts_optbinning(x, y, n_bins):
-    """Per-feature IV-optimal splits (the two-stage procedure)."""
+def _cuts_optbinning(x, y, n_bins, force_count=False):
+    """Per-feature IV-optimal splits (the two-stage procedure).
+
+    force_count=True pins min_n_bins = max_n_bins, closing the
+    count-selection channel: the fairness control for the layer's
+    structurally fixed edge count (both arms then differ only in the
+    estimator -- argmax vs smoothed -- on the position channel)."""
     cuts = []
+    kwargs = dict(max_n_bins=n_bins)
+    if force_count:
+        kwargs["min_n_bins"] = n_bins
     for j in range(x.shape[1]):
         try:
             optb = OptimalBinning(dtype="numerical", solver="cp",
-                                  max_n_bins=n_bins).fit(x[:, j], y)
+                                  **kwargs).fit(x[:, j], y)
             cuts.append(np.asarray(optb.splits, dtype=float))
         except Exception:                                # noqa: BLE001
             logger.exception("optbinning failed on feature %d", j)
@@ -225,6 +233,9 @@ def run(cfg):
             start = time.perf_counter()
             if arm == "optbinning":
                 cuts = _cuts_optbinning(xb, yb, cfg.n_bins)
+            elif arm == "optbinning_fixed":
+                cuts = _cuts_optbinning(xb, yb, cfg.n_bins,
+                                        force_count=True)
             elif arm == "quantile":
                 cuts = _cuts_quantile(xb, cfg.n_bins)
             elif arm == "ot_ple":

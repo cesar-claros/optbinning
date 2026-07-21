@@ -12,6 +12,8 @@ periodic_sigma: 1.0      # frequency init scale (Gorishniy tunes this; we fix it
 # extra arm ot_frozen: stage-1 trains the layer end-to-end, then freezes
 # its edges and trains a fresh head on their PLE encoding -- isolates
 # jointness (ot_ple - ot_frozen) from estimator (ot_frozen - target_ple)
+# extra arm optbinning_pw: Navas-Palencia's continuous piecewise binning
+# (OptimalPWBinning, degree-1 event-rate transform) -- binary tasks only
 backbones: [linear, mlp]   # options: linear | mlp | ft
 n_bins: 8
 sinkhorn_iters: 15      # training-time unroll; hardening uses 60 internally

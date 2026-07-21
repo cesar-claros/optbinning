@@ -230,6 +230,31 @@ def _quantile_transform(xtr: np.ndarray,
     return qtr, qte
 
 
+def _pw_transform(xtr: np.ndarray, xte: np.ndarray,
+                  ytr: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Per-feature OptimalPWBinning transform (Navas-Palencia's
+    continuous piecewise extension: MILP knots + ropwr-fitted linear
+    segments with continuity/monotonicity constraints). Fitted on the
+    training split only, applied to both; a feature whose fit fails
+    passes through untransformed (logged). Binary-task only."""
+    from optbinning import OptimalPWBinning
+    xtr2, xte2 = xtr.copy(), xte.copy()
+    for j in range(xtr.shape[1]):
+        try:
+            pw = OptimalPWBinning(degree=1).fit(xtr[:, j], ytr)
+            # event_rate with clipped bounds: the piecewise fit can
+            # leave [0, 1] at the extremes, which NaNs the WoE metric's
+            # log; the bounded event-rate transform carries the same
+            # information monotonically.
+            kw = dict(metric="event_rate", lb=1e-4, ub=1 - 1e-4)
+            xtr2[:, j] = pw.transform(xtr[:, j], **kw)
+            xte2[:, j] = pw.transform(xte[:, j], **kw)
+        except Exception:                                # noqa: BLE001
+            logger.exception("pw binning failed on feature %d "
+                             "(passing through raw)", j)
+    return xtr2, xte2
+
+
 def _quantile_transform_clean(xtr: np.ndarray, xte: np.ndarray,
                               ctr: np.ndarray) -> tuple[np.ndarray,
                                                         np.ndarray]:
@@ -308,6 +333,15 @@ def _train_eval(arm: str, backbone: str, data: dict,
     y_mu, y_sd = 0.0, 1.0
     if task == "regression":
         y_mu, y_sd = float(data["ytr"].mean()), float(data["ytr"].std())
+    if arm == "optbinning_pw":
+        if task != "binary":
+            raise ValueError(
+                "optbinning_pw is a binary-task arm (event-rate "
+                "transform); got task={}.".format(task))
+        data = dict(data)
+        data["xtr"], data["xte"] = _pw_transform(data["xtr"],
+                                                 data["xte"],
+                                                 data["ytr"])
     if arm in ("ot_ple", "ot_frozen") \
             and cfg.get("ot_input", "quantile") == "quantile":
         data = dict(data)

@@ -1,0 +1,5 @@
+- dataset=synthetic-smooth
+- arms=[optbinning,optbinning_fixed,quantile]
+- n_resamples=8
+- device=cpu
+- out=/tmp/s1fix
