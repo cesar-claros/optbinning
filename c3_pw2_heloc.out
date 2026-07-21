@@ -1,0 +1,27 @@
+nohup: ignoring input
+[2026-07-21 16:30:50,108][HYDRA] Launching 5 jobs locally
+[2026-07-21 16:30:50,108][HYDRA] 	#0 : dataset=heloc seed=0 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:30:53,653][__main__][INFO] - optbinning_pw/linear: auc=0.8008
+[2026-07-21 16:30:55,209][__main__][INFO] - optbinning_pw/mlp: auc=0.7807
+[2026-07-21 16:30:58,138][__main__][INFO] - optbinning_pw/ft: auc=0.7814
+[2026-07-21 16:30:58,153][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_heloc_0.parquet
+[2026-07-21 16:30:58,154][HYDRA] 	#1 : dataset=heloc seed=1 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:30:59,640][__main__][INFO] - optbinning_pw/linear: auc=0.7965
+[2026-07-21 16:31:01,049][__main__][INFO] - optbinning_pw/mlp: auc=0.7687
+[2026-07-21 16:31:03,855][__main__][INFO] - optbinning_pw/ft: auc=0.7777
+[2026-07-21 16:31:03,861][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_heloc_1.parquet
+[2026-07-21 16:31:03,863][HYDRA] 	#2 : dataset=heloc seed=2 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:31:05,363][__main__][INFO] - optbinning_pw/linear: auc=0.7965
+[2026-07-21 16:31:06,830][__main__][INFO] - optbinning_pw/mlp: auc=0.7783
+[2026-07-21 16:31:09,677][__main__][INFO] - optbinning_pw/ft: auc=0.7879
+[2026-07-21 16:31:09,683][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_heloc_2.parquet
+[2026-07-21 16:31:09,685][HYDRA] 	#3 : dataset=heloc seed=3 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:31:11,152][__main__][INFO] - optbinning_pw/linear: auc=0.8031
+[2026-07-21 16:31:12,576][__main__][INFO] - optbinning_pw/mlp: auc=0.7742
+[2026-07-21 16:31:15,387][__main__][INFO] - optbinning_pw/ft: auc=0.7836
+[2026-07-21 16:31:15,392][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_heloc_3.parquet
+[2026-07-21 16:31:15,393][HYDRA] 	#4 : dataset=heloc seed=4 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:31:16,935][__main__][INFO] - optbinning_pw/linear: auc=0.7975
+[2026-07-21 16:31:18,462][__main__][INFO] - optbinning_pw/mlp: auc=0.7668
+[2026-07-21 16:31:21,346][__main__][INFO] - optbinning_pw/ft: auc=0.7873
+[2026-07-21 16:31:21,352][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_heloc_4.parquet

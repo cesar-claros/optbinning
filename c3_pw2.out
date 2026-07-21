@@ -1,0 +1,102 @@
+nohup: ignoring input
+[2026-07-21 16:22:20,029][HYDRA] Launching 20 jobs locally
+[2026-07-21 16:22:20,029][HYDRA] 	#0 : dataset=german seed=0 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:22:22,895][__main__][INFO] - optbinning_pw/linear: auc=0.6380
+[2026-07-21 16:22:23,488][__main__][INFO] - optbinning_pw/mlp: auc=0.5936
+[2026-07-21 16:22:24,379][__main__][INFO] - optbinning_pw/ft: auc=0.5946
+[2026-07-21 16:22:24,417][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_german_0.parquet
+[2026-07-21 16:22:24,422][HYDRA] 	#1 : dataset=german seed=1 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:22:25,094][__main__][INFO] - optbinning_pw/linear: auc=0.6093
+[2026-07-21 16:22:25,650][__main__][INFO] - optbinning_pw/mlp: auc=0.6057
+[2026-07-21 16:22:26,525][__main__][INFO] - optbinning_pw/ft: auc=0.5965
+[2026-07-21 16:22:29,159][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_german_1.parquet
+[2026-07-21 16:22:29,289][HYDRA] 	#2 : dataset=german seed=2 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:22:33,747][__main__][INFO] - optbinning_pw/linear: auc=0.6504
+[2026-07-21 16:22:34,390][__main__][INFO] - optbinning_pw/mlp: auc=0.6774
+[2026-07-21 16:22:35,268][__main__][INFO] - optbinning_pw/ft: auc=0.6738
+[2026-07-21 16:22:38,100][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_german_2.parquet
+[2026-07-21 16:22:38,341][HYDRA] 	#3 : dataset=german seed=3 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:22:41,759][__main__][INFO] - optbinning_pw/linear: auc=0.6412
+[2026-07-21 16:22:42,308][__main__][INFO] - optbinning_pw/mlp: auc=0.6848
+[2026-07-21 16:22:43,168][__main__][INFO] - optbinning_pw/ft: auc=0.6206
+[2026-07-21 16:22:45,325][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_german_3.parquet
+[2026-07-21 16:22:45,483][HYDRA] 	#4 : dataset=german seed=4 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:22:47,869][__main__][INFO] - optbinning_pw/linear: auc=0.6280
+[2026-07-21 16:22:48,442][__main__][INFO] - optbinning_pw/mlp: auc=0.5868
+[2026-07-21 16:22:49,324][__main__][INFO] - optbinning_pw/ft: auc=0.6274
+[2026-07-21 16:22:50,338][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_german_4.parquet
+[2026-07-21 16:22:50,404][HYDRA] 	#5 : dataset=taiwan seed=0 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:22:57,070][__main__][INFO] - optbinning_pw/linear: auc=0.7572
+[2026-07-21 16:23:02,829][__main__][INFO] - optbinning_pw/mlp: auc=0.7580
+[2026-07-21 16:23:11,751][__main__][INFO] - optbinning_pw/ft: auc=0.7759
+[2026-07-21 16:23:12,107][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_taiwan_0.parquet
+[2026-07-21 16:23:12,150][HYDRA] 	#6 : dataset=taiwan seed=1 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:23:18,075][__main__][INFO] - optbinning_pw/linear: auc=0.7475
+[2026-07-21 16:23:23,793][__main__][INFO] - optbinning_pw/mlp: auc=0.7630
+[2026-07-21 16:23:33,075][__main__][INFO] - optbinning_pw/ft: auc=0.7740
+[2026-07-21 16:23:33,558][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_taiwan_1.parquet
+[2026-07-21 16:23:33,571][HYDRA] 	#7 : dataset=taiwan seed=2 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:23:39,268][__main__][INFO] - optbinning_pw/linear: auc=0.7591
+[2026-07-21 16:23:44,775][__main__][INFO] - optbinning_pw/mlp: auc=0.7659
+[2026-07-21 16:23:54,083][__main__][INFO] - optbinning_pw/ft: auc=0.7787
+[2026-07-21 16:23:54,096][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_taiwan_2.parquet
+[2026-07-21 16:23:54,099][HYDRA] 	#8 : dataset=taiwan seed=3 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:23:59,665][__main__][INFO] - optbinning_pw/linear: auc=0.7577
+[2026-07-21 16:24:05,215][__main__][INFO] - optbinning_pw/mlp: auc=0.7666
+[2026-07-21 16:24:14,531][__main__][INFO] - optbinning_pw/ft: auc=0.7768
+[2026-07-21 16:24:14,541][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_taiwan_3.parquet
+[2026-07-21 16:24:14,545][HYDRA] 	#9 : dataset=taiwan seed=4 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:24:20,348][__main__][INFO] - optbinning_pw/linear: auc=0.7616
+[2026-07-21 16:24:25,766][__main__][INFO] - optbinning_pw/mlp: auc=0.7662
+[2026-07-21 16:24:35,030][__main__][INFO] - optbinning_pw/ft: auc=0.7817
+[2026-07-21 16:24:35,037][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_taiwan_4.parquet
+[2026-07-21 16:24:35,041][HYDRA] 	#10 : dataset=gmsc seed=0 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:24:40,250][__main__][INFO] - optbinning_pw/linear: auc=0.6680
+[2026-07-21 16:24:46,101][__main__][INFO] - optbinning_pw/mlp: auc=0.8312
+[2026-07-21 16:25:02,568][__main__][INFO] - optbinning_pw/ft: auc=0.8331
+[2026-07-21 16:25:02,576][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_gmsc_0.parquet
+[2026-07-21 16:25:02,581][HYDRA] 	#11 : dataset=gmsc seed=1 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:25:07,753][__main__][INFO] - optbinning_pw/linear: auc=0.6649
+[2026-07-21 16:25:13,592][__main__][INFO] - optbinning_pw/mlp: auc=0.8352
+[2026-07-21 16:25:29,548][__main__][INFO] - optbinning_pw/ft: auc=0.8377
+[2026-07-21 16:25:29,558][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_gmsc_1.parquet
+[2026-07-21 16:25:29,566][HYDRA] 	#12 : dataset=gmsc seed=2 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:25:34,831][__main__][INFO] - optbinning_pw/linear: auc=0.6658
+[2026-07-21 16:25:40,642][__main__][INFO] - optbinning_pw/mlp: auc=0.8241
+[2026-07-21 16:25:56,934][__main__][INFO] - optbinning_pw/ft: auc=0.8286
+[2026-07-21 16:25:56,942][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_gmsc_2.parquet
+[2026-07-21 16:25:56,946][HYDRA] 	#13 : dataset=gmsc seed=3 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:26:02,491][__main__][INFO] - optbinning_pw/linear: auc=0.6604
+[2026-07-21 16:26:08,399][__main__][INFO] - optbinning_pw/mlp: auc=0.8285
+[2026-07-21 16:26:24,627][__main__][INFO] - optbinning_pw/ft: auc=0.8310
+[2026-07-21 16:26:24,633][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_gmsc_3.parquet
+[2026-07-21 16:26:24,638][HYDRA] 	#14 : dataset=gmsc seed=4 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:26:30,319][__main__][INFO] - optbinning_pw/linear: auc=0.6655
+[2026-07-21 16:26:36,390][__main__][INFO] - optbinning_pw/mlp: auc=0.8326
+[2026-07-21 16:26:52,923][__main__][INFO] - optbinning_pw/ft: auc=0.8340
+[2026-07-21 16:26:52,936][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_gmsc_4.parquet
+[2026-07-21 16:26:52,939][HYDRA] 	#15 : dataset=adult seed=0 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:26:55,180][__main__][INFO] - optbinning_pw/linear: auc=0.8213
+[2026-07-21 16:26:57,301][__main__][INFO] - optbinning_pw/mlp: auc=0.8544
+[2026-07-21 16:27:02,075][__main__][INFO] - optbinning_pw/ft: auc=0.8548
+[2026-07-21 16:27:02,082][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_adult_0.parquet
+[2026-07-21 16:27:02,086][HYDRA] 	#16 : dataset=adult seed=1 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:27:04,113][__main__][INFO] - optbinning_pw/linear: auc=0.8131
+[2026-07-21 16:27:06,186][__main__][INFO] - optbinning_pw/mlp: auc=0.8465
+[2026-07-21 16:27:10,682][__main__][INFO] - optbinning_pw/ft: auc=0.8472
+[2026-07-21 16:27:10,689][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_adult_1.parquet
+[2026-07-21 16:27:10,693][HYDRA] 	#17 : dataset=adult seed=2 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:27:12,701][__main__][INFO] - optbinning_pw/linear: auc=0.8202
+[2026-07-21 16:27:14,848][__main__][INFO] - optbinning_pw/mlp: auc=0.8478
+[2026-07-21 16:27:19,399][__main__][INFO] - optbinning_pw/ft: auc=0.8513
+[2026-07-21 16:27:19,405][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_adult_2.parquet
+[2026-07-21 16:27:19,407][HYDRA] 	#18 : dataset=adult seed=3 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:27:21,524][__main__][INFO] - optbinning_pw/linear: auc=0.8198
+[2026-07-21 16:27:23,626][__main__][INFO] - optbinning_pw/mlp: auc=0.8551
+[2026-07-21 16:27:28,260][__main__][INFO] - optbinning_pw/ft: auc=0.8553
+[2026-07-21 16:27:28,269][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_adult_3.parquet
+[2026-07-21 16:27:28,273][HYDRA] 	#19 : dataset=adult seed=4 device=cuda token_mode=ple_interp arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw2
+[2026-07-21 16:27:30,457][__main__][INFO] - optbinning_pw/linear: auc=0.8228
+[2026-07-21 16:27:32,608][__main__][INFO] - optbinning_pw/mlp: auc=0.8510
+[2026-07-21 16:27:37,498][__main__][INFO] - optbinning_pw/ft: auc=0.8531
+[2026-07-21 16:27:37,504][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw2/c3_adult_4.parquet
