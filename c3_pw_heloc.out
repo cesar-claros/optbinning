@@ -1,0 +1,717 @@
+nohup: ignoring input
+[2026-07-21 16:10:27,509][HYDRA] Launching 5 jobs locally
+[2026-07-21 16:10:27,509][HYDRA] 	#0 : dataset=heloc seed=0 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:31,062][__main__][INFO] - optbinning_pw/linear: auc=0.7643
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:32,682][__main__][INFO] - optbinning_pw/mlp: auc=0.7958
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:35,632][__main__][INFO] - optbinning_pw/ft: auc=0.7928
+[2026-07-21 16:10:35,647][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw/c3_heloc_0.parquet
+[2026-07-21 16:10:35,650][HYDRA] 	#1 : dataset=heloc seed=1 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:37,123][__main__][INFO] - optbinning_pw/linear: auc=0.7602
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:38,579][__main__][INFO] - optbinning_pw/mlp: auc=0.7889
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:41,392][__main__][INFO] - optbinning_pw/ft: auc=0.7919
+[2026-07-21 16:10:41,399][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw/c3_heloc_1.parquet
+[2026-07-21 16:10:41,401][HYDRA] 	#2 : dataset=heloc seed=2 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:42,903][__main__][INFO] - optbinning_pw/linear: auc=0.7667
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:44,339][__main__][INFO] - optbinning_pw/mlp: auc=0.7923
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:47,138][__main__][INFO] - optbinning_pw/ft: auc=0.7902
+[2026-07-21 16:10:47,144][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw/c3_heloc_2.parquet
+[2026-07-21 16:10:47,146][HYDRA] 	#3 : dataset=heloc seed=3 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:48,661][__main__][INFO] - optbinning_pw/linear: auc=0.7507
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:50,120][__main__][INFO] - optbinning_pw/mlp: auc=0.7919
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:52,937][__main__][INFO] - optbinning_pw/ft: auc=0.7941
+[2026-07-21 16:10:52,944][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw/c3_heloc_3.parquet
+[2026-07-21 16:10:52,945][HYDRA] 	#4 : dataset=heloc seed=4 device=cuda token_mode=ple_interp special_handling=token arms=[optbinning_pw] backbones=[linear,mlp,ft] out=outputs/c3_pw
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:54,510][__main__][INFO] - optbinning_pw/linear: auc=0.7682
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:56,007][__main__][INFO] - optbinning_pw/mlp: auc=0.7933
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/optbinning/binning/metrics.py:330: RuntimeWarning: invalid value encountered in log
+  t = x * np.log(y + eps) + (1 - x) * np.log(1 - y + eps)
+[2026-07-21 16:10:58,852][__main__][INFO] - optbinning_pw/ft: auc=0.7923
+[2026-07-21 16:10:58,859][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_pw/c3_heloc_4.parquet
