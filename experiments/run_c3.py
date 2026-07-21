@@ -252,7 +252,14 @@ def _pw_transform(xtr: np.ndarray, xte: np.ndarray,
         except Exception:                                # noqa: BLE001
             logger.exception("pw binning failed on feature %d "
                              "(passing through raw)", j)
-    return xtr2, xte2
+    # standardize on train stats: event-rate outputs have per-feature
+    # stds down to ~1e-3, starving fixed-lr SGD -- every other arm
+    # consumes standardized or unit-range inputs (protocol fairness;
+    # verified: a scale-robust optimizer scores identically either way,
+    # so this changes conditioning, not information).
+    mu = xtr2.mean(axis=0)
+    sd = xtr2.std(axis=0) + 1e-9
+    return (xtr2 - mu) / sd, (xte2 - mu) / sd
 
 
 def _quantile_transform_clean(xtr: np.ndarray, xte: np.ndarray,
