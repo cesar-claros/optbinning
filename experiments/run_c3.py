@@ -241,7 +241,14 @@ def _pw_transform(xtr: np.ndarray, xte: np.ndarray,
     xtr2, xte2 = xtr.copy(), xte.copy()
     for j in range(xtr.shape[1]):
         try:
-            pw = OptimalPWBinning(degree=1).fit(xtr[:, j], ytr)
+            # np.errstate: upstream's fit computes DIAGNOSTIC
+            # log-likelihoods on the unclipped piecewise prediction,
+            # which can exit [0,1] at extremes -> benign RuntimeWarnings
+            # (we never read those attributes; our transform is
+            # lb/ub-clipped and output-verified finite). Silenced at
+            # our call site to keep campaign logs greppable.
+            with np.errstate(invalid="ignore", divide="ignore"):
+                pw = OptimalPWBinning(degree=1).fit(xtr[:, j], ytr)
             # event_rate with clipped bounds: the piecewise fit can
             # leave [0, 1] at the extremes, which NaNs the WoE metric's
             # log; the bounded event-rate transform carries the same
