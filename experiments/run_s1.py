@@ -59,23 +59,39 @@ logger = logging.getLogger(__name__)
 # Cut extraction per arm (raw feature units)
 # --------------------------------------------------------------------- #
 
-def _cuts_optbinning(x, y, n_bins, force_count=False):
+def _cuts_optbinning(x, y, n_bins, force_counts=None):
     """Per-feature IV-optimal splits (the two-stage procedure).
 
-    force_count=True pins min_n_bins = max_n_bins, closing the
-    count-selection channel: the fairness control for the layer's
-    structurally fixed edge count (both arms then differ only in the
-    estimator -- argmax vs smoothed -- on the position channel)."""
+    force_counts (list of ints per feature, or None) pins
+    min_n_bins = max_n_bins at each feature's own reference count,
+    closing the count-selection channel: the fairness control for the
+    layer's structurally fixed edge count. Pinning at the FREE
+    solution's full-train count keeps the constraint feasible (pinning
+    at an arbitrary count is mostly infeasible and cripples the fits --
+    the discarded first version of this control). Infeasible resamples
+    fall back to the free fit (logged)."""
     cuts = []
-    kwargs = dict(max_n_bins=n_bins)
-    if force_count:
-        kwargs["min_n_bins"] = n_bins
     for j in range(x.shape[1]):
+        kwargs = dict(max_n_bins=n_bins)
+        if force_counts is not None and force_counts[j] > 0:
+            kwargs = dict(min_n_bins=force_counts[j],
+                          max_n_bins=force_counts[j])
         try:
             optb = OptimalBinning(dtype="numerical", solver="cp",
                                   **kwargs).fit(x[:, j], y)
             cuts.append(np.asarray(optb.splits, dtype=float))
         except Exception:                                # noqa: BLE001
+            if force_counts is not None:
+                logger.warning("forced-count infeasible on feature %d; "
+                               "falling back to free fit", j)
+                try:
+                    optb = OptimalBinning(
+                        dtype="numerical", solver="cp",
+                        max_n_bins=n_bins).fit(x[:, j], y)
+                    cuts.append(np.asarray(optb.splits, dtype=float))
+                    continue
+                except Exception:                        # noqa: BLE001
+                    pass
             logger.exception("optbinning failed on feature %d", j)
             cuts.append(np.array([]))
     return cuts
@@ -222,6 +238,16 @@ def run(cfg):
     rng = np.random.default_rng(cfg.seed)
     m = int(cfg.subsample_frac * len(y_tr))
 
+    force_counts = None
+    if "optbinning_fixed" in cfg.arms:
+        # reference counts: the FREE solution's bin structure on the
+        # full training split -- each feature pinned at its own
+        # natural complexity, symmetric to the layer's fixed M.
+        ref_cuts = _cuts_optbinning(x_tr, y_tr, cfg.n_bins)
+        force_counts = [len(c) + 1 for c in ref_cuts]
+        logger.info("fixed-count targets (bins/feature): %s",
+                    force_counts)
+
     rank_cuts = {arm: [] for arm in cfg.arms}
     perf_rows = []
     for b in range(cfg.n_resamples):
@@ -235,7 +261,7 @@ def run(cfg):
                 cuts = _cuts_optbinning(xb, yb, cfg.n_bins)
             elif arm == "optbinning_fixed":
                 cuts = _cuts_optbinning(xb, yb, cfg.n_bins,
-                                        force_count=True)
+                                        force_counts=force_counts)
             elif arm == "quantile":
                 cuts = _cuts_quantile(xb, cfg.n_bins)
             elif arm == "ot_ple":
