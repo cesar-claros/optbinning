@@ -81,8 +81,15 @@ def _train_lgbm(p, D, cfg, seed):
     model = cls(n_estimators=2000, random_state=seed, verbose=-1,
                 bagging_freq=1, **p)
     xs, y = D["x_np"], D["y"]
-    model.fit(xs["tr"], y["tr"], eval_set=[(xs["va"], y["va"])],
-              callbacks=[early_stopping(50, verbose=False)])
+    cb = [early_stopping(50, verbose=False)]
+    try:
+        # lightgbm >= 4.x new-style validation kwargs
+        model.fit(xs["tr"], y["tr"], eval_X=[xs["va"]],
+                  eval_y=[y["va"]], callbacks=cb)
+    except (TypeError, ValueError):
+        # older API; any genuine data problem re-raises from here
+        model.fit(xs["tr"], y["tr"], eval_set=[(xs["va"], y["va"])],
+                  callbacks=cb)
 
     def sc(X, yy):
         if task == "regression":
