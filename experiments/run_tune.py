@@ -55,6 +55,45 @@ def _score(task, y, out, y_mu=0.0, y_sd=1.0):
     return float(roc_auc_score(y, out.squeeze()))
 
 
+def _suggest_lgbm(trial):
+    """Tuned-GBDT space (fairness: if neural arms are tuned, the GBDT
+    reference must be too; estimators governed by val early stopping)."""
+    return {
+        "num_leaves": trial.suggest_int("num_leaves", 16, 256, log=True),
+        "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.3,
+                                             log=True),
+        "min_child_samples": trial.suggest_int("min_child_samples", 5,
+                                               100, log=True),
+        "feature_fraction": trial.suggest_float("feature_fraction",
+                                                0.5, 1.0),
+        "bagging_fraction": trial.suggest_float("bagging_fraction",
+                                                0.5, 1.0),
+        "lambda_l2": trial.suggest_float("lambda_l2", 1e-8, 10.0,
+                                         log=True),
+    }
+
+
+def _train_lgbm(p, D, cfg, seed):
+    from lightgbm import (LGBMClassifier, LGBMRegressor,  # noqa: PLC0415
+                          early_stopping)
+    task = D["task"]
+    cls = LGBMRegressor if task == "regression" else LGBMClassifier
+    model = cls(n_estimators=2000, random_state=seed, verbose=-1,
+                bagging_freq=1, **p)
+    xs, y = D["x_np"], D["y"]
+    model.fit(xs["tr"], y["tr"], eval_set=[(xs["va"], y["va"])],
+              callbacks=[early_stopping(50, verbose=False)])
+
+    def sc(X, yy):
+        if task == "regression":
+            return -float(np.sqrt(np.mean((model.predict(X) - yy) ** 2)))
+        if task == "multiclass":
+            return float((model.predict(X) == yy).mean())
+        return float(roc_auc_score(yy, model.predict_proba(X)[:, 1]))
+
+    return sc(xs["va"], y["va"]), sc(xs["te"], y["te"])
+
+
 def _suggest(trial, arm, backbone):
     """Shared + arm-specific search space (identical budget per arm)."""
     p = {
@@ -196,7 +235,7 @@ def _prepare(cfg):
         return edge_memo[key]
 
     return dict(task=task, n_out=n_out, y=y, y_mu=y_mu, y_sd=y_sd,
-                y_t={"tr": y_tr_t},
+                y_t={"tr": y_tr_t}, x_np=xs,
                 x={"ot_ple": x_rank, "quantile_ple": x_std,
                    "target_ple": x_std, "periodic": x_std,
                    "raw": x_std},
@@ -207,12 +246,27 @@ def run(cfg):
     import optuna
     optuna.logging.set_verbosity(optuna.logging.WARNING)
     D = _prepare(cfg)
+    out = Path(cfg.out)
+    tag = "tune_{}_{}".format(cfg.dataset, cfg.seed)
+    common = dict(dataset=D["name"], task=D["task"], seed=cfg.seed)
     rows, trial_rows = [], []
+
+    def checkpoint():
+        for r in rows + trial_rows:
+            r.update(common)
+        save_results(rows, out / tag)
+        save_results(trial_rows, out / (tag + "_trials"))
+
     for arm in cfg.arms:
-        for backbone in cfg.backbones:
+        backbones = ["gbdt"] if arm == "lightgbm" else cfg.backbones
+        for backbone in backbones:
             start = time.perf_counter()
 
             def objective(trial):
+                if arm == "lightgbm":
+                    val, _ = _train_lgbm(_suggest_lgbm(trial), D, cfg,
+                                         seed=cfg.seed)
+                    return val
                 p = _suggest(trial, arm, backbone)
                 val, _ = _train_once(arm, backbone, p, D, cfg,
                                      torch_seed=cfg.seed)
@@ -232,8 +286,13 @@ def run(cfg):
                     arm=arm, backbone=backbone, number=t.number,
                     value=t.value if t.value is not None else np.nan))
             for es in range(cfg.eval_seeds):
-                val, test = _train_once(arm, backbone, best.params, D,
-                                        cfg, torch_seed=1000 + es)
+                if arm == "lightgbm":
+                    val, test = _train_lgbm(best.params, D, cfg,
+                                            seed=1000 + es)
+                else:
+                    val, test = _train_once(arm, backbone, best.params,
+                                            D, cfg,
+                                            torch_seed=1000 + es)
                 rows.append(dict(
                     arm=arm, backbone=backbone, eval_seed=es,
                     val_score=val, test_score=test,
@@ -241,6 +300,7 @@ def run(cfg):
                     best_params=json.dumps(best.params),
                     n_trials=cfg.n_trials,
                     tune_time=time.perf_counter() - start))
+            checkpoint()          # per-study incremental save
             logger.info("%s/%s tuned: best val=%.4f, test=%.4f±%.4f",
                         arm, backbone, best.value,
                         np.mean([r["test_score"] for r in rows
