@@ -1,0 +1,3 @@
+- dataset=california
+- device=cuda
+- out=outputs/tune

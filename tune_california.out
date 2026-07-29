@@ -1,0 +1,10 @@
+nohup: ignoring input
+[2026-07-29 01:06:07,416][__main__][INFO] - ot_ple/mlp tuned: best val=-0.4753, test=-0.4921±0.0070
+[2026-07-29 01:25:16,829][__main__][INFO] - ot_ple/ft tuned: best val=-0.4554, test=-0.4706±0.0036
+[2026-07-29 01:29:21,972][__main__][INFO] - quantile_ple/mlp tuned: best val=-0.4746, test=-0.4813±0.0035
+[2026-07-29 01:44:39,204][__main__][INFO] - quantile_ple/ft tuned: best val=-0.4477, test=-0.4617±0.0068
+[2026-07-29 01:48:54,508][__main__][INFO] - target_ple/mlp tuned: best val=-0.5176, test=-0.5310±0.0044
+[2026-07-29 02:09:12,503][__main__][INFO] - target_ple/ft tuned: best val=-0.4826, test=-0.5045±0.0048
+[2026-07-29 02:13:59,972][__main__][INFO] - periodic/mlp tuned: best val=-0.5025, test=-0.5155±0.0040
+[2026-07-29 02:29:45,411][__main__][INFO] - periodic/ft tuned: best val=-0.4723, test=-0.4726±0.0118
+[2026-07-29 02:29:45,446][__main__][INFO] - TUNE: wrote outputs/tune/tune_california_0.parquet
