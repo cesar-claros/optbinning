@@ -1,0 +1,4 @@
+nohup: ignoring input
+[2026-07-29 12:06:46,552][__main__][INFO] - ot_ple/mlp tuned: best val=-0.4795, test=-0.4849±0.0057
+[2026-07-29 12:27:33,093][__main__][INFO] - ot_ple/ft tuned: best val=-0.4548, test=-0.4490±0.0013
+[2026-07-29 12:27:33,387][__main__][INFO] - TUNE: wrote outputs/tune_ca_fix/tune_california_0.parquet

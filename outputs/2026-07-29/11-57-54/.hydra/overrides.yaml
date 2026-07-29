@@ -1,0 +1,5 @@
+- dataset=california
+- arms=[ot_ple]
+- backbones=[mlp,ft]
+- device=cuda
+- out=outputs/tune_ca_fix
