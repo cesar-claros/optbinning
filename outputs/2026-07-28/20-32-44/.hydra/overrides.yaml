@@ -1,0 +1,3 @@
+- dataset=gesture
+- device=cuda
+- out=outputs/tune

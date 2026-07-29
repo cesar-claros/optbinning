@@ -1,0 +1,18 @@
+dataset: gesture
+arms:
+- ot_ple
+- quantile_ple
+- target_ple
+- periodic
+backbones:
+- mlp
+- ft
+n_trials: 50
+eval_seeds: 5
+max_epochs: 100
+patience: 16
+batch_size: 1024
+special_handling: ignore
+seed: 0
+device: cuda
+out: outputs/tune
