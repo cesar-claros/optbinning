@@ -69,7 +69,11 @@ def _suggest(trial, arm, backbone):
     if arm in ("quantile_ple", "target_ple"):
         p["n_bins"] = trial.suggest_categorical("n_bins", [4, 8, 16, 32])
     elif arm == "ot_ple":
-        p["n_bins"] = trial.suggest_categorical("n_bins", [4, 8, 16])
+        # same ceiling as the PLE arms: an earlier asymmetric cap (16)
+        # confounded the california comparison, with the incumbent at
+        # the ceiling.
+        p["n_bins"] = trial.suggest_categorical("n_bins",
+                                                [4, 8, 16, 32])
         p["eps_start"] = trial.suggest_float("eps_start", 0.05, 0.5,
                                              log=True)
         p["eps_end"] = trial.suggest_float("eps_end", 0.005, 0.05,
