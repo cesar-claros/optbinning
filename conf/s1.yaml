@@ -1,6 +1,10 @@
 # Experiment S1 — cut stability under resampling (Papers C + D).
 dataset: gmsc
 arms: [optbinning, quantile, ot_ple]
+# extra arm learned_knot: the no-OT ordered-knot control (BCE only);
+# run it WITH ot_ple in the same command so both share the seed,
+# resamples, and reference scale -- the paired stability comparison
+# that isolates OT shaping from smoothing (Paper C Sec. 5.6 ix gap)
 n_bins: 8
 n_resamples: 20
 resampling: subsample    # subsample (Paper D: bootstrap inconsistent for cube-root) | bootstrap

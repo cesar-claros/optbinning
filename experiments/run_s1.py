@@ -5,9 +5,13 @@ cuts are cube-root (Kim-Pollard) estimators, smoothed end-to-end cuts
 should be sqrt-n, quantile edges are the sqrt-n stability ceiling
 (target-blind). Three arms produce nothing but per-feature cut sets:
 
-  optbinning : OptimalBinning per feature (two-stage IV-optimal)
-  ot_ple     : the Paper C layer (ple_interp; cuts = learned bin edges)
-  quantile   : equal-frequency edges (stability ceiling, no target)
+  optbinning   : OptimalBinning per feature (two-stage IV-optimal)
+  ot_ple       : the Paper C layer (ple_interp; cuts = learned bin edges)
+  learned_knot : the no-OT control -- identical ordered-knot net trained
+                 under BCE only (no Sinkhorn/beta/IV/PAV); isolates
+                 whether the OT shaping contributes to cut stability or
+                 the smoothing alone carries it (Paper C Sec. 5.6 ix)
+  quantile     : equal-frequency edges (stability ceiling, no target)
 
 Measured per arm: (a) cut movement across resamples of the training set
 -- mean pairwise Hausdorff distance and matched-cut sd on the reference
@@ -103,10 +107,13 @@ def _cuts_quantile(x, n_bins):
         for j in range(x.shape[1])]
 
 
-def _cuts_ot(x, y, cfg):
+def _cuts_ot(x, y, cfg, arm="ot_ple"):
     """One joint layer fit for all features (Paper C winning setup);
     learned rank-space edges mapped back to raw units via the
-    resample's own quantile function (production-faithful)."""
+    resample's own quantile function (production-faithful). With
+    arm='learned_knot_ple' the identical net trains under BCE only --
+    the returned assignment is always None, so no IV/PAV term applies
+    and no Sinkhorn runs (the S1 no-OT stability control)."""
     import torch
     from experiments.run_c3 import TokenizedNet
 
@@ -122,7 +129,7 @@ def _cuts_ot(x, y, cfg):
     xtr = torch.as_tensor(q, dtype=torch.float32, device=device)
     ytr = torch.as_tensor(y, dtype=torch.float32, device=device)
     edges0 = [np.linspace(0, 1, cfg.n_bins + 1)] * x.shape[1]
-    net = TokenizedNet("ot_ple", edges0, cfg.n_bins, "linear", cfg.hidden,
+    net = TokenizedNet(arm, edges0, cfg.n_bins, "linear", cfg.hidden,
                        token_mode=cfg.token_mode,
                        sinkhorn_iters=cfg.sinkhorn_iters).to(device)
     net.ot.set_range(xtr.min(dim=0).values, xtr.max(dim=0).values)
@@ -266,6 +273,8 @@ def run(cfg):
                 cuts = _cuts_quantile(xb, cfg.n_bins)
             elif arm == "ot_ple":
                 cuts = _cuts_ot(xb, yb, cfg)
+            elif arm == "learned_knot":
+                cuts = _cuts_ot(xb, yb, cfg, arm="learned_knot_ple")
             else:
                 raise ValueError("unknown arm: {}".format(arm))
             rank_cuts[arm].append(_to_rank(ref_sorted, cuts))
@@ -289,8 +298,8 @@ def run(cfg):
 
     out = Path(cfg.out)
     tag = "s1_{}_{}".format(cfg.dataset, cfg.seed)
-    paths = [save_results(cut_rows, out / (tag + "_cuts")),
-             save_results(perf_rows, out / (tag + "_perf"))]
+    paths = [save_results(cut_rows, out / (tag + "_cuts"), cfg=cfg),
+             save_results(perf_rows, out / (tag + "_perf"), cfg=cfg)]
     for arm in cfg.arms:
         h = np.nanmean([r["hausdorff"] for r in cut_rows
                         if r["arm"] == arm])
