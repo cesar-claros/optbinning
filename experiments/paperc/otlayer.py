@@ -190,7 +190,7 @@ class MultiOTBinningLayer(nn.Module):
 
     @torch.no_grad()
     def harden_static(self, x: Tensor, y: Tensor | None = None,
-                      trend: str = "auto") -> list[dict]:
+                      trend: "str | list[str]" = "auto") -> list[dict]:
         """Mass-coordinate static hardening (deployment path).
 
         Derives the deployed cuts from the LEARNED CUMULATIVE MASSES
@@ -207,8 +207,13 @@ class MultiOTBinningLayer(nn.Module):
         beta = self.bin_masses().detach().cpu().numpy()
         xs = x.detach().cpu().numpy()
         ys = None if y is None else y.detach().cpu().numpy()
+        trends = ([trend] * self.n_features if isinstance(trend, str)
+                  else list(trend))
+        if len(trends) != self.n_features:
+            raise ValueError("per-feature trend list must have length "
+                             f"{self.n_features}; got {len(trends)}.")
         return [mass_coordinate_partition(xs[:, i], beta[i], ys,
-                                          trend=trend)
+                                          trend=trends[i])
                 for i in range(self.n_features)]
 
     def bin_edges(self) -> Tensor:
@@ -218,15 +223,36 @@ class MultiOTBinningLayer(nn.Module):
         w = self.bin_positions()
         return (w[:, 1:] + w[:, :-1]) / 2
 
-    def interp_tokens(self, x: Tensor) -> Tensor:
-        """Piecewise-linear (PLE) encoding with the LEARNED bin edges as
-        knots, shape ``(batch, n_features, n_bins)``.
+    def mass_edges(self) -> Tensor:
+        """Interior knots at the learned CUMULATIVE MASSES,
+        shape ``(n_features, n_bins - 1)``: ``e_k = x_lo + span * C_k``
+        with ``C_k = sum_{l<=k} beta_l``. Under the rank
+        reparametrization the quantile function is the identity, so
+        these knots ARE the regularized quantiles of the training
+        measure at the learned masses -- the unified mass-coordinate
+        model (reviewer Option A): the benchmark PLE knots and the
+        static-deployment coordinates (``harden_static``) are the SAME
+        parameters ``beta``. Strictly increasing by the mass floor;
+        differentiable in ``theta_b``."""
+        c = torch.cumsum(self.bin_masses(), dim=1)[:, :-1]
+        span = (self.x_hi - self.x_lo)[:, None]
+        return self.x_lo[:, None] + span * c
 
-        This is the lossless, spline-basis token family of Gorishniy et
-        al. with learnable knot positions: differentiable a.e. in both
-        the input and the edges, and the bins remain contiguous intervals
+    def interp_tokens(self, x: Tensor,
+                      edges: Tensor | None = None) -> Tensor:
+        """Piecewise-linear (PLE) encoding with learned knots, shape
+        ``(batch, n_features, n_bins)``.
+
+        ``edges=None`` uses the representative-midpoint knots
+        (:meth:`bin_edges`, the legacy learned-knot arm); pass
+        :meth:`mass_edges` for the unified mass-coordinate arm. This is
+        the lossless, spline-basis token family of Gorishniy et al.
+        with learnable knot positions: differentiable a.e. in both the
+        input and the edges, and the bins remain contiguous intervals
         by construction (the audit table is the edge vector itself)."""
-        edges = torch.cat([self.x_lo[:, None], self.bin_edges(),
+        if edges is None:
+            edges = self.bin_edges()
+        edges = torch.cat([self.x_lo[:, None], edges,
                            self.x_hi[:, None]], dim=1)
         width = (edges[:, 1:] - edges[:, :-1]).clamp_min(1e-9)
         return ((x[:, :, None] - edges[None, :, :-1])
@@ -272,9 +298,13 @@ def mass_coordinate_partition(x: np.ndarray, beta: np.ndarray,
     3. place each interior cut at the midpoint of the adjacent distinct
        atoms;
     4. with binary ``y``: compute hard-bin event rates, pool them into
-       weighted-PAV blocks (trend ``"auto"`` picks the direction with
-       the smaller weighted SSE), MERGE each block into one bin, and
-       recompute -- the merged rates are exactly monotone.
+       weighted-PAV blocks, MERGE each block into one bin, and
+       recompute -- the merged rates exactly satisfy the declared
+       trend. Trends: ``"ascending"`` / ``"descending"``; ``"auto"``
+       picks the direction with the smaller weighted SSE; ``"peak"`` /
+       ``"valley"`` allow one direction change (changepoint chosen by
+       weighted SSE over all positions; two directional PAV merges);
+       ``"none"`` skips merging (the unconstrained hard partition).
 
     Returns a dict with the audit fields: ``cuts_raw``, ``n_bins_raw``,
     ``hard_mass_raw``, ``mass_err_max`` (max ``|hard - soft|`` bin mass,
@@ -283,7 +313,8 @@ def mass_coordinate_partition(x: np.ndarray, beta: np.ndarray,
     ``max_violation_raw``, ``cuts``, ``hard_mass``, ``event_rate``,
     ``trend``, ``n_merges``, ``monotone`` (exact check).
     """
-    if trend not in ("auto", "ascending", "descending"):
+    if trend not in ("auto", "ascending", "descending", "peak",
+                     "valley", "none"):
         raise ValueError(f"invalid trend '{trend}'.")
     u, counts = np.unique(np.asarray(x, dtype=float), return_counts=True)
     n = counts.sum()
@@ -321,21 +352,43 @@ def mass_coordinate_partition(x: np.ndarray, beta: np.ndarray,
     ev = np.bincount(idx, weights=yb, minlength=m)
     rate = ev / np.maximum(tot, 1.0)
     diffs = np.diff(rate)
+
+    def dir_blocks(r, t, sign):
+        """PAV blocks in one direction plus their weighted SSE."""
+        blocks = _pav_blocks(sign * r, t)
+        e = 0.0
+        for b in blocks:
+            mean = r[b].dot(t[b]) / t[b].sum()
+            e += float(((r[b] - mean) ** 2 * t[b]).sum())
+        return blocks, e
+
     if trend == "auto":
-        sse = {}
-        for name, sign in (("ascending", 1.0), ("descending", -1.0)):
-            e = 0.0
-            for block in _pav_blocks(sign * rate, tot):
-                mean = rate[block].dot(tot[block]) / tot[block].sum()
-                e += float(((rate[block] - mean) ** 2 * tot[block]).sum())
-            sse[name] = e
+        sse = {name: dir_blocks(rate, tot, s)[1]
+               for name, s in (("ascending", 1.0), ("descending", -1.0))}
         trend = min(sse, key=lambda k: sse[k])
-    sign = 1.0 if trend == "ascending" else -1.0
+    sign = -1.0 if trend in ("descending", "valley") else 1.0
     viol = np.maximum(-sign * diffs, 0.0)
     out["event_rate_raw"] = rate
     out["n_violations_raw"] = int((viol > 1e-15).sum())
     out["max_violation_raw"] = float(viol.max()) if len(viol) else 0.0
-    blocks = _pav_blocks(sign * rate, tot)
+
+    changepoint = None
+    if trend == "none":
+        blocks = [[k] for k in range(m)]
+    elif trend in ("peak", "valley"):
+        s1, s2 = (1.0, -1.0) if trend == "peak" else (-1.0, 1.0)
+        best = None
+        for c in range(1, m):
+            bl, e1 = dir_blocks(rate[:c], tot[:c], s1)
+            br, e2 = dir_blocks(rate[c:], tot[c:], s2)
+            if best is None or e1 + e2 < best[0]:
+                best = (e1 + e2, bl,
+                        [[i + c for i in b] for b in br], c)
+        _, bl, br, changepoint = best
+        blocks = bl + br
+        n_left = len(bl)
+    else:
+        blocks = dir_blocks(rate, tot, sign)[0]
     keep_cut = sorted(b[-1] for b in
                       (sorted(bl) for bl in blocks))[:-1]   # block right edges
     cuts = out["cuts_raw"][np.asarray(keep_cut, dtype=int)] \
@@ -345,10 +398,20 @@ def mass_coordinate_partition(x: np.ndarray, beta: np.ndarray,
     tot2 = np.bincount(idx2, minlength=m2).astype(float)
     ev2 = np.bincount(idx2, weights=yb, minlength=m2)
     rate2 = ev2 / np.maximum(tot2, 1.0)
+    if trend in ("peak", "valley"):
+        s1 = 1.0 if trend == "peak" else -1.0
+        mono = bool(
+            np.all(s1 * np.diff(rate2[:n_left]) >= -1e-15)
+            and np.all(-s1 * np.diff(rate2[n_left:]) >= -1e-15))
+    elif trend == "none":
+        mono = bool(np.all(np.diff(rate2) >= -1e-15)
+                    or np.all(np.diff(rate2) <= 1e-15))
+    else:
+        mono = bool(np.all(sign * np.diff(rate2) >= -1e-15))
     out.update(cuts=np.asarray(cuts, dtype=float),
                hard_mass=tot2 / n, event_rate=rate2, trend=trend,
-               n_merges=out["n_bins_raw"] - m2,
-               monotone=bool(np.all(sign * np.diff(rate2) >= -1e-15)))
+               n_merges=out["n_bins_raw"] - m2, monotone=mono,
+               changepoint=changepoint)
     return out
 
 
@@ -364,9 +427,18 @@ def soft_iv_multi(assign: Tensor, y: Tensor) -> Tensor:
     return ((p - q) * torch.log(p / q)).sum()
 
 
-def pav_penalty_multi(assign: Tensor, y: Tensor) -> Tensor:
+def pav_penalty_multi(assign: Tensor, y: Tensor,
+                      sign: "np.ndarray | None" = None) -> Tensor:
     """Sum of per-feature PAV monotonicity penalties (rates computed in
-    one einsum; only the tiny block search loops in Python)."""
+    one einsum; only the tiny block search loops in Python).
+
+    ``sign`` (per-feature +1/-1, default all +1) declares each
+    feature's trend direction so the auxiliary and the deployment-time
+    merge penalize the SAME direction (reviewer alignment fix): blocks
+    are found on ``sign * rate``. Gradient note, stated exactly: block
+    membership is DETACHED; gradients flow through both the rates and
+    the mass weights inside each block (the locally-fixed-block
+    derivative, not the constant-weight approximation)."""
     y1 = (y == 1).float()
     events = torch.einsum("bfm,b->fm", assign, y1)
     total = assign.sum(dim=0).clamp_min(1e-8)
@@ -376,8 +448,10 @@ def pav_penalty_multi(assign: Tensor, y: Tensor) -> Tensor:
     penalty = rate.new_zeros(())
     rate_np = rate.detach().cpu().numpy()
     mass_np = mass.detach().cpu().numpy()
+    signs = (np.ones(assign.shape[1]) if sign is None
+             else np.asarray(sign, dtype=float))
     for i in range(assign.shape[1]):
-        for block in _pav_blocks(rate_np[i], mass_np[i]):
+        for block in _pav_blocks(signs[i] * rate_np[i], mass_np[i]):
             idx = torch.as_tensor(block, device=rate.device)
             w = mass[i, idx]
             mean = (rate[i, idx] * w).sum() / w.sum()

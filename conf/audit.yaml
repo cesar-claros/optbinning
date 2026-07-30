@@ -3,6 +3,8 @@
 # (rank input, ple_interp tokens, IV/PAV aux) with the linear scorecard
 # head as the deployment-facing default.
 dataset: german
+arm: ot_ple              # ot_ple | mass_knot_ot (the unified Option-A model:
+                         # benchmark knots = deployment coordinates = C(beta))
 backbone: linear         # linear (C4 scorecard head) | mlp | ft
 n_bins: 8
 sinkhorn_iters: 15       # training unroll; audit hardening uses 60

@@ -18,6 +18,11 @@ periodic_sigma: 1.0      # frequency init scale (Gorishniy tunes this; we fix it
 # parametrization, init, PLE basis, backbone, and budget as ot_ple with
 # token_mode=ple_interp, but no Sinkhorn/beta/IV/PAV anywhere; the paired
 # difference (ot_ple - learned_knot_ple) isolates the OT contribution
+# extra arms mass_knot_ple / mass_knot_ot: the UNIFIED mass-coordinate
+# model (re-review Option A) -- PLE knots ARE the cumulative masses
+# C(beta), identical to the harden_static deployment coordinates; _ple =
+# downstream loss only (no-Sinkhorn structural control), _ot = + IV/PAV
+# aux with pre-declared per-feature trends (binary tasks)
 backbones: [linear, mlp]   # options: linear | mlp | ft
 n_bins: 8
 sinkhorn_iters: 15      # training-time unroll; hardening uses 60 internally

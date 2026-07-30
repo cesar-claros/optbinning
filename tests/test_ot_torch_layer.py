@@ -375,6 +375,75 @@ def test_harden_static_layer_method():
         assert len(r["cuts"]) <= len(r["cuts_raw"])
 
 
+def test_mass_coordinate_partition_trends():
+    # peak/valley/none trend variants: shape-exact merges, changepoint
+    # by weighted SSE, no merging under "none".
+    from experiments.paperc.otlayer import mass_coordinate_partition
+
+    rng = np.random.default_rng(0)
+    x = rng.random(30000)
+    y_peak = (rng.random(30000)
+              < 0.05 + 0.6 * np.minimum(x, 1 - x)).astype(float)
+    r = mass_coordinate_partition(x, np.full(8, 0.125), y_peak,
+                                  trend="peak")
+    assert r["monotone"] and r["changepoint"] is not None
+    y_val = (rng.random(30000)
+             < 0.65 - 0.6 * np.minimum(x, 1 - x)).astype(float)
+    r2 = mass_coordinate_partition(x, np.full(8, 0.125), y_val,
+                                   trend="valley")
+    assert r2["monotone"]
+    r3 = mass_coordinate_partition(x, np.full(8, 0.125), y_peak,
+                                   trend="none")
+    assert r3["n_merges"] == 0
+    assert len(r3["cuts"]) == len(r3["cuts_raw"])
+
+
+def test_mass_edges_and_unified_arm():
+    # mass-coordinate knots: strictly increasing, differentiable in
+    # theta_b, equal to cumulative masses in rank space; harden_static
+    # consumes the SAME beta (the one-object property).
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet
+
+    torch.manual_seed(0)
+    layer = MultiOTBinningLayer(3, n_bins=6)
+    e = layer.mass_edges()
+    assert e.shape == (3, 5)
+    assert torch.all(e[:, 1:] > e[:, :-1])
+    c = torch.cumsum(layer.bin_masses(), dim=1)[:, :-1]
+    assert torch.allclose(e, c)                  # rank space: e = C
+    e.sum().backward()
+    assert layer.theta_b.grad is not None
+
+    edges = [np.linspace(0, 1, 7)] * 3
+    net = TokenizedNet("mass_knot_ple", edges, n_bins=6,
+                       backbone="linear", hidden=8)
+    x = torch.rand(64, 3)
+    logits, assign = net(x, eps=0.1, need_assign=True)
+    assert assign is None                        # no Sinkhorn in _ple
+    logits.sum().backward()
+    assert net.ot.theta_b.grad is not None       # beta is load-bearing
+    net2 = TokenizedNet("mass_knot_ot", edges, n_bins=6,
+                        backbone="linear", hidden=8)
+    _, assign2 = net2(x, eps=0.1, need_assign=True)
+    assert assign2 is not None                   # aux path active in _ot
+
+
+def test_pav_penalty_trend_signs():
+    # declared descending trend: a descending-rate assignment is NOT
+    # penalized under sign=-1 but is under the default ascending sign.
+    torch.manual_seed(0)
+    n, m = 4000, 5
+    x = torch.rand(n)
+    assign = torch.zeros(n, 1, m)
+    assign[torch.arange(n), 0, (x * m).long().clamp(max=m - 1)] = 1.0
+    y = (torch.rand(n) < 0.7 - 0.5 * x).float()   # descending rates
+    p_asc = float(pav_penalty_multi(assign, y))
+    p_desc = float(pav_penalty_multi(assign, y,
+                                     sign=np.array([-1.0])))
+    assert p_desc < 1e-10 < p_asc
+
+
 def test_tokenized_net_learned_knot_ple_arm():
     # no-OT control: same knot parametrization and PLE basis as ot_ple,
     # but no assignment ever exists and the mass parameters get no

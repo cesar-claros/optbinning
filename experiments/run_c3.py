@@ -70,13 +70,20 @@ class TokenizedNet(nn.Module):
         self.token_mode = token_mode
         self.n_features = len(edges)
         self.n_special = n_special
-        if arm in ("ot_ple", "learned_knot_ple"):
-            # learned_knot_ple is the reviewer-mandated no-OT control:
-            # IDENTICAL ordered-knot parametrization, init, PLE basis,
-            # backbone, optimizer, and budget -- but no Sinkhorn, no
-            # beta, no IV/PAV auxiliary ever touch the forward pass.
-            # (ot_ple - learned_knot_ple) isolates what the OT coupling
-            # itself contributes to the learned-knot tokenizer.
+        if arm in ("ot_ple", "learned_knot_ple", "mass_knot_ple",
+                   "mass_knot_ot"):
+            # learned_knot_ple: the no-OT control -- identical
+            # ordered-knot parametrization/init/basis/budget, no
+            # Sinkhorn/beta/aux anywhere.
+            # mass_knot_ple / mass_knot_ot: the UNIFIED mass-coordinate
+            # model (re-review Option A): PLE knots are the guard-banded
+            # cumulative masses C_k(beta) -- in rank space these are the
+            # quantiles at the learned masses -- so the benchmark knots
+            # and the static-deployment coordinates (harden_static) are
+            # the SAME parameters. _ple trains under the downstream loss
+            # only (the no-Sinkhorn mass-coordinate learner, the
+            # re-review's structural control); _ot adds the IV/PAV
+            # auxiliary through the Sinkhorn assignment on binary tasks.
             self.ot = MultiOTBinningLayer(len(edges), n_bins=n_bins,
                                           sinkhorn_iters=sinkhorn_iters)
             token_dim = n_bins + (1 if arm == "ot_ple" and
@@ -149,6 +156,12 @@ class TokenizedNet(nn.Module):
             # ordered learned knots, downstream loss only: no transport
             # plan exists in this arm, so no assignment is ever returned.
             return self.ot.interp_tokens(x), None
+        if self.arm in ("mass_knot_ple", "mass_knot_ot"):
+            tok = self.ot.interp_tokens(x, edges=self.ot.mass_edges())
+            assign = (self.ot(x, eps=eps)
+                      if self.arm == "mass_knot_ot" and need_assign
+                      else None)
+            return tok, assign
         if self.arm == "ot_ple":
             if self.token_mode == "ple_interp":
                 # learned-knot PLE: spline ramps on the layer's own bin
@@ -320,7 +333,8 @@ def _loss_fn(task: str):
 def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
                 xtr: Tensor, ytr: Tensor, cfg: DictConfig,
                 use_aux: bool, codes: Tensor | None = None,
-                task: str = "binary") -> None:
+                task: str = "binary",
+                trend_sign: np.ndarray | None = None) -> None:
     bce = _loss_fn(task)
     n = len(ytr)
     for epoch in range(cfg.epochs):
@@ -337,11 +351,28 @@ def _run_epochs(net: nn.Module, optim: torch.optim.Optimizer,
             loss = bce(logits, ytr[idx])
             if assign is not None and use_aux:
                 loss = loss - cfg.aux_iv * soft_iv_multi(assign, ytr[idx])
-                loss = loss + cfg.aux_iv * pav_penalty_multi(assign,
-                                                             ytr[idx])
+                loss = loss + cfg.aux_iv * pav_penalty_multi(
+                    assign, ytr[idx], sign=trend_sign)
             optim.zero_grad()
             loss.backward()
             optim.step()
+
+
+def declared_trends(xtr: np.ndarray, ytr: np.ndarray) -> np.ndarray:
+    """Per-feature trend signs (+1 ascending / -1 descending), declared
+    ONCE on the training split before fitting and used by BOTH the
+    IV/PAV auxiliary and the deployment-time merge (re-review alignment
+    fix: previously the auxiliary penalized ascending while deployment
+    chose its direction post hoc). Sign of the mean-rank difference
+    between classes, i.e. of the per-feature AUC minus 1/2."""
+    signs = np.empty(xtr.shape[1])
+    y1 = ytr == 1
+    for j in range(xtr.shape[1]):
+        r = xtr[:, j].argsort().argsort().astype(float)
+        d = r[y1].mean() - r[~y1].mean() if y1.any() and (~y1).any() \
+            else 1.0
+        signs[j] = 1.0 if d >= 0 else -1.0
+    return signs
 
 
 def _train_eval(arm: str, backbone: str, data: dict,
@@ -367,7 +398,8 @@ def _train_eval(arm: str, backbone: str, data: dict,
         data["xtr"], data["xte"] = _pw_transform(data["xtr"],
                                                  data["xte"],
                                                  data["ytr"])
-    if arm in ("ot_ple", "ot_frozen", "learned_knot_ple") \
+    if arm in ("ot_ple", "ot_frozen", "learned_knot_ple",
+               "mass_knot_ple", "mass_knot_ot") \
             and cfg.get("ot_input", "quantile") == "quantile":
         data = dict(data)
         if n_special:
@@ -424,11 +456,16 @@ def _train_eval(arm: str, backbone: str, data: dict,
                                task=task)
         net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
                            **kwargs).to(device)
-        if arm in ("ot_ple", "learned_knot_ple"):
+        if arm in ("ot_ple", "learned_knot_ple", "mass_knot_ple",
+                   "mass_knot_ot"):
             net.ot.set_range(xtr.min(dim=0).values,
                              xtr.max(dim=0).values)
+    trend_sign = (declared_trends(data["xtr"], data["ytr"])
+                  if use_aux and arm in ("ot_ple", "mass_knot_ot")
+                  else None)
     _run_epochs(net, _make_optim(net, backbone, cfg), xtr, ytr, cfg,
-                use_aux=use_aux, codes=ctr, task=task)
+                use_aux=use_aux, codes=ctr, task=task,
+                trend_sign=trend_sign)
     fit_time = time.perf_counter() - start
 
     net.eval()
@@ -461,6 +498,12 @@ def _train_eval(arm: str, backbone: str, data: dict,
     row["fit_time"] = fit_time
     if arm == "learned_knot_ple":
         edges_np = net.ot.bin_edges().detach().cpu().numpy()
+        row["contiguous_frac"] = 1.0
+        row["mean_n_cuts"] = float(np.mean(
+            [len(np.unique(np.round(e, 6))) for e in edges_np]))
+    elif arm in ("mass_knot_ple", "mass_knot_ot"):
+        # unified model: the audit coordinates ARE the benchmark knots
+        edges_np = net.ot.mass_edges().detach().cpu().numpy()
         row["contiguous_frac"] = 1.0
         row["mean_n_cuts"] = float(np.mean(
             [len(np.unique(np.round(e, 6))) for e in edges_np]))
