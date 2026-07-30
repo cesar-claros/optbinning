@@ -86,7 +86,7 @@ def prepare_features(ds, special_handling="expand", return_names=False):
                     extra.append(mask.astype(float))
                     names.append("{}=={}".format(ds.numerical[j], c))
             x[np.isin(x[:, j], codes), j] = np.nan
-    elif special_handling != "ignore":
+    elif special_handling not in ("ignore", "expand"):
         raise ValueError(
             "special_handling must be 'ignore' or 'expand'; got "
             "{}.".format(special_handling))
