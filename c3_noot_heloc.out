@@ -1,0 +1,22 @@
+nohup: ignoring input
+[2026-07-30 12:59:30,358][HYDRA] Launching 5 jobs locally
+[2026-07-30 12:59:30,358][HYDRA] 	#0 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp] token_mode=ple_interp special_handling=expand seed=0 device=cuda out=outputs/c3_noot_heloc
+[2026-07-30 12:59:33,820][__main__][INFO] - learned_knot_ple/linear: auc=0.8009
+[2026-07-30 12:59:34,839][__main__][INFO] - learned_knot_ple/mlp: auc=0.7950
+[2026-07-30 12:59:34,860][__main__][INFO] - C3: wrote 2 rows -> outputs/c3_noot_heloc/c3_heloc_0.parquet
+[2026-07-30 12:59:34,862][HYDRA] 	#1 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp] token_mode=ple_interp special_handling=expand seed=1 device=cuda out=outputs/c3_noot_heloc
+[2026-07-30 12:59:35,849][__main__][INFO] - learned_knot_ple/linear: auc=0.7980
+[2026-07-30 12:59:36,851][__main__][INFO] - learned_knot_ple/mlp: auc=0.7741
+[2026-07-30 12:59:36,863][__main__][INFO] - C3: wrote 2 rows -> outputs/c3_noot_heloc/c3_heloc_1.parquet
+[2026-07-30 12:59:36,867][HYDRA] 	#2 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp] token_mode=ple_interp special_handling=expand seed=2 device=cuda out=outputs/c3_noot_heloc
+[2026-07-30 12:59:37,931][__main__][INFO] - learned_knot_ple/linear: auc=0.7990
+[2026-07-30 12:59:38,923][__main__][INFO] - learned_knot_ple/mlp: auc=0.7815
+[2026-07-30 12:59:38,932][__main__][INFO] - C3: wrote 2 rows -> outputs/c3_noot_heloc/c3_heloc_2.parquet
+[2026-07-30 12:59:38,934][HYDRA] 	#3 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp] token_mode=ple_interp special_handling=expand seed=3 device=cuda out=outputs/c3_noot_heloc
+[2026-07-30 12:59:39,903][__main__][INFO] - learned_knot_ple/linear: auc=0.8042
+[2026-07-30 12:59:40,892][__main__][INFO] - learned_knot_ple/mlp: auc=0.7835
+[2026-07-30 12:59:40,905][__main__][INFO] - C3: wrote 2 rows -> outputs/c3_noot_heloc/c3_heloc_3.parquet
+[2026-07-30 12:59:40,910][HYDRA] 	#4 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp] token_mode=ple_interp special_handling=expand seed=4 device=cuda out=outputs/c3_noot_heloc
+[2026-07-30 12:59:41,917][__main__][INFO] - learned_knot_ple/linear: auc=0.8022
+[2026-07-30 12:59:42,892][__main__][INFO] - learned_knot_ple/mlp: auc=0.7795
+[2026-07-30 12:59:42,910][__main__][INFO] - C3: wrote 2 rows -> outputs/c3_noot_heloc/c3_heloc_4.parquet

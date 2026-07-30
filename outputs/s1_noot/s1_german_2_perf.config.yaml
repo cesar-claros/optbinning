@@ -1,0 +1,24 @@
+dataset: german
+arms:
+- ot_ple
+- learned_knot
+n_bins: 8
+n_resamples: 20
+resampling: subsample
+subsample_frac: 0.7
+test_size: 0.35
+hidden: 64
+token_mode: ple_interp
+sinkhorn_iters: 15
+epochs: 15
+batch_size: 4096
+lr: 0.01
+eps_start: 0.15
+eps_end: 0.02
+aux_iv: 0.1
+'n': 6000
+data_seed: 0
+seed: 2
+device: cuda
+out: outputs/s1_noot
+special_handling: ignore
