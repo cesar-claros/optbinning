@@ -1,0 +1,52 @@
+nohup: ignoring input
+[2026-07-29 21:13:08,129][HYDRA] Launching 25 jobs locally
+[2026-07-29 21:13:08,130][HYDRA] 	#0 : dataset=german seed=0 device=cuda out=outputs/audit
+[2026-07-29 21:13:13,550][__main__][INFO] - AUDIT: wrote 9 rows -> outputs/audit/audit_german_0.parquet
+[2026-07-29 21:13:13,553][HYDRA] 	#1 : dataset=german seed=1 device=cuda out=outputs/audit
+[2026-07-29 21:13:16,708][__main__][INFO] - AUDIT: wrote 9 rows -> outputs/audit/audit_german_1.parquet
+[2026-07-29 21:13:16,710][HYDRA] 	#2 : dataset=german seed=2 device=cuda out=outputs/audit
+[2026-07-29 21:13:19,180][__main__][INFO] - AUDIT: wrote 9 rows -> outputs/audit/audit_german_2.parquet
+[2026-07-29 21:13:19,182][HYDRA] 	#3 : dataset=german seed=3 device=cuda out=outputs/audit
+[2026-07-29 21:13:21,724][__main__][INFO] - AUDIT: wrote 9 rows -> outputs/audit/audit_german_3.parquet
+[2026-07-29 21:13:21,728][HYDRA] 	#4 : dataset=german seed=4 device=cuda out=outputs/audit
+[2026-07-29 21:13:24,151][__main__][INFO] - AUDIT: wrote 9 rows -> outputs/audit/audit_german_4.parquet
+[2026-07-29 21:13:24,157][HYDRA] 	#5 : dataset=taiwan seed=0 device=cuda out=outputs/audit
+[2026-07-29 21:13:43,917][__main__][INFO] - AUDIT: wrote 25 rows -> outputs/audit/audit_taiwan_0.parquet
+[2026-07-29 21:13:43,924][HYDRA] 	#6 : dataset=taiwan seed=1 device=cuda out=outputs/audit
+[2026-07-29 21:14:03,062][__main__][INFO] - AUDIT: wrote 25 rows -> outputs/audit/audit_taiwan_1.parquet
+[2026-07-29 21:14:03,065][HYDRA] 	#7 : dataset=taiwan seed=2 device=cuda out=outputs/audit
+[2026-07-29 21:14:22,941][__main__][INFO] - AUDIT: wrote 25 rows -> outputs/audit/audit_taiwan_2.parquet
+[2026-07-29 21:14:22,943][HYDRA] 	#8 : dataset=taiwan seed=3 device=cuda out=outputs/audit
+[2026-07-29 21:14:42,170][__main__][INFO] - AUDIT: wrote 25 rows -> outputs/audit/audit_taiwan_3.parquet
+[2026-07-29 21:14:42,174][HYDRA] 	#9 : dataset=taiwan seed=4 device=cuda out=outputs/audit
+[2026-07-29 21:15:00,713][__main__][INFO] - AUDIT: wrote 25 rows -> outputs/audit/audit_taiwan_4.parquet
+[2026-07-29 21:15:00,719][HYDRA] 	#10 : dataset=gmsc seed=0 device=cuda out=outputs/audit
+[2026-07-29 21:16:08,295][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_gmsc_0.parquet
+[2026-07-29 21:16:08,298][HYDRA] 	#11 : dataset=gmsc seed=1 device=cuda out=outputs/audit
+[2026-07-29 21:17:17,685][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_gmsc_1.parquet
+[2026-07-29 21:17:17,689][HYDRA] 	#12 : dataset=gmsc seed=2 device=cuda out=outputs/audit
+[2026-07-29 21:18:25,927][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_gmsc_2.parquet
+[2026-07-29 21:18:25,980][HYDRA] 	#13 : dataset=gmsc seed=3 device=cuda out=outputs/audit
+[2026-07-29 21:19:33,962][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_gmsc_3.parquet
+[2026-07-29 21:19:33,966][HYDRA] 	#14 : dataset=gmsc seed=4 device=cuda out=outputs/audit
+[2026-07-29 21:20:42,736][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_gmsc_4.parquet
+[2026-07-29 21:20:42,744][HYDRA] 	#15 : dataset=hmeq seed=0 device=cuda out=outputs/audit
+[2026-07-29 21:20:45,674][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_hmeq_0.parquet
+[2026-07-29 21:20:45,680][HYDRA] 	#16 : dataset=hmeq seed=1 device=cuda out=outputs/audit
+[2026-07-29 21:20:48,541][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_hmeq_1.parquet
+[2026-07-29 21:20:48,544][HYDRA] 	#17 : dataset=hmeq seed=2 device=cuda out=outputs/audit
+[2026-07-29 21:20:51,396][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_hmeq_2.parquet
+[2026-07-29 21:20:51,398][HYDRA] 	#18 : dataset=hmeq seed=3 device=cuda out=outputs/audit
+[2026-07-29 21:20:54,220][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_hmeq_3.parquet
+[2026-07-29 21:20:54,221][HYDRA] 	#19 : dataset=hmeq seed=4 device=cuda out=outputs/audit
+[2026-07-29 21:20:57,063][__main__][INFO] - AUDIT: wrote 12 rows -> outputs/audit/audit_hmeq_4.parquet
+[2026-07-29 21:20:57,065][HYDRA] 	#20 : dataset=heloc seed=0 device=cuda out=outputs/audit
+[2026-07-29 21:21:21,502][__main__][INFO] - AUDIT: wrote 59 rows -> outputs/audit/audit_heloc_0.parquet
+[2026-07-29 21:21:21,508][HYDRA] 	#21 : dataset=heloc seed=1 device=cuda out=outputs/audit
+[2026-07-29 21:21:44,278][__main__][INFO] - AUDIT: wrote 59 rows -> outputs/audit/audit_heloc_1.parquet
+[2026-07-29 21:21:44,284][HYDRA] 	#22 : dataset=heloc seed=2 device=cuda out=outputs/audit
+[2026-07-29 21:22:04,104][__main__][INFO] - AUDIT: wrote 59 rows -> outputs/audit/audit_heloc_2.parquet
+[2026-07-29 21:22:04,105][HYDRA] 	#23 : dataset=heloc seed=3 device=cuda out=outputs/audit
+[2026-07-29 21:22:26,889][__main__][INFO] - AUDIT: wrote 59 rows -> outputs/audit/audit_heloc_3.parquet
+[2026-07-29 21:22:26,891][HYDRA] 	#24 : dataset=heloc seed=4 device=cuda out=outputs/audit
+[2026-07-29 21:22:50,173][__main__][INFO] - AUDIT: wrote 59 rows -> outputs/audit/audit_heloc_4.parquet

@@ -1,0 +1,7 @@
+- dataset=german
+- epochs=8
+- arms=[learned_knot_ple]
+- backbones=[linear]
+- token_mode=ple_interp
+- device=cuda
+- out=outputs/_smoke

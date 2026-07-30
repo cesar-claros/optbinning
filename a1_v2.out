@@ -1,0 +1,14 @@
+nohup: ignoring input
+[2026-07-29 23:54:56,953][HYDRA] Launching 6 jobs locally
+[2026-07-29 23:54:56,953][HYDRA] 	#0 : dataset=german n_seeds=10 out=outputs/a1_v2
+A1: wrote 350 rows -> outputs/a1_v2/a1_german_0.parquet
+[2026-07-30 00:56:46,437][HYDRA] 	#1 : dataset=taiwan n_seeds=10 out=outputs/a1_v2
+A1: wrote 1150 rows -> outputs/a1_v2/a1_taiwan_0.parquet
+[2026-07-30 05:28:57,231][HYDRA] 	#2 : dataset=gmsc n_seeds=10 out=outputs/a1_v2
+A1: wrote 500 rows -> outputs/a1_v2/a1_gmsc_0.parquet
+[2026-07-30 06:41:11,464][HYDRA] 	#3 : dataset=hmeq n_seeds=10 out=outputs/a1_v2
+A1: wrote 500 rows -> outputs/a1_v2/a1_hmeq_0.parquet
+[2026-07-30 09:40:56,311][HYDRA] 	#4 : dataset=synthetic-spike n_seeds=10 out=outputs/a1_v2
+A1: wrote 100 rows -> outputs/a1_v2/a1_synthetic-spike_0.parquet
+[2026-07-30 10:27:39,461][HYDRA] 	#5 : dataset=synthetic-spike2 n_seeds=10 out=outputs/a1_v2
+A1: wrote 100 rows -> outputs/a1_v2/a1_synthetic-spike2_0.parquet

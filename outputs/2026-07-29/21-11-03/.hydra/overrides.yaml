@@ -1,0 +1,4 @@
+- dataset=german
+- epochs=8
+- device=cuda
+- out=outputs/_smoke

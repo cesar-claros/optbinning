@@ -1,0 +1,262 @@
+nohup: ignoring input
+[2026-07-29 21:24:52,546][HYDRA] Launching 50 jobs locally
+[2026-07-29 21:24:52,547][HYDRA] 	#0 : dataset=german arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:24:55,294][__main__][INFO] - learned_knot_ple/linear: auc=0.6247
+[2026-07-29 21:24:55,784][__main__][INFO] - learned_knot_ple/mlp: auc=0.6090
+[2026-07-29 21:24:56,962][__main__][INFO] - learned_knot_ple/ft: auc=0.6095
+[2026-07-29 21:24:57,003][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_german_0.parquet
+[2026-07-29 21:24:57,005][HYDRA] 	#1 : dataset=german arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:24:57,541][__main__][INFO] - learned_knot_ple/linear: auc=0.6137
+[2026-07-29 21:24:58,025][__main__][INFO] - learned_knot_ple/mlp: auc=0.6002
+[2026-07-29 21:24:59,208][__main__][INFO] - learned_knot_ple/ft: auc=0.6590
+[2026-07-29 21:24:59,221][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_german_1.parquet
+[2026-07-29 21:24:59,225][HYDRA] 	#2 : dataset=german arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:24:59,790][__main__][INFO] - learned_knot_ple/linear: auc=0.6842
+[2026-07-29 21:25:00,283][__main__][INFO] - learned_knot_ple/mlp: auc=0.6301
+[2026-07-29 21:25:01,475][__main__][INFO] - learned_knot_ple/ft: auc=0.6758
+[2026-07-29 21:25:01,484][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_german_2.parquet
+[2026-07-29 21:25:01,486][HYDRA] 	#3 : dataset=german arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:25:02,023][__main__][INFO] - learned_knot_ple/linear: auc=0.6619
+[2026-07-29 21:25:02,513][__main__][INFO] - learned_knot_ple/mlp: auc=0.6548
+[2026-07-29 21:25:03,700][__main__][INFO] - learned_knot_ple/ft: auc=0.6284
+[2026-07-29 21:25:03,709][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_german_3.parquet
+[2026-07-29 21:25:03,711][HYDRA] 	#4 : dataset=german arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:25:04,236][__main__][INFO] - learned_knot_ple/linear: auc=0.6253
+[2026-07-29 21:25:04,732][__main__][INFO] - learned_knot_ple/mlp: auc=0.6380
+[2026-07-29 21:25:05,917][__main__][INFO] - learned_knot_ple/ft: auc=0.6398
+[2026-07-29 21:25:05,926][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_german_4.parquet
+[2026-07-29 21:25:05,930][HYDRA] 	#5 : dataset=taiwan arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:25:08,391][__main__][INFO] - learned_knot_ple/linear: auc=0.7769
+[2026-07-29 21:25:10,793][__main__][INFO] - learned_knot_ple/mlp: auc=0.7767
+[2026-07-29 21:25:28,849][__main__][INFO] - learned_knot_ple/ft: auc=0.7756
+[2026-07-29 21:25:28,857][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_taiwan_0.parquet
+[2026-07-29 21:25:28,859][HYDRA] 	#6 : dataset=taiwan arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:25:31,083][__main__][INFO] - learned_knot_ple/linear: auc=0.7779
+[2026-07-29 21:25:33,509][__main__][INFO] - learned_knot_ple/mlp: auc=0.7730
+[2026-07-29 21:25:51,594][__main__][INFO] - learned_knot_ple/ft: auc=0.7760
+[2026-07-29 21:25:51,601][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_taiwan_1.parquet
+[2026-07-29 21:25:51,602][HYDRA] 	#7 : dataset=taiwan arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:25:53,876][__main__][INFO] - learned_knot_ple/linear: auc=0.7802
+[2026-07-29 21:25:56,288][__main__][INFO] - learned_knot_ple/mlp: auc=0.7801
+[2026-07-29 21:26:14,408][__main__][INFO] - learned_knot_ple/ft: auc=0.7842
+[2026-07-29 21:26:14,415][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_taiwan_2.parquet
+[2026-07-29 21:26:14,421][HYDRA] 	#8 : dataset=taiwan arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:26:16,670][__main__][INFO] - learned_knot_ple/linear: auc=0.7782
+[2026-07-29 21:26:19,072][__main__][INFO] - learned_knot_ple/mlp: auc=0.7751
+[2026-07-29 21:26:37,190][__main__][INFO] - learned_knot_ple/ft: auc=0.7823
+[2026-07-29 21:26:37,199][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_taiwan_3.parquet
+[2026-07-29 21:26:37,205][HYDRA] 	#9 : dataset=taiwan arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:26:39,445][__main__][INFO] - learned_knot_ple/linear: auc=0.7822
+[2026-07-29 21:26:41,851][__main__][INFO] - learned_knot_ple/mlp: auc=0.7834
+[2026-07-29 21:26:59,973][__main__][INFO] - learned_knot_ple/ft: auc=0.7876
+[2026-07-29 21:26:59,979][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_taiwan_4.parquet
+[2026-07-29 21:26:59,980][HYDRA] 	#10 : dataset=gmsc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:27:09,867][__main__][INFO] - learned_knot_ple/linear: auc=0.8575
+[2026-07-29 21:27:21,122][__main__][INFO] - learned_knot_ple/mlp: auc=0.8594
+[2026-07-29 21:28:16,674][__main__][INFO] - learned_knot_ple/ft: auc=0.8607
+[2026-07-29 21:28:16,681][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_gmsc_0.parquet
+[2026-07-29 21:28:16,684][HYDRA] 	#11 : dataset=gmsc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:28:26,559][__main__][INFO] - learned_knot_ple/linear: auc=0.8585
+[2026-07-29 21:28:37,823][__main__][INFO] - learned_knot_ple/mlp: auc=0.8580
+[2026-07-29 21:29:33,393][__main__][INFO] - learned_knot_ple/ft: auc=0.8601
+[2026-07-29 21:29:33,400][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_gmsc_1.parquet
+[2026-07-29 21:29:33,402][HYDRA] 	#12 : dataset=gmsc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:29:43,323][__main__][INFO] - learned_knot_ple/linear: auc=0.8559
+[2026-07-29 21:29:54,579][__main__][INFO] - learned_knot_ple/mlp: auc=0.8545
+[2026-07-29 21:30:50,145][__main__][INFO] - learned_knot_ple/ft: auc=0.8592
+[2026-07-29 21:30:50,151][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_gmsc_2.parquet
+[2026-07-29 21:30:50,153][HYDRA] 	#13 : dataset=gmsc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:31:00,061][__main__][INFO] - learned_knot_ple/linear: auc=0.8579
+[2026-07-29 21:31:11,308][__main__][INFO] - learned_knot_ple/mlp: auc=0.8589
+[2026-07-29 21:32:06,901][__main__][INFO] - learned_knot_ple/ft: auc=0.8620
+[2026-07-29 21:32:06,911][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_gmsc_3.parquet
+[2026-07-29 21:32:06,916][HYDRA] 	#14 : dataset=gmsc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:32:16,818][__main__][INFO] - learned_knot_ple/linear: auc=0.8547
+[2026-07-29 21:32:28,082][__main__][INFO] - learned_knot_ple/mlp: auc=0.8578
+[2026-07-29 21:33:23,662][__main__][INFO] - learned_knot_ple/ft: auc=0.8600
+[2026-07-29 21:33:23,668][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_gmsc_4.parquet
+[2026-07-29 21:33:23,671][HYDRA] 	#15 : dataset=hmeq arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:24,202][__main__][INFO] - learned_knot_ple/linear: auc=0.8281
+[2026-07-29 21:33:24,637][__main__][INFO] - learned_knot_ple/mlp: auc=0.9131
+[2026-07-29 21:33:26,851][__main__][INFO] - learned_knot_ple/ft: auc=0.9096
+[2026-07-29 21:33:26,858][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_hmeq_0.parquet
+[2026-07-29 21:33:26,860][HYDRA] 	#16 : dataset=hmeq arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:27,415][__main__][INFO] - learned_knot_ple/linear: auc=0.8473
+[2026-07-29 21:33:27,915][__main__][INFO] - learned_knot_ple/mlp: auc=0.9123
+[2026-07-29 21:33:30,127][__main__][INFO] - learned_knot_ple/ft: auc=0.9046
+[2026-07-29 21:33:30,132][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_hmeq_1.parquet
+[2026-07-29 21:33:30,133][HYDRA] 	#17 : dataset=hmeq arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:30,630][__main__][INFO] - learned_knot_ple/linear: auc=0.8209
+[2026-07-29 21:33:31,088][__main__][INFO] - learned_knot_ple/mlp: auc=0.9084
+[2026-07-29 21:33:33,299][__main__][INFO] - learned_knot_ple/ft: auc=0.9065
+[2026-07-29 21:33:33,305][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_hmeq_2.parquet
+[2026-07-29 21:33:33,306][HYDRA] 	#18 : dataset=hmeq arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:33,824][__main__][INFO] - learned_knot_ple/linear: auc=0.8420
+[2026-07-29 21:33:34,265][__main__][INFO] - learned_knot_ple/mlp: auc=0.8982
+[2026-07-29 21:33:36,480][__main__][INFO] - learned_knot_ple/ft: auc=0.9024
+[2026-07-29 21:33:36,486][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_hmeq_3.parquet
+[2026-07-29 21:33:36,487][HYDRA] 	#19 : dataset=hmeq arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:37,044][__main__][INFO] - learned_knot_ple/linear: auc=0.8271
+[2026-07-29 21:33:37,495][__main__][INFO] - learned_knot_ple/mlp: auc=0.9021
+[2026-07-29 21:33:39,706][__main__][INFO] - learned_knot_ple/ft: auc=0.8957
+[2026-07-29 21:33:39,717][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_hmeq_4.parquet
+[2026-07-29 21:33:39,720][HYDRA] 	#20 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:40,705][__main__][INFO] - learned_knot_ple/linear: auc=0.8031
+[2026-07-29 21:33:41,695][__main__][INFO] - learned_knot_ple/mlp: auc=0.8028
+[2026-07-29 21:33:48,092][__main__][INFO] - learned_knot_ple/ft: auc=0.8047
+[2026-07-29 21:33:48,098][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_heloc_0.parquet
+[2026-07-29 21:33:48,099][HYDRA] 	#21 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:49,069][__main__][INFO] - learned_knot_ple/linear: auc=0.7969
+[2026-07-29 21:33:49,997][__main__][INFO] - learned_knot_ple/mlp: auc=0.7956
+[2026-07-29 21:33:56,408][__main__][INFO] - learned_knot_ple/ft: auc=0.7984
+[2026-07-29 21:33:56,421][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_heloc_1.parquet
+[2026-07-29 21:33:56,425][HYDRA] 	#22 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:33:57,374][__main__][INFO] - learned_knot_ple/linear: auc=0.7983
+[2026-07-29 21:33:58,348][__main__][INFO] - learned_knot_ple/mlp: auc=0.7965
+[2026-07-29 21:34:04,729][__main__][INFO] - learned_knot_ple/ft: auc=0.7906
+[2026-07-29 21:34:04,734][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_heloc_2.parquet
+[2026-07-29 21:34:04,736][HYDRA] 	#23 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:34:05,724][__main__][INFO] - learned_knot_ple/linear: auc=0.8012
+[2026-07-29 21:34:06,676][__main__][INFO] - learned_knot_ple/mlp: auc=0.7955
+[2026-07-29 21:34:13,059][__main__][INFO] - learned_knot_ple/ft: auc=0.7994
+[2026-07-29 21:34:13,064][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_heloc_3.parquet
+[2026-07-29 21:34:13,065][HYDRA] 	#24 : dataset=heloc arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:34:14,016][__main__][INFO] - learned_knot_ple/linear: auc=0.8014
+[2026-07-29 21:34:15,014][__main__][INFO] - learned_knot_ple/mlp: auc=0.7956
+[2026-07-29 21:34:21,414][__main__][INFO] - learned_knot_ple/ft: auc=0.7943
+[2026-07-29 21:34:21,428][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_heloc_4.parquet
+[2026-07-29 21:34:21,432][HYDRA] 	#25 : dataset=adult arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:34:25,139][__main__][INFO] - learned_knot_ple/linear: auc=0.8574
+[2026-07-29 21:34:28,832][__main__][INFO] - learned_knot_ple/mlp: auc=0.8605
+[2026-07-29 21:34:43,151][__main__][INFO] - learned_knot_ple/ft: auc=0.8725
+[2026-07-29 21:34:43,159][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_adult_0.parquet
+[2026-07-29 21:34:43,164][HYDRA] 	#26 : dataset=adult arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:34:46,601][__main__][INFO] - learned_knot_ple/linear: auc=0.8442
+[2026-07-29 21:34:50,283][__main__][INFO] - learned_knot_ple/mlp: auc=0.8563
+[2026-07-29 21:35:04,567][__main__][INFO] - learned_knot_ple/ft: auc=0.8655
+[2026-07-29 21:35:04,576][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_adult_1.parquet
+[2026-07-29 21:35:04,579][HYDRA] 	#27 : dataset=adult arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:35:08,000][__main__][INFO] - learned_knot_ple/linear: auc=0.8493
+[2026-07-29 21:35:11,684][__main__][INFO] - learned_knot_ple/mlp: auc=0.8557
+[2026-07-29 21:35:25,981][__main__][INFO] - learned_knot_ple/ft: auc=0.8640
+[2026-07-29 21:35:25,993][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_adult_2.parquet
+[2026-07-29 21:35:25,998][HYDRA] 	#28 : dataset=adult arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:35:29,398][__main__][INFO] - learned_knot_ple/linear: auc=0.8555
+[2026-07-29 21:35:33,099][__main__][INFO] - learned_knot_ple/mlp: auc=0.8626
+[2026-07-29 21:35:47,400][__main__][INFO] - learned_knot_ple/ft: auc=0.8715
+[2026-07-29 21:35:47,405][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_adult_3.parquet
+[2026-07-29 21:35:47,407][HYDRA] 	#29 : dataset=adult arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:35:50,755][__main__][INFO] - learned_knot_ple/linear: auc=0.8502
+[2026-07-29 21:35:54,482][__main__][INFO] - learned_knot_ple/mlp: auc=0.8579
+[2026-07-29 21:36:08,768][__main__][INFO] - learned_knot_ple/ft: auc=0.8661
+[2026-07-29 21:36:08,775][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_adult_4.parquet
+[2026-07-29 21:36:08,777][HYDRA] 	#30 : dataset=diabetes arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py:46: DtypeWarning: Columns (0: payer_code) have mixed types. Specify dtype option on import or set low_memory=False.
+  return pd.read_csv(path)
+[2026-07-29 21:36:16,380][__main__][INFO] - learned_knot_ple/linear: auc=0.6245
+[2026-07-29 21:36:24,271][__main__][INFO] - learned_knot_ple/mlp: auc=0.6213
+[2026-07-29 21:36:58,650][__main__][INFO] - learned_knot_ple/ft: auc=0.6331
+[2026-07-29 21:36:58,665][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_diabetes_0.parquet
+[2026-07-29 21:36:58,674][HYDRA] 	#31 : dataset=diabetes arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py:46: DtypeWarning: Columns (0: payer_code) have mixed types. Specify dtype option on import or set low_memory=False.
+  return pd.read_csv(path)
+[2026-07-29 21:37:06,012][__main__][INFO] - learned_knot_ple/linear: auc=0.6221
+[2026-07-29 21:37:13,889][__main__][INFO] - learned_knot_ple/mlp: auc=0.6162
+[2026-07-29 21:37:48,272][__main__][INFO] - learned_knot_ple/ft: auc=0.6286
+[2026-07-29 21:37:48,278][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_diabetes_1.parquet
+[2026-07-29 21:37:48,280][HYDRA] 	#32 : dataset=diabetes arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py:46: DtypeWarning: Columns (0: payer_code) have mixed types. Specify dtype option on import or set low_memory=False.
+  return pd.read_csv(path)
+[2026-07-29 21:37:55,592][__main__][INFO] - learned_knot_ple/linear: auc=0.6259
+[2026-07-29 21:38:03,445][__main__][INFO] - learned_knot_ple/mlp: auc=0.6281
+[2026-07-29 21:38:37,804][__main__][INFO] - learned_knot_ple/ft: auc=0.6303
+[2026-07-29 21:38:37,817][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_diabetes_2.parquet
+[2026-07-29 21:38:37,824][HYDRA] 	#33 : dataset=diabetes arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py:46: DtypeWarning: Columns (0: payer_code) have mixed types. Specify dtype option on import or set low_memory=False.
+  return pd.read_csv(path)
+[2026-07-29 21:38:45,175][__main__][INFO] - learned_knot_ple/linear: auc=0.6219
+[2026-07-29 21:38:53,020][__main__][INFO] - learned_knot_ple/mlp: auc=0.6244
+[2026-07-29 21:39:27,407][__main__][INFO] - learned_knot_ple/ft: auc=0.6298
+[2026-07-29 21:39:27,418][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_diabetes_3.parquet
+[2026-07-29 21:39:27,424][HYDRA] 	#34 : dataset=diabetes arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+/work/cniel/sw/singularity_containers/ot_woe/optbinning/experiments/datasets.py:46: DtypeWarning: Columns (0: payer_code) have mixed types. Specify dtype option on import or set low_memory=False.
+  return pd.read_csv(path)
+[2026-07-29 21:39:34,708][__main__][INFO] - learned_knot_ple/linear: auc=0.6143
+[2026-07-29 21:39:42,548][__main__][INFO] - learned_knot_ple/mlp: auc=0.6224
+[2026-07-29 21:40:16,908][__main__][INFO] - learned_knot_ple/ft: auc=0.6311
+[2026-07-29 21:40:16,917][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_diabetes_4.parquet
+[2026-07-29 21:40:16,922][HYDRA] 	#35 : dataset=higgs-small arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:40:24,416][__main__][INFO] - learned_knot_ple/linear: auc=0.7745
+[2026-07-29 21:40:32,226][__main__][INFO] - learned_knot_ple/mlp: auc=0.7997
+[2026-07-29 21:41:41,320][__main__][INFO] - learned_knot_ple/ft: auc=0.8058
+[2026-07-29 21:41:41,329][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_higgs-small_0.parquet
+[2026-07-29 21:41:41,340][HYDRA] 	#36 : dataset=higgs-small arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:41:48,552][__main__][INFO] - learned_knot_ple/linear: auc=0.7727
+[2026-07-29 21:41:56,360][__main__][INFO] - learned_knot_ple/mlp: auc=0.8033
+[2026-07-29 21:43:05,486][__main__][INFO] - learned_knot_ple/ft: auc=0.8081
+[2026-07-29 21:43:05,493][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_higgs-small_1.parquet
+[2026-07-29 21:43:05,498][HYDRA] 	#37 : dataset=higgs-small arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:43:12,617][__main__][INFO] - learned_knot_ple/linear: auc=0.7696
+[2026-07-29 21:43:20,315][__main__][INFO] - learned_knot_ple/mlp: auc=0.7992
+[2026-07-29 21:44:29,430][__main__][INFO] - learned_knot_ple/ft: auc=0.7970
+[2026-07-29 21:44:29,437][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_higgs-small_2.parquet
+[2026-07-29 21:44:29,444][HYDRA] 	#38 : dataset=higgs-small arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:44:36,531][__main__][INFO] - learned_knot_ple/linear: auc=0.7710
+[2026-07-29 21:44:44,238][__main__][INFO] - learned_knot_ple/mlp: auc=0.7991
+[2026-07-29 21:45:53,390][__main__][INFO] - learned_knot_ple/ft: auc=0.8030
+[2026-07-29 21:45:53,399][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_higgs-small_3.parquet
+[2026-07-29 21:45:53,407][HYDRA] 	#39 : dataset=higgs-small arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:46:00,411][__main__][INFO] - learned_knot_ple/linear: auc=0.7702
+[2026-07-29 21:46:08,045][__main__][INFO] - learned_knot_ple/mlp: auc=0.7986
+[2026-07-29 21:47:17,255][__main__][INFO] - learned_knot_ple/ft: auc=0.8063
+[2026-07-29 21:47:17,264][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_higgs-small_4.parquet
+[2026-07-29 21:47:17,270][HYDRA] 	#40 : dataset=churn arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:47:18,248][__main__][INFO] - learned_knot_ple/linear: auc=0.7963
+[2026-07-29 21:47:19,187][__main__][INFO] - learned_knot_ple/mlp: auc=0.8311
+[2026-07-29 21:47:22,709][__main__][INFO] - learned_knot_ple/ft: auc=0.8398
+[2026-07-29 21:47:22,715][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_churn_0.parquet
+[2026-07-29 21:47:22,716][HYDRA] 	#41 : dataset=churn arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 21:47:23,649][__main__][INFO] - learned_knot_ple/linear: auc=0.7609
+[2026-07-29 21:47:24,534][__main__][INFO] - learned_knot_ple/mlp: auc=0.8256
+[2026-07-29 21:47:27,990][__main__][INFO] - learned_knot_ple/ft: auc=0.8314
+[2026-07-29 21:47:27,997][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_churn_1.parquet
+[2026-07-29 21:47:27,998][HYDRA] 	#42 : dataset=churn arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 21:47:28,904][__main__][INFO] - learned_knot_ple/linear: auc=0.7739
+[2026-07-29 21:47:29,777][__main__][INFO] - learned_knot_ple/mlp: auc=0.8429
+[2026-07-29 21:47:33,260][__main__][INFO] - learned_knot_ple/ft: auc=0.8451
+[2026-07-29 21:47:33,265][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_churn_2.parquet
+[2026-07-29 21:47:33,266][HYDRA] 	#43 : dataset=churn arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 21:47:34,211][__main__][INFO] - learned_knot_ple/linear: auc=0.8002
+[2026-07-29 21:47:35,082][__main__][INFO] - learned_knot_ple/mlp: auc=0.8481
+[2026-07-29 21:47:38,598][__main__][INFO] - learned_knot_ple/ft: auc=0.8628
+[2026-07-29 21:47:38,603][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_churn_3.parquet
+[2026-07-29 21:47:38,604][HYDRA] 	#44 : dataset=churn arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 21:47:39,470][__main__][INFO] - learned_knot_ple/linear: auc=0.7839
+[2026-07-29 21:47:40,356][__main__][INFO] - learned_knot_ple/mlp: auc=0.8488
+[2026-07-29 21:47:43,752][__main__][INFO] - learned_knot_ple/ft: auc=0.8487
+[2026-07-29 21:47:43,758][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_churn_4.parquet
+[2026-07-29 21:47:43,760][HYDRA] 	#45 : dataset=santander arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=0 device=cuda out=outputs/c3_noot
+[2026-07-29 21:48:09,059][__main__][INFO] - learned_knot_ple/linear: auc=0.8883
+[2026-07-29 21:48:30,098][__main__][INFO] - learned_knot_ple/mlp: auc=0.8832
+[2026-07-29 22:12:50,981][__main__][INFO] - learned_knot_ple/ft: auc=0.8753
+[2026-07-29 22:12:51,000][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_santander_0.parquet
+[2026-07-29 22:12:51,028][HYDRA] 	#46 : dataset=santander arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=1 device=cuda out=outputs/c3_noot
+[2026-07-29 22:13:15,365][__main__][INFO] - learned_knot_ple/linear: auc=0.8888
+[2026-07-29 22:13:36,101][__main__][INFO] - learned_knot_ple/mlp: auc=0.8852
+[2026-07-29 22:37:56,026][__main__][INFO] - learned_knot_ple/ft: auc=0.8682
+[2026-07-29 22:37:56,062][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_santander_1.parquet
+[2026-07-29 22:37:56,097][HYDRA] 	#47 : dataset=santander arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=2 device=cuda out=outputs/c3_noot
+[2026-07-29 22:38:20,519][__main__][INFO] - learned_knot_ple/linear: auc=0.8929
+[2026-07-29 22:38:41,294][__main__][INFO] - learned_knot_ple/mlp: auc=0.8896
+[2026-07-29 23:03:01,207][__main__][INFO] - learned_knot_ple/ft: auc=0.8716
+[2026-07-29 23:03:01,236][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_santander_2.parquet
+[2026-07-29 23:03:01,265][HYDRA] 	#48 : dataset=santander arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=3 device=cuda out=outputs/c3_noot
+[2026-07-29 23:03:25,309][__main__][INFO] - learned_knot_ple/linear: auc=0.8888
+[2026-07-29 23:03:46,001][__main__][INFO] - learned_knot_ple/mlp: auc=0.8795
+[2026-07-29 23:28:05,819][__main__][INFO] - learned_knot_ple/ft: auc=0.8700
+[2026-07-29 23:28:05,829][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_santander_3.parquet
+[2026-07-29 23:28:05,859][HYDRA] 	#49 : dataset=santander arms=[learned_knot_ple] backbones=[linear,mlp,ft] token_mode=ple_interp seed=4 device=cuda out=outputs/c3_noot
+[2026-07-29 23:28:30,216][__main__][INFO] - learned_knot_ple/linear: auc=0.8893
+[2026-07-29 23:28:51,123][__main__][INFO] - learned_knot_ple/mlp: auc=0.8868
+[2026-07-29 23:53:10,037][__main__][INFO] - learned_knot_ple/ft: auc=0.8812
+[2026-07-29 23:53:10,046][__main__][INFO] - C3: wrote 3 rows -> outputs/c3_noot/c3_santander_4.parquet

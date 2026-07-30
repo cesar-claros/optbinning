@@ -1,0 +1,19 @@
+dataset: german
+'n': 5000
+data_seed: 0
+features: null
+arms:
+- iv
+- iv_mip
+- iv_w1
+- w1
+- cramer2
+gamma: 0.25
+fm_tau_frac: 0.8
+lam_frac: 0.1
+monotonic: auto
+n_seeds: 10
+seed_offset: 0
+test_size: 0.4
+n_boot: 50
+out: outputs/a1_v2
