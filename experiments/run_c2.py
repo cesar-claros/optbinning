@@ -114,7 +114,7 @@ def run(cfg: DictConfig) -> Path:
                     rows[-3]["frac_of_oracle"])
 
     out = Path(cfg.out) / f"c2_{cfg.seed_offset}"
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     logger.info("C2: wrote %d rows -> %s", len(rows), path)
     return path
 

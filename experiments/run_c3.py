@@ -567,7 +567,7 @@ def run(cfg: DictConfig) -> Path:
             rows.append(row)
 
     out = Path(cfg.out) / f"c3_{cfg.dataset}_{cfg.seed}"
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     logger.info("C3: wrote %d rows -> %s", len(rows), path)
     return path
 

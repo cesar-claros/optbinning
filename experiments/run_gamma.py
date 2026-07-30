@@ -101,7 +101,7 @@ def run(cfg):
                     hyb_cut_sd_norm=hy_sd / abs(scale) if scale else np.nan))
 
     out = Path(cfg.out) / "gamma_{}_{}".format(cfg.dataset, cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     print("gamma: wrote {} rows -> {}".format(len(rows), path))
     return path
 

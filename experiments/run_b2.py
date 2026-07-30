@@ -95,7 +95,7 @@ def run(cfg):
 
     out = Path(cfg.out) / "b2_{}_{}_{}".format(cfg.design, cfg.drift_kind,
                                                cfg.rep_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     print("B2: wrote {} rows -> {}".format(len(rows), path))
     return path
 

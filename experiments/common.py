@@ -216,11 +216,17 @@ def bootstrap_cut_sd(fit_factory, x, y, n_boot=10, seed=0):
     return float(arr.std(axis=0).mean()), mismatched / n_boot
 
 
-def save_results(rows, out_path):
+def save_results(rows, out_path, cfg=None):
     """Results writer; parquet with csv fallback. OVERWRITES the target
     (rerun semantics) -- partial reruns (e.g. a single-arm top-up) must
     use a fresh out dir and be merged at analysis time, or they clobber
-    the full-arm files (near-miss logged 2026-07; hence the warning)."""
+    the full-arm files (near-miss logged 2026-07; hence the warning).
+
+    With ``cfg`` (a Hydra/OmegaConf config), the RESOLVED configuration is
+    persisted next to the results as ``<out>.config.yaml`` so every
+    artifact records its own protocol (split sizes, arms, solver options;
+    reviewer P0 -- the 65/35-vs-60/40 discrepancy was unresolvable from
+    the parquet alone)."""
     import logging
     df = pd.DataFrame(rows)
     out_path = Path(out_path)
@@ -229,6 +235,14 @@ def save_results(rows, out_path):
         logging.getLogger(__name__).warning(
             "overwriting existing results file %s",
             out_path.with_suffix(".parquet"))
+    if cfg is not None:
+        try:
+            from omegaconf import OmegaConf
+            out_path.with_suffix(".config.yaml").write_text(
+                OmegaConf.to_yaml(cfg, resolve=True))
+        except Exception:
+            logging.getLogger(__name__).exception(
+                "could not persist resolved config for %s", out_path)
     try:
         df.to_parquet(out_path.with_suffix(".parquet"), index=False)
         return out_path.with_suffix(".parquet")

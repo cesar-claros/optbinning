@@ -96,7 +96,7 @@ def run(cfg):
 
     out = Path(cfg.out) / "maxbins_{}_{}_{}".format(
         cfg.dataset, mono_tag, cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     print("maxbins: wrote {} rows -> {}".format(len(rows), path))
     return path
 

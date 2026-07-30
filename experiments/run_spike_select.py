@@ -97,7 +97,7 @@ def run(cfg):
                     n_boot=cfg.n_boot, fit_time=time.perf_counter() - t0))
 
     out = Path(cfg.out) / "spikesel_{}_{}".format(cfg.dataset, cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     print("spikesel: wrote {} rows -> {}".format(len(rows), path))
     return path
 

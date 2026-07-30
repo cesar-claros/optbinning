@@ -289,7 +289,7 @@ def run(cfg):
     _report(dataset, group_key, rows)
     out = Path(cfg.out) / "fusion_{}_{}_{}".format(dataset, group_key,
                                                    cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     logger.info("fusion: wrote %d rows -> %s", len(rows), path)
     return path
 

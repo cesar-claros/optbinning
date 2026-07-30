@@ -229,7 +229,7 @@ def run(cfg):
     _report(cfg, ds.name, rows, cuts_by_feature)
     out = Path(cfg.out) / "c4audit_{}_{}_{}".format(
         cfg.dataset, ot_input, cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     logger.info("c4audit: wrote %d rows -> %s", len(rows), path)
     return path
 

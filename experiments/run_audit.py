@@ -241,7 +241,7 @@ def run(cfg: DictConfig) -> Path:
                          soft_auc=soft_auc, partition=name, **sc))
 
     out = Path(cfg.out) / f"audit_{cfg.dataset}_{cfg.seed}"
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     logger.info("AUDIT: wrote %d rows -> %s", len(rows), path)
     return path
 

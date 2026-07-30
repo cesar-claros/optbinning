@@ -102,7 +102,7 @@ def run(cfg):
                 rows.append(row)
 
     out = Path(cfg.out) / "a1_{}_{}".format(cfg.dataset, cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     print("A1: wrote {} rows -> {}".format(len(rows), path))
     return path
 

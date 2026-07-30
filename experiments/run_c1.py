@@ -118,7 +118,7 @@ def run(cfg: DictConfig) -> Path:
         logger.info("seed %d done", seed)
 
     out = Path(cfg.out) / f"c1_{cfg.n}_{cfg.seed_offset}"
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     logger.info("C1: wrote %d rows -> %s", len(rows), path)
     return path
 

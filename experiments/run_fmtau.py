@@ -103,7 +103,7 @@ def run(cfg):
     lam_tag = str(cfg.lam_frac).replace(".", "p")
     out = Path(cfg.out) / "fmtau_{}_lam{}_{}".format(
         cfg.dataset, lam_tag, cfg.seed_offset)
-    path = save_results(rows, out)
+    path = save_results(rows, out, cfg=cfg)
     print("fmtau: wrote {} rows -> {}".format(len(rows), path))
     return path
 
