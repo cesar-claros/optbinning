@@ -305,3 +305,92 @@ def test_annealed_recovery_small():
     exact = exact_monotone_optimum(ne, ev, 5)
     assert (exact - iv_pol) / exact <= 0.15
     assert iv_monotone(bounds, ne, ev) > 0
+
+
+def test_mass_coordinate_partition_postconditions():
+    # mass-coordinate hardening (reviewer Sec. 7.1): absorption is
+    # reported not hidden; grid exactness; tie-safe cuts; the
+    # |hard - soft| <= 2 a_max theorem bound; exact monotonicity after
+    # PAV block merging; permutation invariance.
+    from experiments.paperc.otlayer import mass_coordinate_partition
+
+    # reviewer's 2-atom counterexample: bin absorbed, counted
+    r = mass_coordinate_partition(np.array([0.0, 1.0]),
+                                  np.array([0.1, 0.9]))
+    assert r["n_bins_raw"] == 1 and r["n_absorbed"] == 1
+    assert abs(r["mass_err_max"] - 0.1) < 1e-12
+
+    # grid exactness: C_k on the atom grid => hard masses equal beta
+    r = mass_coordinate_partition(np.arange(100) / 100.0,
+                                  np.array([0.3, 0.2, 0.5]))
+    assert r["mass_err_max"] == 0.0 and r["n_bins_raw"] == 3
+
+    # ties: no cut inside a 60% zero-inflation atom
+    rng = np.random.default_rng(0)
+    xz = np.where(rng.random(10000) < 0.6, 0.0, rng.random(10000))
+    r = mass_coordinate_partition(xz, np.full(4, 0.25))
+    assert all(c > 0 for c in r["cuts_raw"])
+
+    # theorem bound on 50 random tied instances
+    for s in range(50):
+        rg = np.random.default_rng(s)
+        xs = np.round(rg.random(int(rg.integers(20, 2000))),
+                      int(rg.integers(1, 4)))
+        m = int(rg.integers(2, 12))
+        b = rg.dirichlet(np.ones(m)) * 0.95 + 0.05 / m
+        r = mass_coordinate_partition(xs, b)
+        assert r["mass_err_max"] <= 2 * r["a_max"] + 1e-12
+
+    # exact monotone hard rates after merging, both trends
+    for slope, tr in ((0.5, "ascending"), (-0.5, "descending")):
+        xs = rng.random(20000)
+        ys = (rng.random(20000) < 0.35 + slope * (xs - 0.5)).astype(float)
+        r = mass_coordinate_partition(xs, np.full(8, 0.125), ys)
+        assert r["monotone"] and r["trend"] == tr
+        sgn = 1.0 if tr == "ascending" else -1.0
+        assert np.all(sgn * np.diff(r["event_rate"]) >= -1e-15)
+
+    # permutation invariance (static, batch-order-free)
+    xs = rng.random(5000)
+    ys = (rng.random(5000) < 0.2 + 0.6 * xs).astype(float)
+    r1 = mass_coordinate_partition(xs, np.full(6, 1 / 6), ys)
+    p = rng.permutation(5000)
+    r2 = mass_coordinate_partition(xs[p], np.full(6, 1 / 6), ys[p])
+    assert np.array_equal(r1["cuts"], r2["cuts"])
+    assert np.allclose(r1["event_rate"], r2["event_rate"])
+
+
+def test_harden_static_layer_method():
+    # layer wrapper: per-feature dicts, exact monotone merged partition,
+    # deployment cuts derived from the learned masses (not midpoints).
+    torch.manual_seed(0)
+    layer = MultiOTBinningLayer(3, n_bins=6)
+    x = torch.rand(4000, 3)
+    y = (torch.rand(4000) < 0.2 + 0.6 * x[:, 0]).float()
+    out = layer.harden_static(x, y)
+    assert len(out) == 3
+    for r in out:
+        assert r["contiguous"] and r["monotone"]
+        assert r["mass_err_max"] <= 2 * r["a_max"] + 1e-12
+        assert len(r["cuts"]) <= len(r["cuts_raw"])
+
+
+def test_tokenized_net_learned_knot_ple_arm():
+    # no-OT control: same knot parametrization and PLE basis as ot_ple,
+    # but no assignment ever exists and the mass parameters get no
+    # gradient (nothing in the forward touches beta).
+    pytest.importorskip("hydra")
+    from experiments.run_c3 import TokenizedNet
+
+    torch.manual_seed(0)
+    edges = [np.linspace(0, 1, 9) for _ in range(4)]
+    net = TokenizedNet("learned_knot_ple", edges, n_bins=8,
+                       backbone="linear", hidden=16)
+    x = torch.rand(64, 4)
+    logits, assign = net(x, eps=0.1, need_assign=True)
+    assert logits.shape == (64,)
+    assert assign is None                    # even when requested
+    logits.sum().backward()
+    assert net.ot.theta_w.grad is not None
+    assert float(net.ot.theta_w.grad.abs().sum()) > 0
+    assert net.ot.theta_b.grad is None       # OT masses untouched

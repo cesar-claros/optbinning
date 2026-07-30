@@ -14,6 +14,10 @@ periodic_sigma: 1.0      # frequency init scale (Gorishniy tunes this; we fix it
 # jointness (ot_ple - ot_frozen) from estimator (ot_frozen - target_ple)
 # extra arm optbinning_pw: Navas-Palencia's continuous piecewise binning
 # (OptimalPWBinning, degree-1 event-rate transform) -- binary tasks only
+# extra arm learned_knot_ple: the no-OT control -- identical ordered-knot
+# parametrization, init, PLE basis, backbone, and budget as ot_ple with
+# token_mode=ple_interp, but no Sinkhorn/beta/IV/PAV anywhere; the paired
+# difference (ot_ple - learned_knot_ple) isolates the OT contribution
 backbones: [linear, mlp]   # options: linear | mlp | ft
 n_bins: 8
 sinkhorn_iters: 15      # training-time unroll; hardening uses 60 internally

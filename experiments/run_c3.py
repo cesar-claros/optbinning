@@ -70,10 +70,17 @@ class TokenizedNet(nn.Module):
         self.token_mode = token_mode
         self.n_features = len(edges)
         self.n_special = n_special
-        if arm == "ot_ple":
+        if arm in ("ot_ple", "learned_knot_ple"):
+            # learned_knot_ple is the reviewer-mandated no-OT control:
+            # IDENTICAL ordered-knot parametrization, init, PLE basis,
+            # backbone, optimizer, and budget -- but no Sinkhorn, no
+            # beta, no IV/PAV auxiliary ever touch the forward pass.
+            # (ot_ple - learned_knot_ple) isolates what the OT coupling
+            # itself contributes to the learned-knot tokenizer.
             self.ot = MultiOTBinningLayer(len(edges), n_bins=n_bins,
                                           sinkhorn_iters=sinkhorn_iters)
-            token_dim = n_bins + (1 if token_mode == "cumulative_plus_raw"
+            token_dim = n_bins + (1 if arm == "ot_ple" and
+                                  token_mode == "cumulative_plus_raw"
                                   else 0)
         elif arm in ("quantile_ple", "target_ple", "ot_frozen"):
             for i, e in enumerate(edges):
@@ -138,6 +145,10 @@ class TokenizedNet(nn.Module):
 
     def _base_tokens(self, x: Tensor, eps: float,
                      need_assign: bool) -> tuple[Tensor, Tensor | None]:
+        if self.arm == "learned_knot_ple":
+            # ordered learned knots, downstream loss only: no transport
+            # plan exists in this arm, so no assignment is ever returned.
+            return self.ot.interp_tokens(x), None
         if self.arm == "ot_ple":
             if self.token_mode == "ple_interp":
                 # learned-knot PLE: spline ramps on the layer's own bin
@@ -356,7 +367,7 @@ def _train_eval(arm: str, backbone: str, data: dict,
         data["xtr"], data["xte"] = _pw_transform(data["xtr"],
                                                  data["xte"],
                                                  data["ytr"])
-    if arm in ("ot_ple", "ot_frozen") \
+    if arm in ("ot_ple", "ot_frozen", "learned_knot_ple") \
             and cfg.get("ot_input", "quantile") == "quantile":
         data = dict(data)
         if n_special:
@@ -413,7 +424,7 @@ def _train_eval(arm: str, backbone: str, data: dict,
                                task=task)
         net = TokenizedNet(arm, edges, cfg.n_bins, backbone, cfg.hidden,
                            **kwargs).to(device)
-        if arm == "ot_ple":
+        if arm in ("ot_ple", "learned_knot_ple"):
             net.ot.set_range(xtr.min(dim=0).values,
                              xtr.max(dim=0).values)
     _run_epochs(net, _make_optim(net, backbone, cfg), xtr, ytr, cfg,
@@ -448,7 +459,12 @@ def _train_eval(arm: str, backbone: str, data: dict,
                    auc=float(roc_auc_score(data["yte"], prob)),
                    logloss=float(log_loss(data["yte"], prob)))
     row["fit_time"] = fit_time
-    if arm == "ot_ple":
+    if arm == "learned_knot_ple":
+        edges_np = net.ot.bin_edges().detach().cpu().numpy()
+        row["contiguous_frac"] = 1.0
+        row["mean_n_cuts"] = float(np.mean(
+            [len(np.unique(np.round(e, 6))) for e in edges_np]))
+    elif arm == "ot_ple":
         if net.token_mode == "ple_interp":
             # interval bins by construction: contiguity is structural
             # and the audit table is the learned edge vector itself.

@@ -2,9 +2,14 @@
 
 Entropic-OT soft assignment of a feature batch to ``n_bins`` learnable bins
 with learnable mass marginals, floored parametrizations (the bin-collapse
-cure of P6 Sec. 4.1), an isotonic (PAV) monotonicity penalty, and annealed
-hardening whose limit is a.s. a contiguous monotone partition (P6,
-Thm. 3.1). Gradients flow through unrolled log-domain Sinkhorn iterations.
+cure of P6 Sec. 4.1), an isotonic (PAV) monotonicity penalty, and two
+hardening paths: batchwise argmax (diagnostic; contiguous at every
+temperature by the single-crossing property) and mass-coordinate static
+hardening (deployment; tie-aware cuts from the learned cumulative masses
+with hard-mass error <= 2*a_max, exact on the atom grid, plus explicit
+PAV block merging for exactly monotone hard rates -- the corrected
+Theorem 4.1). Gradients flow through unrolled log-domain Sinkhorn
+iterations.
 """
 
 # Cesar Claros <cesar.claros@outlook.com>
@@ -183,6 +188,29 @@ class MultiOTBinningLayer(nn.Module):
                          + (g / eps)[None, :, :])
         return plan / plan.sum(dim=2, keepdim=True).clamp_min(1e-30)
 
+    @torch.no_grad()
+    def harden_static(self, x: Tensor, y: Tensor | None = None,
+                      trend: str = "auto") -> list[dict]:
+        """Mass-coordinate static hardening (deployment path).
+
+        Derives the deployed cuts from the LEARNED CUMULATIVE MASSES
+        rather than from representative midpoints: ties are aggregated
+        into distinct atoms, each cumulative bin mass C_k is projected
+        onto the nearest cumulative atom boundary (a cut can never fall
+        inside a tied atom), and, when binary targets are supplied,
+        adjacent bins are merged into their weighted-PAV blocks so the
+        hard event rates are EXACTLY monotone. The result is a static,
+        batch-invariant interval partition with checkable postconditions
+        (see :func:`mass_coordinate_partition` for the returned audit
+        fields).
+        """
+        beta = self.bin_masses().detach().cpu().numpy()
+        xs = x.detach().cpu().numpy()
+        ys = None if y is None else y.detach().cpu().numpy()
+        return [mass_coordinate_partition(xs[:, i], beta[i], ys,
+                                          trend=trend)
+                for i in range(self.n_features)]
+
     def bin_edges(self) -> Tensor:
         """Interior bin boundaries (midpoints of consecutive learned
         representatives), shape ``(n_features, n_bins - 1)``. Strictly
@@ -225,6 +253,103 @@ class MultiOTBinningLayer(nn.Module):
                     torch.diff(sorted_assign) >= 0)),
                 "cuts": np.sort(np.unique(cuts))})
         return out
+
+
+def mass_coordinate_partition(x: np.ndarray, beta: np.ndarray,
+                              y: np.ndarray | None = None,
+                              trend: str = "auto") -> dict:
+    """Tie-aware static partition from cumulative bin masses (numpy).
+
+    Implements the mass-coordinate hardening of the corrected theorem:
+
+    1. aggregate equal values into distinct atoms ``u_1 < ... < u_T``
+       with masses ``a_t`` and cumulative boundaries
+       ``G = (0, A_1, ..., A_T = 1)``;
+    2. project each learned cumulative mass ``C_k`` onto the nearest
+       ``G`` entry (never inside a tied atom); duplicate or endpoint
+       projections drop the corresponding boundary (the bin is absorbed
+       -- counted, not hidden);
+    3. place each interior cut at the midpoint of the adjacent distinct
+       atoms;
+    4. with binary ``y``: compute hard-bin event rates, pool them into
+       weighted-PAV blocks (trend ``"auto"`` picks the direction with
+       the smaller weighted SSE), MERGE each block into one bin, and
+       recompute -- the merged rates are exactly monotone.
+
+    Returns a dict with the audit fields: ``cuts_raw``, ``n_bins_raw``,
+    ``hard_mass_raw``, ``mass_err_max`` (max ``|hard - soft|`` bin mass,
+    theorem bound ``2 * a_max``), ``a_max``, ``n_absorbed``, and -- when
+    ``y`` is given -- ``event_rate_raw``, ``n_violations_raw``,
+    ``max_violation_raw``, ``cuts``, ``hard_mass``, ``event_rate``,
+    ``trend``, ``n_merges``, ``monotone`` (exact check).
+    """
+    if trend not in ("auto", "ascending", "descending"):
+        raise ValueError(f"invalid trend '{trend}'.")
+    u, counts = np.unique(np.asarray(x, dtype=float), return_counts=True)
+    n = counts.sum()
+    grid = np.concatenate(([0.0], np.cumsum(counts) / n))   # G, len T+1
+    c_int = np.cumsum(np.asarray(beta, dtype=float))[:-1]   # C_1..C_{M-1}
+    # nearest cumulative atom boundary (ties resolve leftward); interior
+    # C_k lie strictly in (0, 1) by the mass floor, so pos is in [1, T]
+    pos = np.searchsorted(grid, c_int)
+    pos = np.where(c_int - grid[pos - 1] <= grid[pos] - c_int,
+                   pos - 1, pos)
+    bounds = np.concatenate(([0], pos, [len(grid) - 1]))
+    hard_mass_all = np.diff(grid[bounds])                   # aligned to beta
+    mass_err_max = float(np.max(np.abs(hard_mass_all - beta)))
+    keep = np.unique(pos[(pos > 0) & (pos < len(grid) - 1)])
+    n_absorbed = len(beta) - 1 - len(keep)
+    cuts_raw = ((u[keep - 1] + u[keep]) / 2 if len(keep)
+                else np.empty(0))
+    out: dict = {
+        "cuts_raw": np.asarray(cuts_raw, dtype=float),
+        "n_bins_raw": len(keep) + 1,
+        "hard_mass_raw": np.diff(
+            np.concatenate(([0.0], grid[keep], [1.0]))),
+        "mass_err_max": mass_err_max,
+        "a_max": float(counts.max() / n),
+        "n_absorbed": int(n_absorbed),
+        "contiguous": True,
+    }
+    if y is None:
+        return out
+    yb = np.asarray(y, dtype=float)
+    idx = np.searchsorted(out["cuts_raw"], np.asarray(x, dtype=float),
+                          side="right")
+    m = len(keep) + 1
+    tot = np.bincount(idx, minlength=m).astype(float)
+    ev = np.bincount(idx, weights=yb, minlength=m)
+    rate = ev / np.maximum(tot, 1.0)
+    diffs = np.diff(rate)
+    if trend == "auto":
+        sse = {}
+        for name, sign in (("ascending", 1.0), ("descending", -1.0)):
+            e = 0.0
+            for block in _pav_blocks(sign * rate, tot):
+                mean = rate[block].dot(tot[block]) / tot[block].sum()
+                e += float(((rate[block] - mean) ** 2 * tot[block]).sum())
+            sse[name] = e
+        trend = min(sse, key=lambda k: sse[k])
+    sign = 1.0 if trend == "ascending" else -1.0
+    viol = np.maximum(-sign * diffs, 0.0)
+    out["event_rate_raw"] = rate
+    out["n_violations_raw"] = int((viol > 1e-15).sum())
+    out["max_violation_raw"] = float(viol.max()) if len(viol) else 0.0
+    blocks = _pav_blocks(sign * rate, tot)
+    keep_cut = sorted(b[-1] for b in
+                      (sorted(bl) for bl in blocks))[:-1]   # block right edges
+    cuts = out["cuts_raw"][np.asarray(keep_cut, dtype=int)] \
+        if keep_cut else np.empty(0)
+    idx2 = np.searchsorted(cuts, np.asarray(x, dtype=float), side="right")
+    m2 = len(cuts) + 1
+    tot2 = np.bincount(idx2, minlength=m2).astype(float)
+    ev2 = np.bincount(idx2, weights=yb, minlength=m2)
+    rate2 = ev2 / np.maximum(tot2, 1.0)
+    out.update(cuts=np.asarray(cuts, dtype=float),
+               hard_mass=tot2 / n, event_rate=rate2, trend=trend,
+               n_merges=out["n_bins_raw"] - m2,
+               monotone=bool(np.all(sign * np.diff(rate2) >= -1e-15)))
+    return out
 
 
 def soft_iv_multi(assign: Tensor, y: Tensor) -> Tensor:
