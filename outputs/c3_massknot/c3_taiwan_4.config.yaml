@@ -1,0 +1,33 @@
+dataset: taiwan
+'n': 6000
+data_seed: 0
+arms:
+- mass_knot_ple
+- mass_knot_ot
+- ot_ple
+periodic_k: 8
+periodic_sigma: 1.0
+backbones:
+- linear
+- mlp
+- ft
+n_bins: 8
+sinkhorn_iters: 15
+hidden: 64
+epochs: 50
+batch_size: 4096
+lr: 0.01
+lr_ft: 0.001
+ft_layers: 2
+ft_heads: 4
+ft_weight_decay: 1.0e-05
+eps_start: 0.15
+eps_end: 0.02
+aux_iv: 0.1
+seed: 4
+test_size: 0.35
+device: cuda
+out: outputs/c3_massknot
+token_mode: ple_interp
+ot_input: quantile
+special_handling: ignore
