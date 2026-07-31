@@ -349,7 +349,9 @@ def run(cfg: DictConfig) -> Path:
                          arm=arm, soft_auc=soft_auc, partition=name,
                          frozen_cut_invariant=frozen_ok, **sc))
 
-    out = Path(cfg.out) / f"audit_{cfg.dataset}_{cfg.seed}"
+    # arm in the tag: an arm sweep into one out dir must not self-clobber
+    # (the v2 ot_ple/mass_knot_ot multirun did exactly that -- logged)
+    out = Path(cfg.out) / f"audit_{arm}_{cfg.dataset}_{cfg.seed}"
     path = save_results(rows, out, cfg=cfg)
     logger.info("AUDIT v2: wrote %d rows -> %s", len(rows), path)
     return path
