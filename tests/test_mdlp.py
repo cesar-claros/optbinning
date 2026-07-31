@@ -5,10 +5,9 @@ MDLP testing.
 # Guillermo Navas-Palencia <g.navas.palencia@gmail.com>
 # Copyright (C) 2020
 
-import numpy as np
 import pandas as pd
 
-from pytest import approx, raises
+from pytest import raises
 
 from optbinning import MDLP
 from sklearn.datasets import load_breast_cancer

@@ -17,3 +17,7 @@ out: outputs/a1_spikesel
 hydra:
   job:
     chdir: false
+controls: [min_event, min_size, hellinger, consensus]   # re-review P1 battery
+ctrl_min_event: 5
+ctrl_min_size: 0.08
+ctrl_consensus_folds: 15

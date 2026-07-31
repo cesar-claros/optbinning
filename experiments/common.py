@@ -44,6 +44,11 @@ def make_arm(arm, lam=None, gamma=None, fm_tau=None, monotonic="auto",
         return OptimalBinning(solver="mip", mip_solver="cbc",
                               divergence="iv", fm_lambda=lam, fm_tau=fm_tau,
                               **base)
+    if arm == "w1_tau":
+        # the paper's own governance proposal: max IV s.t. W1 >= tau
+        # (exact linear trust constraint; units = declared coordinate)
+        return OptimalBinning(solver="mip", mip_solver="cbc",
+                              divergence="iv", w1_tau=fm_tau, **base)
     if arm == "w1":
         return OptimalBinning(solver="mip", mip_solver="cbc",
                               divergence="w1", **base)
@@ -214,6 +219,52 @@ def bootstrap_cut_sd(fit_factory, x, y, n_boot=10, seed=0):
         return np.nan, mismatched / n_boot
     arr = np.vstack(coll)
     return float(arr.std(axis=0).mean()), mismatched / n_boot
+
+
+def to_coordinate(xtr, xte, ytr=None, kind="raw"):
+    """Declared transport coordinate for the geometric objectives.
+
+    kind:
+      "raw"           -- original feature units (the pre-revision harness
+                         behavior; gamma normalized by robust range only).
+      "rank"          -- pooled train ECDF z = F_pool(x): invariant to
+                         increasing transforms; NOTE the pooled measure
+                         inherits the OBSERVED class mixture (sampling-
+                         design dependent under case-control).
+      "rank_balanced" -- z = F_{R_1/2}(x) with R_1/2 = (F_P + F_Q)/2 on
+                         train: the class-balanced reference geometry,
+                         invariant to both increasing transforms and the
+                         sampling class mixture (paper Sec. 3, R_omega).
+    """
+    if kind == "raw":
+        return xtr, xte
+    if kind == "rank":
+        srt = np.sort(xtr)
+
+        def f(v):
+            return np.searchsorted(srt, v, side="right") / len(srt)
+    elif kind == "rank_balanced":
+        if ytr is None:
+            raise ValueError("rank_balanced requires ytr.")
+        s0 = np.sort(xtr[ytr == 0])
+        s1 = np.sort(xtr[ytr == 1])
+
+        def f(v):
+            f0 = np.searchsorted(s0, v, side="right") / max(len(s0), 1)
+            f1 = np.searchsorted(s1, v, side="right") / max(len(s1), 1)
+            return 0.5 * f0 + 0.5 * f1
+    else:
+        raise ValueError("coordinate must be raw|rank|rank_balanced; "
+                         "got {}.".format(kind))
+    return f(xtr), f(xte)
+
+
+def splits_hash(splits):
+    """Short stable hash of a partition (reviewer P0: metric equality is
+    not partition equality; persist the partition identity)."""
+    import hashlib
+    arr = np.round(np.asarray(splits, dtype=float), 9)
+    return hashlib.md5(arr.tobytes()).hexdigest()[:12]
 
 
 def save_results(rows, out_path, cfg=None):

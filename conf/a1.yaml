@@ -23,3 +23,5 @@ out: outputs/a1
 hydra:
   job:
     chdir: false
+coordinate: raw          # raw | rank | rank_balanced (paper Sec. 3 R_omega geometry)
+scorecard: true          # downstream WoE-logistic per (seed, arm)

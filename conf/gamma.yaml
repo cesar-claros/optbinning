@@ -17,3 +17,4 @@ out: outputs/a1_gamma
 hydra:
   job:
     chdir: false
+coordinate: raw          # raw | rank | rank_balanced

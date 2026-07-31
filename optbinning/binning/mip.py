@@ -22,7 +22,8 @@ class BinningMIP:
                  min_bin_n_nonevent, max_bin_n_nonevent, min_event_rate_diff,
                  max_pvalue, max_pvalue_policy, gamma, gamma_wasserstein,
                  fm_lambda, fm_mu, fm_tau,
-                 user_splits_fixed, mip_solver, time_limit):
+                 user_splits_fixed, mip_solver, time_limit,
+                 w1_tau=None):
 
         self.monotonic_trend = monotonic_trend
 
@@ -43,6 +44,7 @@ class BinningMIP:
         self.fm_lambda = fm_lambda
         self.fm_mu = fm_mu
         self.fm_tau = fm_tau
+        self.w1_tau = w1_tau
         self.user_splits_fixed = user_splits_fixed
 
         self.mip_solver = mip_solver
@@ -73,12 +75,16 @@ class BinningMIP:
             base_divergence, n_nonevent, n_event, self.max_pvalue,
             self.max_pvalue_policy, self.min_event_rate_diff)
 
-        if divergence in _TRANSPORT_DIVERGENCES or self.gamma_wasserstein:
+        PHI1 = None
+        if (divergence in _TRANSPORT_DIVERGENCES or self.gamma_wasserstein
+                or self.w1_tau is not None):
             if x_sum is None:
-                if divergence in ("w1", "cramer2") or self.gamma_wasserstein:
+                if (divergence in ("w1", "cramer2")
+                        or self.gamma_wasserstein
+                        or self.w1_tau is not None):
                     raise ValueError('x_sum (pre-bin feature sums) is '
                                      'required for divergence "{}" / '
-                                     'gamma_wasserstein > 0.'
+                                     'gamma_wasserstein > 0 / w1_tau.'
                                      .format(divergence))
                 x_sum = np.zeros(len(n_nonevent))
 
@@ -91,12 +97,13 @@ class BinningMIP:
             elif divergence == "hellinger_raw":
                 V = THETA
 
-            if self.gamma_wasserstein:
+            if self.gamma_wasserstein or self.w1_tau is not None:
                 if divergence == "w1":
                     PHI1 = PHI
                 else:
                     PHI1, _, _ = transport_model_data(
                         n_nonevent, n_event, x_sum, cramer_p=1)
+            if self.gamma_wasserstein:
                 V = [v + self.gamma_wasserstein * phi
                      for v, phi in zip(V, PHI1)]
 
@@ -165,6 +172,19 @@ class BinningMIP:
 
             if self.fm_tau is not None:
                 solver.Add(fm_expr >= float(self.fm_tau))
+
+        # W1 trust constraint (OT-WoE extension; project note P1, Thm 3.2 /
+        # paper Sec. 3): the binned W1 is extent-additive with coefficients
+        # PHI sharing V's exact row layout, so W1(X) >= w1_tau is the same
+        # telescoped linear form as the objective -- exact, no new
+        # variables. Units are those of the (declared) feature coordinate.
+        if self.w1_tau is not None:
+            w1_expr = solver.Sum(
+                [PHI1[i][i] * x[i, i] +
+                 solver.Sum([(PHI1[i][j] - PHI1[i][j + 1]) * x[i, j]
+                             for j in range(i)])
+                 for i in range(n)])
+            solver.Add(w1_expr >= float(self.w1_tau))
 
         # Objective function
         objective = [solver.Sum([(V[i][i] * x[i, i]) +

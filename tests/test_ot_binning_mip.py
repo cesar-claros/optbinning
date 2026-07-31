@@ -232,3 +232,58 @@ def test_bin_cap_separates_iv_and_hellinger_raw():
         if list(iv.splits) != approx(list(hr.splits)):
             diverged = True
     assert diverged, "no binding bin cap separated iv from hellinger_raw"
+
+
+def test_w1_tau_trust_constraint():
+    # Paper A Sec. 3 trust region, exact linear encoding: max IV subject
+    # to W1 >= tau. Anchored at the IV solution's own W1, feasible with
+    # unchanged objective; anchored above the max-W1 partition's value,
+    # infeasible; in between, achieved W1 must clear tau exactly.
+    from optbinning.binning.metrics import wasserstein_1d
+
+    rng = np.random.default_rng(7)
+    x = rng.normal(0, 1, 4000)
+    y = (rng.uniform(0, 1, 4000) < 1 / (1 + np.exp(-1.4 * x))).astype(int)
+
+    def w1_of(model):
+        s = model.splits
+        idx = np.digitize(x, s)
+        k = len(s) + 1
+        ne = np.bincount(idx, weights=1 - y, minlength=k).astype(float)
+        e = np.bincount(idx, weights=y, minlength=k).astype(float)
+        tot = ne + e
+        w = np.bincount(idx, weights=x, minlength=k) / np.maximum(tot, 1)
+        return wasserstein_1d(ne / ne.sum(), e / e.sum(), w)
+
+    base = dict(dtype="numerical", monotonic_trend="auto",
+                max_n_prebins=20)
+    iv = OptimalBinning(solver="mip", mip_solver="cbc",
+                        divergence="iv", **base).fit(x, y)
+    w1max = OptimalBinning(solver="mip", mip_solver="cbc",
+                           divergence="w1", **base).fit(x, y)
+    w1_floor, w1_ceil = w1_of(iv), w1_of(w1max)
+    assert w1_ceil >= w1_floor - 1e-12
+
+    anchored = OptimalBinning(solver="mip", mip_solver="cbc",
+                              divergence="iv", w1_tau=w1_floor * 0.999,
+                              **base).fit(x, y)
+    assert anchored.status == "OPTIMAL"
+    assert w1_of(anchored) >= w1_floor * 0.999 - 1e-9
+
+    if w1_ceil > w1_floor + 1e-9:
+        mid = OptimalBinning(solver="mip", mip_solver="cbc",
+                             divergence="iv",
+                             w1_tau=(w1_floor + w1_ceil) / 2,
+                             **base).fit(x, y)
+        assert mid.status == "OPTIMAL"
+        assert w1_of(mid) >= (w1_floor + w1_ceil) / 2 - 1e-9
+
+    beyond = OptimalBinning(solver="mip", mip_solver="cbc",
+                            divergence="iv", w1_tau=w1_ceil * 1.5 + 1e-3,
+                            **base)
+    beyond.fit(x, y)
+    assert beyond.status != "OPTIMAL"
+
+    with raises(ValueError):
+        OptimalBinning(solver="cp", divergence="iv",
+                       w1_tau=0.1).fit(x, y)

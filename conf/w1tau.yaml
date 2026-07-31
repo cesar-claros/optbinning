@@ -1,0 +1,15 @@
+# Experiment W1TAU — normalized W1 trust-constraint frontier (Paper A).
+dataset: german
+features: null
+monotonic: auto
+fracs: [0.0, 0.25, 0.5, 0.75, 0.9, 1.0, 1.1, 1.25]   # of [W1_iv, W1_max]
+gammas: [0.1, 0.25, 0.5, 1.0, 2.0, 4.0]              # lambda-path reference
+coordinate: rank         # declared default geometry; raw | rank | rank_balanced
+special_handling: expand
+n_seeds: 3
+seed_offset: 0
+test_size: 0.4
+out: outputs/w1tau
+hydra:
+  job:
+    chdir: false

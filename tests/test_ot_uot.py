@@ -118,3 +118,43 @@ def test_cluster_blocks():
     w = np.array([0.0, 0.1, 3.0, 3.1, 9.0])
     blocks = cluster_blocks(w, kappa=1.0)
     assert [list(b) for b in blocks] == [[0, 1], [2, 3], [4]]
+
+
+def test_analytic_rectangle_family():
+    # Paper A Theorem 7.7 (pinned): class-exclusive middle pair -- the
+    # rectangle defect equals -2 sqrt(a2 b3) cos(d/kappa) on the whole
+    # open transport-active window, and 0 in the Hellinger regime.
+    u = np.array([0.0, 1.0, 1.35, 2.35])
+    a = np.array([3.0, 2.0, 0.0, 1.0])
+    b = np.array([1.0, 0.0, 1.5, 2.0])
+    n = a + b
+    d = u[2] - u[1]
+    w12 = (n[0] * u[0] + n[1] * u[1]) / (n[0] + n[1])
+    w34 = (n[2] * u[2] + n[3] * u[3]) / (n[2] + n[3])
+    lo = 2 * d / np.pi
+    hi = 2 * min(u[1] - u[0], u[3] - u[2], u[2] - w12, w34 - u[1]) / np.pi
+    assert lo < hi                       # nonempty window (Thm 7.7)
+
+    def rect_defect(kappa):
+        def F(binning):
+            reps, aa, bb = [], [], []
+            for B in binning:
+                m = n[list(B)].sum()
+                reps.append((u[list(B)] * n[list(B)]).sum() / m)
+                aa.append(a[list(B)].sum())
+                bb.append(b[list(B)].sum())
+            v, g = hk2(np.array(reps), np.array(aa), np.array(bb),
+                       kappa=kappa)
+            return v, g
+        vals = [F(p) for p in ([[0, 1], [2, 3]], [[0, 1], [2], [3]],
+                               [[0], [1], [2, 3]], [[0], [1], [2], [3]])]
+        D = vals[0][0] - vals[1][0] - vals[2][0] + vals[3][0]
+        return D, sum(v[1] for v in vals)
+
+    for kappa in (lo * 1.05, (lo + hi) / 2, hi * 0.98):
+        D, budget = rect_defect(kappa)
+        pred = -2 * np.sqrt(a[1] * b[2]) * np.cos(d / kappa)
+        assert D == approx(pred, abs=max(budget, 1e-6))
+        assert D < 0
+    D0, budget0 = rect_defect(lo * 0.9)   # Hellinger regime: additive
+    assert D0 == approx(0.0, abs=max(budget0, 1e-9))

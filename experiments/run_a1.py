@@ -29,7 +29,39 @@ from omegaconf import DictConfig                        # noqa: E402
 from experiments import datasets                        # noqa: E402
 from experiments.common import (bootstrap_cut_sd, eval_binning,  # noqa: E402
                                 expanded_features, feature_array,
-                                make_arm, save_results)
+                                make_arm, save_results, splits_hash,
+                                to_coordinate)
+
+
+def _scorecard_row(ds, features, cuts, tr, te, special, coord):
+    """WoE-logistic over all binned features with each arm's cuts."""
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import log_loss, roc_auc_score
+
+    w_tr, w_te = [], []
+    ytr, yte = ds.y[tr], ds.y[te]
+    for feat in features:
+        if feat not in cuts:
+            continue
+        x = feature_array(ds, feat, special)
+        med = np.nanmedian(x[tr])
+        x = np.where(np.isfinite(x), x, med)
+        xtr_c, xte_c = to_coordinate(x[tr], x[te], ytr, kind=coord)
+        c = cuts[feat]
+        d_tr = np.digitize(xtr_c, c)
+        d_te = np.digitize(xte_c, c)
+        k = len(c) + 1
+        e = np.bincount(d_tr, weights=ytr, minlength=k) + 0.5
+        ne = np.bincount(d_tr, weights=1 - ytr, minlength=k) + 0.5
+        woe = np.log((e / e.sum()) / (ne / ne.sum()))
+        w_tr.append(woe[d_tr])
+        w_te.append(woe[d_te])
+    model = LogisticRegression(max_iter=1000).fit(
+        np.column_stack(w_tr), ytr)
+    prob = model.predict_proba(np.column_stack(w_te))[:, 1]
+    return dict(oos_iv=np.nan, auc=float(roc_auc_score(yte, prob)),
+                logloss=float(log_loss(yte, prob)),
+                n_features=len(w_tr))
 
 
 def run(cfg):
@@ -44,11 +76,17 @@ def run(cfg):
     rows = []
     for seed in range(cfg.seed_offset, cfg.seed_offset + cfg.n_seeds):
         tr, te = datasets.split_indices(len(ds.y), cfg.test_size, seed)
+        cuts_store = {}
         for feat in features:
             x = feature_array(ds, feat, cfg.get("special_handling", "expand"))
             mask = np.isfinite(x)
             xtr, ytr = x[tr][mask[tr]], ds.y[tr][mask[tr]]
             xte, yte = x[te][mask[te]], ds.y[te][mask[te]]
+            # declared transport coordinate (reviewer P0): raw keeps the
+            # pre-revision behavior; rank / rank_balanced fit and evaluate
+            # every objective in the declared geometry of paper Sec. 3
+            coord = cfg.get("coordinate", "raw")
+            xtr, xte = to_coordinate(xtr, xte, ytr, kind=coord)
 
             scale = np.subtract(*np.nanquantile(xtr, [0.95, 0.05]))
             lam = float(cfg.lam_frac) * abs(scale) if scale else 1.0
@@ -90,8 +128,13 @@ def run(cfg):
 
                 row = dict(dataset=ds.name, feature=feat, arm=arm,
                            seed=seed, status=status, fit_time=fit_time,
-                           lam=lam)
+                           lam=lam, coordinate=coord,
+                           splits_hash=splits_hash(splits),
+                           n_splits=len(splits))
                 row.update(eval_binning(splits, xte, yte))
+                if cfg.get("scorecard", True):
+                    cuts_store.setdefault((seed, arm), {})[feat] = \
+                        np.asarray(splits, dtype=float)
                 if cfg.n_boot:
                     sd, mism = bootstrap_cut_sd(factory, xtr, ytr,
                                                 n_boot=cfg.n_boot,
@@ -100,6 +143,22 @@ def run(cfg):
                                cut_sd_norm=sd / abs(scale) if scale else np.nan,
                                refit_mismatch=mism)
                 rows.append(row)
+
+        # downstream WoE-logistic scorecard per (seed, arm): the same
+        # head for every arm, so partition quality is compared at the
+        # decision level, not only per-feature OOS IV (reviewer P1)
+        if cfg.get("scorecard", True):
+            for arm in cfg.arms:
+                cuts = cuts_store.get((seed, arm))
+                if not cuts:
+                    continue
+                sc = _scorecard_row(ds, features, cuts, tr, te,
+                                    cfg.get("special_handling", "expand"),
+                                    cfg.get("coordinate", "raw"))
+                sc.update(dataset=ds.name, feature="__scorecard__",
+                          arm=arm, seed=seed, status="OK",
+                          coordinate=cfg.get("coordinate", "raw"))
+                rows.append(sc)
 
     out = Path(cfg.out) / "a1_{}_{}".format(cfg.dataset, cfg.seed_offset)
     path = save_results(rows, out, cfg=cfg)

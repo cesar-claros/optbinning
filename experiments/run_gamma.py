@@ -33,7 +33,7 @@ from omegaconf import DictConfig                        # noqa: E402
 from experiments import datasets                        # noqa: E402
 from experiments.common import (bootstrap_cut_sd, eval_binning,  # noqa: E402
                                 expanded_features, feature_array,
-                                make_arm, save_results)
+                                make_arm, save_results, to_coordinate)
 
 
 def run(cfg):
@@ -54,6 +54,9 @@ def run(cfg):
             mask = np.isfinite(x)
             xtr, ytr = x[tr][mask[tr]], ds.y[tr][mask[tr]]
             xte, yte = x[te][mask[te]], ds.y[te][mask[te]]
+
+            coord = cfg.get("coordinate", "raw")
+            xtr, xte = to_coordinate(xtr, xte, ytr, kind=coord)
 
             scale = np.subtract(*np.nanquantile(xtr, [0.95, 0.05]))
             denom = max(abs(scale), 1e-9)

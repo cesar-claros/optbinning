@@ -43,7 +43,7 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
                       max_bin_n_nonevent, min_bin_n_event, max_bin_n_event,
                       monotonic_trend, min_event_rate_diff, max_pvalue,
                       max_pvalue_policy, gamma, gamma_wasserstein,
-                      fm_lambda, fm_mu, fm_tau,
+                      fm_lambda, fm_mu, fm_tau, w1_tau,
                       outlier_detector,
                       outlier_params, class_weight, cat_cutoff, cat_unknown,
                       user_splits, user_splits_fixed, special_codes,
@@ -216,6 +216,14 @@ def _check_parameters(name, dtype, prebinning_method, solver, divergence,
                              'mip_solver="cbc" (continuous phi variables).')
         if dtype != "numerical":
             raise ValueError('fm_mu / fm_tau require dtype="numerical".')
+
+    if w1_tau is not None:
+        if not isinstance(w1_tau, numbers.Number):
+            raise TypeError("w1_tau must be numeric or None.")
+        if solver != "mip":
+            raise ValueError('w1_tau requires solver="mip".')
+        if dtype != "numerical":
+            raise ValueError('w1_tau requires dtype="numerical".')
 
     if outlier_detector is not None:
         if outlier_detector not in ("range", "zscore"):
@@ -533,6 +541,7 @@ class OptimalBinning(BaseOptimalBinning):
                  min_event_rate_diff=0, max_pvalue=None,
                  max_pvalue_policy="consecutive", gamma=0,
                  gamma_wasserstein=0, fm_lambda=None, fm_mu=0, fm_tau=None,
+                 w1_tau=None,
                  outlier_detector=None, outlier_params=None, class_weight=None,
                  cat_cutoff=None, cat_unknown=None, user_splits=None,
                  user_splits_fixed=None, special_codes=None, split_digits=None,
@@ -566,6 +575,7 @@ class OptimalBinning(BaseOptimalBinning):
         self.fm_lambda = fm_lambda
         self.fm_mu = fm_mu
         self.fm_tau = fm_tau
+        self.w1_tau = w1_tau
 
         self.outlier_detector = outlier_detector
         self.outlier_params = outlier_params
@@ -928,7 +938,8 @@ class OptimalBinning(BaseOptimalBinning):
         if (self.dtype == "numerical" and len(splits) and
                 (self.divergence in ("w1", "cramer2", "hellinger_raw") or
                  self.gamma_wasserstein or
-                 self.fm_mu or self.fm_tau is not None)):
+                 self.fm_mu or self.fm_tau is not None or
+                 self.w1_tau is not None)):
             indices = np.digitize(x_clean, splits, right=False)
             xw = x_clean if sw_clean is None else x_clean * sw_clean
             x_sum = np.bincount(indices, weights=xw,
@@ -1115,7 +1126,7 @@ class OptimalBinning(BaseOptimalBinning):
                                    self.gamma_wasserstein,
                                    self.fm_lambda, self.fm_mu, self.fm_tau,
                                    self.user_splits_fixed, self.mip_solver,
-                                   self.time_limit)
+                                   self.time_limit, w1_tau=self.w1_tau)
         elif self.solver == "ls":
             optimizer = BinningLS(monotonic, self.min_n_bins, self.max_n_bins,
                                   min_bin_size, max_bin_size,
