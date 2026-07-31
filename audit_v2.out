@@ -1,0 +1,127 @@
+nohup: ignoring input
+[2026-07-31 13:05:55,680][HYDRA] Launching 50 jobs locally
+[2026-07-31 13:05:55,680][HYDRA] 	#0 : dataset=german arm=ot_ple seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:02,059][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_0.parquet
+[2026-07-31 13:06:02,066][HYDRA] 	#1 : dataset=german arm=ot_ple seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:05,501][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_1.parquet
+[2026-07-31 13:06:05,505][HYDRA] 	#2 : dataset=german arm=ot_ple seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:08,875][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_2.parquet
+[2026-07-31 13:06:08,889][HYDRA] 	#3 : dataset=german arm=ot_ple seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:12,401][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_3.parquet
+[2026-07-31 13:06:12,407][HYDRA] 	#4 : dataset=german arm=ot_ple seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:15,772][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_4.parquet
+[2026-07-31 13:06:15,808][HYDRA] 	#5 : dataset=german arm=mass_knot_ot seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:19,297][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_german_0.parquet
+[2026-07-31 13:06:19,328][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_0.parquet
+[2026-07-31 13:06:19,332][HYDRA] 	#6 : dataset=german arm=mass_knot_ot seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:22,527][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_german_1.parquet
+[2026-07-31 13:06:22,732][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_1.parquet
+[2026-07-31 13:06:22,744][HYDRA] 	#7 : dataset=german arm=mass_knot_ot seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:25,961][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_german_2.parquet
+[2026-07-31 13:06:26,089][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_2.parquet
+[2026-07-31 13:06:26,095][HYDRA] 	#8 : dataset=german arm=mass_knot_ot seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:29,431][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_german_3.parquet
+[2026-07-31 13:06:29,599][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_3.parquet
+[2026-07-31 13:06:29,603][HYDRA] 	#9 : dataset=german arm=mass_knot_ot seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:06:32,786][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_german_4.parquet
+[2026-07-31 13:06:32,918][__main__][INFO] - AUDIT v2: wrote 12 rows -> outputs/audit_v2/audit_german_4.parquet
+[2026-07-31 13:06:32,931][HYDRA] 	#10 : dataset=taiwan arm=ot_ple seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:07:04,719][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_0.parquet
+[2026-07-31 13:07:04,728][HYDRA] 	#11 : dataset=taiwan arm=ot_ple seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:07:36,173][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_1.parquet
+[2026-07-31 13:07:36,203][HYDRA] 	#12 : dataset=taiwan arm=ot_ple seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:08:07,585][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_2.parquet
+[2026-07-31 13:08:07,609][HYDRA] 	#13 : dataset=taiwan arm=ot_ple seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:08:39,577][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_3.parquet
+[2026-07-31 13:08:39,586][HYDRA] 	#14 : dataset=taiwan arm=ot_ple seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:09:11,365][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_4.parquet
+[2026-07-31 13:09:11,371][HYDRA] 	#15 : dataset=taiwan arm=mass_knot_ot seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:09:42,194][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_taiwan_0.parquet
+[2026-07-31 13:09:42,326][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_0.parquet
+[2026-07-31 13:09:42,338][HYDRA] 	#16 : dataset=taiwan arm=mass_knot_ot seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:10:13,014][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_taiwan_1.parquet
+[2026-07-31 13:10:13,143][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_1.parquet
+[2026-07-31 13:10:13,149][HYDRA] 	#17 : dataset=taiwan arm=mass_knot_ot seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:10:43,688][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_taiwan_2.parquet
+[2026-07-31 13:10:43,934][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_2.parquet
+[2026-07-31 13:10:43,954][HYDRA] 	#18 : dataset=taiwan arm=mass_knot_ot seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:11:14,972][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_taiwan_3.parquet
+[2026-07-31 13:11:14,992][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_3.parquet
+[2026-07-31 13:11:14,996][HYDRA] 	#19 : dataset=taiwan arm=mass_knot_ot seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:11:46,072][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_taiwan_4.parquet
+[2026-07-31 13:11:46,201][__main__][INFO] - AUDIT v2: wrote 28 rows -> outputs/audit_v2/audit_taiwan_4.parquet
+[2026-07-31 13:11:46,212][HYDRA] 	#20 : dataset=gmsc arm=ot_ple seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:13:14,942][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_0.parquet
+[2026-07-31 13:13:14,961][HYDRA] 	#21 : dataset=gmsc arm=ot_ple seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:14:46,123][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_1.parquet
+[2026-07-31 13:14:46,142][HYDRA] 	#22 : dataset=gmsc arm=ot_ple seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:16:17,236][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_2.parquet
+[2026-07-31 13:16:17,245][HYDRA] 	#23 : dataset=gmsc arm=ot_ple seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:17:47,232][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_3.parquet
+[2026-07-31 13:17:47,261][HYDRA] 	#24 : dataset=gmsc arm=ot_ple seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:19:17,473][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_4.parquet
+[2026-07-31 13:19:17,477][HYDRA] 	#25 : dataset=gmsc arm=mass_knot_ot seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:20:45,037][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_gmsc_0.parquet
+[2026-07-31 13:20:45,052][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_0.parquet
+[2026-07-31 13:20:45,057][HYDRA] 	#26 : dataset=gmsc arm=mass_knot_ot seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:22:13,572][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_gmsc_1.parquet
+[2026-07-31 13:22:13,585][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_1.parquet
+[2026-07-31 13:22:13,589][HYDRA] 	#27 : dataset=gmsc arm=mass_knot_ot seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:23:40,303][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_gmsc_2.parquet
+[2026-07-31 13:23:40,316][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_2.parquet
+[2026-07-31 13:23:40,320][HYDRA] 	#28 : dataset=gmsc arm=mass_knot_ot seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:25:07,608][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_gmsc_3.parquet
+[2026-07-31 13:25:07,622][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_3.parquet
+[2026-07-31 13:25:07,625][HYDRA] 	#29 : dataset=gmsc arm=mass_knot_ot seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:34,659][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_gmsc_4.parquet
+[2026-07-31 13:26:34,673][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_gmsc_4.parquet
+[2026-07-31 13:26:34,676][HYDRA] 	#30 : dataset=hmeq arm=ot_ple seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:38,619][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_0.parquet
+[2026-07-31 13:26:38,622][HYDRA] 	#31 : dataset=hmeq arm=ot_ple seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:42,405][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_1.parquet
+[2026-07-31 13:26:42,407][HYDRA] 	#32 : dataset=hmeq arm=ot_ple seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:46,225][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_2.parquet
+[2026-07-31 13:26:46,229][HYDRA] 	#33 : dataset=hmeq arm=ot_ple seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:50,023][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_3.parquet
+[2026-07-31 13:26:50,026][HYDRA] 	#34 : dataset=hmeq arm=ot_ple seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:53,796][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_4.parquet
+[2026-07-31 13:26:53,797][HYDRA] 	#35 : dataset=hmeq arm=mass_knot_ot seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:26:57,541][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_hmeq_0.parquet
+[2026-07-31 13:26:57,569][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_0.parquet
+[2026-07-31 13:26:57,572][HYDRA] 	#36 : dataset=hmeq arm=mass_knot_ot seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:27:01,369][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_hmeq_1.parquet
+[2026-07-31 13:27:01,379][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_1.parquet
+[2026-07-31 13:27:01,380][HYDRA] 	#37 : dataset=hmeq arm=mass_knot_ot seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:27:05,051][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_hmeq_2.parquet
+[2026-07-31 13:27:05,076][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_2.parquet
+[2026-07-31 13:27:05,078][HYDRA] 	#38 : dataset=hmeq arm=mass_knot_ot seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:27:08,903][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_hmeq_3.parquet
+[2026-07-31 13:27:08,911][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_3.parquet
+[2026-07-31 13:27:08,915][HYDRA] 	#39 : dataset=hmeq arm=mass_knot_ot seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:27:12,647][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_hmeq_4.parquet
+[2026-07-31 13:27:12,671][__main__][INFO] - AUDIT v2: wrote 15 rows -> outputs/audit_v2/audit_hmeq_4.parquet
+[2026-07-31 13:27:12,673][HYDRA] 	#40 : dataset=heloc arm=ot_ple seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:27:43,407][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_0.parquet
+[2026-07-31 13:27:43,409][HYDRA] 	#41 : dataset=heloc arm=ot_ple seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:28:12,326][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_1.parquet
+[2026-07-31 13:28:12,332][HYDRA] 	#42 : dataset=heloc arm=ot_ple seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:28:38,141][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_2.parquet
+[2026-07-31 13:28:38,146][HYDRA] 	#43 : dataset=heloc arm=ot_ple seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:29:07,354][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_3.parquet
+[2026-07-31 13:29:07,361][HYDRA] 	#44 : dataset=heloc arm=ot_ple seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:29:36,445][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_4.parquet
+[2026-07-31 13:29:36,447][HYDRA] 	#45 : dataset=heloc arm=mass_knot_ot seed=0 device=cuda out=outputs/audit_v2
+[2026-07-31 13:30:07,061][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_heloc_0.parquet
+[2026-07-31 13:30:07,133][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_0.parquet
+[2026-07-31 13:30:07,138][HYDRA] 	#46 : dataset=heloc arm=mass_knot_ot seed=1 device=cuda out=outputs/audit_v2
+[2026-07-31 13:30:36,089][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_heloc_1.parquet
+[2026-07-31 13:30:36,110][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_1.parquet
+[2026-07-31 13:30:36,112][HYDRA] 	#47 : dataset=heloc arm=mass_knot_ot seed=2 device=cuda out=outputs/audit_v2
+[2026-07-31 13:31:01,765][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_heloc_2.parquet
+[2026-07-31 13:31:01,775][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_2.parquet
+[2026-07-31 13:31:01,777][HYDRA] 	#48 : dataset=heloc arm=mass_knot_ot seed=3 device=cuda out=outputs/audit_v2
+[2026-07-31 13:31:30,885][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_heloc_3.parquet
+[2026-07-31 13:31:30,899][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_3.parquet
+[2026-07-31 13:31:30,901][HYDRA] 	#49 : dataset=heloc arm=mass_knot_ot seed=4 device=cuda out=outputs/audit_v2
+[2026-07-31 13:31:59,926][experiments.common][WARNING] - overwriting existing results file outputs/audit_v2/audit_heloc_4.parquet
+[2026-07-31 13:31:59,952][__main__][INFO] - AUDIT v2: wrote 62 rows -> outputs/audit_v2/audit_heloc_4.parquet
