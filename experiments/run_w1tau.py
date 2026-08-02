@@ -135,8 +135,8 @@ def run(cfg):
                 row.update(eval_binning(optb.splits, xte, yte))
                 rows.append(row)
 
-    out = Path(cfg.out) / "w1tau_{}_{}".format(cfg.dataset,
-                                               cfg.seed_offset)
+    out = Path(cfg.out) / "w1tau_{}_{}_{}".format(
+        cfg.dataset, cfg.get("coordinate", "rank"), cfg.seed_offset)
     path = save_results(rows, out, cfg=cfg)
     print("W1TAU: wrote {} rows -> {}".format(len(rows), path))
     return path

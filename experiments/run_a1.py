@@ -160,7 +160,10 @@ def run(cfg):
                           coordinate=cfg.get("coordinate", "raw"))
                 rows.append(sc)
 
-    out = Path(cfg.out) / "a1_{}_{}".format(cfg.dataset, cfg.seed_offset)
+    # coordinate in the tag: a coordinate sweep into one out dir must
+    # not self-clobber (the a1_coord multirun did exactly that -- logged)
+    out = Path(cfg.out) / "a1_{}_{}_{}".format(
+        cfg.dataset, cfg.get("coordinate", "raw"), cfg.seed_offset)
     path = save_results(rows, out, cfg=cfg)
     print("A1: wrote {} rows -> {}".format(len(rows), path))
     return path
