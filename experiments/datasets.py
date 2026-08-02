@@ -566,7 +566,63 @@ def make_synthetic(design="smooth", n=5000, seed=0, drift=None):
     return Dataset("synthetic-" + design, X, y, numerical=["f0", "f1"])
 
 
+def load_aps():
+    """APS Failure at Scania Trucks (UCI id=421; plan dataset panel).
+
+    Rare component failure (~1.7% positive), heavy missingness encoded
+    as 'na' strings, anonymized numeric sensor aggregates -- rank
+    geometry is the primary coordinate (plan Sec. 5.2). The official
+    train/test division ships as separate files; ucimlrepo returns the
+    combined table, so the official-split study loads the raw files --
+    this loader serves the pilot's repeated-split protocol.
+    """
+    def fetch():
+        from ucimlrepo import fetch_ucirepo
+        ds = fetch_ucirepo(id=421)
+        df = ds.data.features.copy()
+        df["__target__"] = ds.data.targets.iloc[:, 0].values
+        return df
+
+    df = _from_cache_or("aps", fetch)
+    y = (df["__target__"].astype(str).str.strip()
+         .isin(["pos", "1"])).astype(int).values
+    X = df.drop(columns="__target__")
+    X = X.replace("na", np.nan).apply(pd.to_numeric, errors="coerce")
+    num = [c for c in X.columns
+           if pd.api.types.is_numeric_dtype(X[c])]
+    return Dataset("aps", X, y, numerical=num)
+
+
+def load_bank():
+    """Bank Marketing (UCI id=222; plan dataset panel).
+
+    Term-deposit subscription; the raw file is date-ordered, so row
+    order is preserved and a synthetic time index is exposed for the
+    chronological split (plan Sec. 5.2). 'duration' is EXCLUDED from
+    the deployable numerical set: it is known only after the call
+    (target leakage; plan requirement).
+    """
+    def fetch():
+        from ucimlrepo import fetch_ucirepo
+        ds = fetch_ucirepo(id=222)
+        df = ds.data.features.copy()
+        df["__target__"] = ds.data.targets.iloc[:, 0].values
+        return df
+
+    df = _from_cache_or("bank", fetch)
+    y = (df["__target__"].astype(str).str.strip() == "yes").astype(
+        int).values
+    X = df.drop(columns="__target__")
+    X["__row_order__"] = np.arange(len(X))
+    num = [c for c in X.columns
+           if pd.api.types.is_numeric_dtype(X[c])
+           and c not in ("duration", "__row_order__")]
+    return Dataset("bank", X, y, numerical=num,
+                   time_column="__row_order__")
+
+
 REGISTRY = {"german": load_german, "taiwan": load_taiwan,
+            "aps": load_aps, "bank": load_bank,
             "hmeq": load_hmeq, "gmsc": load_gmsc, "heloc": load_heloc,
             "adult": load_adult, "diabetes": load_diabetes,
             "higgs-small": load_higgs_small,

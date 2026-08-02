@@ -1,0 +1,15 @@
+# Experiment SUPPORT — exact support-gap classification (plan E3).
+dataset: german
+features: null
+monotonic: auto
+fracs: [0.1, 0.25, 0.5, 0.75, 0.9]
+coordinate: rank
+special_handling: expand
+tau_supp: 1.0e-6         # from solver objective tolerance, fixed a priori
+n_seeds: 3
+seed_offset: 0
+test_size: 0.4
+out: outputs/support
+hydra:
+  job:
+    chdir: false

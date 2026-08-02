@@ -1,0 +1,18 @@
+# Experiment EVIDENCE — evidence-response phase diagram (plan E1).
+ns: [500, 2000, 10000, 50000]
+spike_masses: [0.01, 0.03, 0.08]
+spike_ratios: [0.02, 0.1, 0.3, 1.0]      # q_a/p_a odds; plateau at body_ratio
+body_ratios: [0.35]
+gammas: [2.5, 10, 50]
+min_events: [5]
+min_sizes: [0.05]
+alphas: [0.5, 2.0]
+monotonic: auto
+max_n_prebins: 20
+min_bin_size: 0.005
+n_rep: 40
+tag: grid
+out: outputs/evidence
+hydra:
+  job:
+    chdir: false

@@ -64,10 +64,18 @@ def run(cfg):
             x = feature_array(ds, feat,
                               cfg.get("special_handling", "expand"))
             mask = np.isfinite(x)
-            xtr, ytr = x[tr][mask[tr]], ds.y[tr][mask[tr]]
+            xtr_all, ytr_all = x[tr][mask[tr]], ds.y[tr][mask[tr]]
             xte, yte = x[te][mask[te]], ds.y[te][mask[te]]
+            # nested roles (plan Sec. 6.4): fit / validation / test --
+            # rho and lambda selection must never touch the test set
+            fit_i, val_i = datasets.split_indices(
+                len(ytr_all), cfg.get("val_size", 0.25), seed + 10_000)
+            xval, yval = xtr_all[val_i], ytr_all[val_i]
+            xtr, ytr = xtr_all[fit_i], ytr_all[fit_i]
             coord = cfg.get("coordinate", "rank")
             xtr, xte = to_coordinate(xtr, xte, ytr, kind=coord)
+            _, xval = to_coordinate(
+                x[tr][mask[tr]][fit_i], xval, ytr, kind=coord)
 
             common = dict(dataset=ds.name, feature=feat, seed=seed,
                           coordinate=coord)
@@ -82,6 +90,9 @@ def run(cfg):
                 continue
             w1_floor = _w1_of(iv_fit.splits, xtr, ytr)
             w1_ceil = _w1_of(w1_fit.splits, xtr, ytr)
+            gamma_j = w1_ceil - w1_floor
+            common.update(gamma_j=gamma_j,
+                          degenerate=bool(gamma_j <= 1e-9))
             for arm, fit in (("iv_mip", iv_fit), ("w1", w1_fit)):
                 row = dict(arm=arm, status=fit.status, frac=np.nan,
                            rho=np.nan, w1_floor=w1_floor, w1_ceil=w1_ceil,
@@ -89,6 +100,9 @@ def run(cfg):
                            n_splits=len(fit.splits),
                            w1_in=_w1_of(fit.splits, xtr, ytr), **common)
                 row.update(eval_binning(fit.splits, xte, yte))
+                row.update({'val_' + k: v for k, v in
+                            eval_binning(fit.splits, xval,
+                                         yval).items()})
                 rows.append(row)
 
             for frac in cfg.fracs:
@@ -111,6 +125,9 @@ def run(cfg):
                            w1_in=_w1_of(splits, xtr, ytr),
                            fit_time=time.perf_counter() - t0, **common)
                 row.update(eval_binning(splits, xte, yte))
+                row.update({'val_' + k: v for k, v in
+                            eval_binning(splits, xval,
+                                         yval).items()})
                 rows.append(row)
 
             # lambda-path reference points on the same feature/coordinate
@@ -133,6 +150,9 @@ def run(cfg):
                            n_splits=len(optb.splits),
                            w1_in=_w1_of(optb.splits, xtr, ytr), **common)
                 row.update(eval_binning(optb.splits, xte, yte))
+                row.update({'val_' + k: v for k, v in
+                            eval_binning(optb.splits, xval,
+                                         yval).items()})
                 rows.append(row)
 
     out = Path(cfg.out) / "w1tau_{}_{}_{}".format(

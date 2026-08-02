@@ -77,10 +77,11 @@ def run(cfg):
     parts = list(_partitions(n))
     for kappa in [float(k) for k in cfg.kappas]:
         t0 = time.perf_counter()
-        # MAXIMIZE HK^2 between the binned class-conditionals (the
-        # divergence-maximization convention of optimal binning; the
-        # single bin is always the Prop. 7.1 floor)
-        best, best_val, best_gap = None, -np.inf, np.nan
+        # MAXIMIZE HK^2 between the binned class-conditionals; CERTIFY
+        # the winner against every competitor's bracket (re-review 4.4):
+        # incumbent = largest LOWER bound L_X; certified iff
+        # m_cert = L_incumbent - max_{X != incumbent} U_X > 0.
+        lows, ups, gaps = [], [], []
         for bounds in parts:
             reps, a, b = [], [], []
             for lo, hi in zip(bounds[:-1], bounds[1:]):
@@ -90,12 +91,28 @@ def run(cfg):
                 b.append(float(e[lo:hi].sum()))
             val, gap = hk2(np.asarray(reps), np.asarray(a),
                            np.asarray(b), kappa=kappa)
-            if val > best_val:
-                best, best_val, best_gap = bounds, val, gap
+            lows.append(val - gap / 2)
+            ups.append(val + gap / 2)
+            gaps.append(gap)
+        lows = np.asarray(lows)
+        ups = np.asarray(ups)
+        k_star = int(np.argmax(lows))
+        best = parts[k_star]
+        comp = np.delete(ups, k_star)
+        runner = int(np.argmax(comp))
+        runner = runner if runner < k_star else runner + 1
+        m_cert = float(lows[k_star] - comp.max())
+        unresolved = int((ups > lows[k_star]).sum()) - 1
         n_bins = len(best) - 1
         rows.append(dict(
             instance=cfg.instance, n_prebins=n, kappa=kappa,
-            best_value=best_val, bracket_gap=best_gap,
+            best_value=float((lows[k_star] + ups[k_star]) / 2),
+            best_lower=float(lows[k_star]),
+            bracket_gap=float(gaps[k_star]),
+            runner_up_upper=float(comp.max()),
+            runner_up_bounds=str(parts[runner]),
+            m_cert=m_cert, certified=bool(m_cert > 0),
+            n_unresolved=unresolved,
             best_n_bins=n_bins,
             interior_optimum=bool(1 < n_bins < n),
             spike_isolated=bool(1 in best and 2 in best)
