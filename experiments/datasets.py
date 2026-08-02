@@ -571,25 +571,59 @@ def load_aps():
 
     Rare component failure (~1.7% positive), heavy missingness encoded
     as 'na' strings, anonymized numeric sensor aggregates -- rank
-    geometry is the primary coordinate (plan Sec. 5.2). The official
-    train/test division ships as separate files; ucimlrepo returns the
-    combined table, so the official-split study loads the raw files --
-    this loader serves the pilot's repeated-split protocol.
+    geometry is the primary coordinate (plan Sec. 5.2). Not importable
+    via the ucimlrepo API (server refuses import for this id), so the
+    loader downloads the official archive zip directly. The official
+    train/test division is preserved in the ``__official_test__``
+    column (0 = official train, 1 = official test) for the plan's
+    official-split study; the pilot's repeated-split protocol ignores
+    it. Each csv carries a license preamble before the header, located
+    by content rather than by a fixed line count.
     """
     def fetch():
-        from ucimlrepo import fetch_ucirepo
-        ds = fetch_ucirepo(id=421)
-        df = ds.data.features.copy()
-        df["__target__"] = ds.data.targets.iloc[:, 0].values
-        return df
+        import io
+        import urllib.request
+        import zipfile
+
+        url = ("https://archive.ics.uci.edu/static/public/421/"
+               "aps+failure+at+scania+trucks.zip")
+        with urllib.request.urlopen(url, timeout=120) as r:
+            zf = zipfile.ZipFile(io.BytesIO(r.read()))
+        # some UCI archives nest a second zip; flatten if needed
+        names = zf.namelist()
+        inner = [n for n in names if n.lower().endswith(".zip")]
+        if inner and not any(n.lower().endswith(".csv") for n in names):
+            zf = zipfile.ZipFile(io.BytesIO(zf.open(inner[0]).read()))
+            names = zf.namelist()
+
+        def read_member(key, flag):
+            cand = [n for n in names if key in n.lower()
+                    and n.lower().endswith(".csv")]
+            if not cand:
+                raise FileNotFoundError(
+                    "no member matching '{}' in {}".format(key, names))
+            raw = zf.open(cand[0]).read().decode("utf-8", "replace")
+            lines = raw.split("\n")
+            hdr = next(i for i, ln in enumerate(lines)
+                       if ln.startswith("class"))
+            df = pd.read_csv(io.StringIO("\n".join(lines[hdr:])),
+                             na_values="na")
+            df["__official_test__"] = flag
+            return df
+
+        return pd.concat([read_member("training_set", 0),
+                          read_member("test_set", 1)],
+                         ignore_index=True)
 
     df = _from_cache_or("aps", fetch)
-    y = (df["__target__"].astype(str).str.strip()
-         .isin(["pos", "1"])).astype(int).values
-    X = df.drop(columns="__target__")
-    X = X.replace("na", np.nan).apply(pd.to_numeric, errors="coerce")
+    y = (df["class"].astype(str).str.strip() == "pos").astype(int).values
+    X = df.drop(columns="class")
+    for c in X.columns:
+        if c != "__official_test__":
+            X[c] = pd.to_numeric(X[c], errors="coerce")
     num = [c for c in X.columns
-           if pd.api.types.is_numeric_dtype(X[c])]
+           if pd.api.types.is_numeric_dtype(X[c])
+           and c != "__official_test__"]
     return Dataset("aps", X, y, numerical=num)
 
 
