@@ -1,0 +1,27 @@
+dataset: synthetic-spike3
+'n': 2000
+data_seed: 0
+features:
+- f0
+gammas:
+- 0.0
+- 2.5
+- 10.0
+- 25.0
+- 50.0
+monotonic: ascending
+min_bin_size: 0.01
+max_n_prebins: 20
+select_threshold: 0.3
+n_seeds: 10
+seed_offset: 0
+n_boot: 400
+out: outputs/spikesel_v2
+controls:
+- min_event
+- min_size
+- hellinger
+- consensus
+ctrl_min_event: 5
+ctrl_min_size: 0.08
+ctrl_consensus_folds: 15

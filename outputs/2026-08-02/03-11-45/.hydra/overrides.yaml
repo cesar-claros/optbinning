@@ -1,0 +1,3 @@
+- dataset=synthetic-spike3
+- n_seeds=10
+- out=outputs/spikesel_v2

@@ -1,0 +1,6 @@
+nohup: ignoring input
+[2026-08-02 03:12:00,851][HYDRA] Launching 2 jobs locally
+[2026-08-02 03:12:00,852][HYDRA] 	#0 : dataset=synthetic-spike out=outputs/a1_gamma_v2
+gamma: wrote 12 rows -> outputs/a1_gamma_v2/gamma_synthetic-spike_raw_0.parquet
+[2026-08-02 03:24:16,680][HYDRA] 	#1 : dataset=synthetic-spike2 out=outputs/a1_gamma_v2
+gamma: wrote 12 rows -> outputs/a1_gamma_v2/gamma_synthetic-spike2_raw_0.parquet

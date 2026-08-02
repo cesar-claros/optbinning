@@ -1,0 +1,10 @@
+nohup: ignoring input
+[2026-08-02 02:37:14,500][HYDRA] Launching 4 jobs locally
+[2026-08-02 02:37:14,500][HYDRA] 	#0 : dataset=german coordinate=raw n_seeds=10 n_boot=10 out=outputs/a1_coord
+A1: wrote 400 rows -> outputs/a1_coord/a1_german_raw_0.parquet
+[2026-08-02 02:53:17,519][HYDRA] 	#1 : dataset=taiwan coordinate=raw n_seeds=10 n_boot=10 out=outputs/a1_coord
+A1: wrote 1200 rows -> outputs/a1_coord/a1_taiwan_raw_0.parquet
+[2026-08-02 04:17:27,655][HYDRA] 	#2 : dataset=gmsc coordinate=raw n_seeds=10 n_boot=10 out=outputs/a1_coord
+A1: wrote 550 rows -> outputs/a1_coord/a1_gmsc_raw_0.parquet
+[2026-08-02 04:41:13,933][HYDRA] 	#3 : dataset=hmeq coordinate=raw n_seeds=10 n_boot=10 out=outputs/a1_coord
+A1: wrote 550 rows -> outputs/a1_coord/a1_hmeq_raw_0.parquet

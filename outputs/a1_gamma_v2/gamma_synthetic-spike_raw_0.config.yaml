@@ -1,0 +1,18 @@
+dataset: synthetic-spike
+'n': 5000
+data_seed: 0
+features: null
+gammas:
+- 0.25
+- 0.5
+- 1.0
+- 2.0
+- 4.0
+- 8.0
+monotonic: auto
+n_seeds: 1
+seed_offset: 0
+test_size: 0.4
+n_boot: 50
+out: outputs/a1_gamma_v2
+coordinate: raw
