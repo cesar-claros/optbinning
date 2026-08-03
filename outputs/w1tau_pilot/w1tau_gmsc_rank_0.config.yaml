@@ -1,0 +1,27 @@
+dataset: gmsc
+features: null
+monotonic: auto
+fracs:
+- 0.0
+- 0.1
+- 0.25
+- 0.5
+- 0.75
+- 0.9
+- 1.0
+- 1.1
+- 1.25
+gammas:
+- 0.1
+- 0.25
+- 0.5
+- 1.0
+- 2.0
+- 4.0
+coordinate: rank
+special_handling: expand
+n_seeds: 5
+seed_offset: 0
+test_size: 0.4
+out: outputs/w1tau_pilot
+val_size: 0.25

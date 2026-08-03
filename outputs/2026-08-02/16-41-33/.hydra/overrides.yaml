@@ -1,0 +1,4 @@
+- ns=[500,2000,10000]
+- n_rep=25
+- tag=pilot
+- out=outputs/evidence

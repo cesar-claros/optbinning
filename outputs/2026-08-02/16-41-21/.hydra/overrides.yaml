@@ -1,0 +1,3 @@
+- dataset=german
+- n_seeds=3
+- out=outputs/support
