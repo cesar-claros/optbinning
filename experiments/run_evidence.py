@@ -42,16 +42,23 @@ from experiments.common import save_results             # noqa: E402
 from optbinning import OptimalBinning                   # noqa: E402
 
 
-def _sample(rng, n, p_a, ratio_a, ratio_b):
-    """Three-cluster design: spike at 0.05 (mass p_a, event ratio
-    ratio_a), body at 0.45 (event ratio ratio_b), tail at 0.80 (high
-    rate); returns (x, y)."""
-    masses = np.array([p_a, 0.60, 0.40 - p_a])
-    rates = np.array([ratio_a / (1 + ratio_a),
-                      ratio_b / (1 + ratio_b), 0.58])
-    comp = rng.choice(3, size=n, p=masses / masses.sum())
-    x = np.array([0.05, 0.45, 0.80])[comp] + rng.normal(0, 0.02, n)
-    y = (rng.uniform(0, 1, n) < rates[comp]).astype(int)
+def _sample(rng, n, spike_mass, spike_rate):
+    """Parametrized spike3 (the validated P1 Sec. 3.4 geometry, where
+    the spike-isolating and body/tail cuts genuinely compete): clusters
+    at (0.05, 0.45, 0.80) with rates (spike_rate, 0.405, 0.583); the
+    evidence axes are spike mass and spike event rate. (An earlier
+    ad-hoc geometry produced a flat all-zero phase diagram because the
+    body/tail cut dominated everywhere -- discarded, logged.)"""
+    k = max(int(round(spike_mass * n)), 2)
+    n_mid = int(0.37 * (n - k))
+    n_hi = n - k - n_mid
+    x = np.concatenate([rng.normal(0.05, 0.01, k),
+                        rng.normal(0.45, 0.04, n_mid),
+                        rng.normal(0.80, 0.04, n_hi)])
+    rates = np.concatenate([np.full(k, spike_rate),
+                            np.full(n_mid, 0.405),
+                            np.full(n_hi, 0.583)])
+    y = (rng.uniform(0, 1, n) < rates).astype(int)
     return x, y
 
 
@@ -99,29 +106,27 @@ def run(cfg):
     rows = []
     for n in [int(v) for v in cfg.ns]:
         for p_a in [float(v) for v in cfg.spike_masses]:
-            for ra in [float(v) for v in cfg.spike_ratios]:
-                for rb in [float(v) for v in cfg.body_ratios]:
-                    t0 = time.perf_counter()
-                    for name, spec in methods:
-                        picks, fails = [], 0
-                        for rep in range(cfg.n_rep):
-                            rng = np.random.default_rng(
-                                hash((n, p_a, ra, rb, rep)) % 2**32)
-                            x, y = _sample(rng, n, p_a, ra, rb)
-                            s = _select(x, y, name, spec, cfg)
-                            if s is None:
-                                fails += 1
-                            else:
-                                picks.append(s)
-                        rows.append(dict(
-                            n=n, spike_mass=p_a, spike_ratio=ra,
-                            body_ratio=rb,
-                            expected_spike_events=n * p_a * ra / (1 + ra),
-                            method=name, spec=float(spec),
-                            p_isolate=float(np.mean(picks))
-                            if picks else np.nan,
-                            n_rep=cfg.n_rep, n_fail=fails,
-                            cell_time=time.perf_counter() - t0))
+            for sr in [float(v) for v in cfg.spike_rates]:
+                t0 = time.perf_counter()
+                for name, spec in methods:
+                    picks, fails = [], 0
+                    for rep in range(cfg.n_rep):
+                        rng = np.random.default_rng(
+                            hash((n, p_a, sr, rep)) % 2**32)
+                        x, y = _sample(rng, n, p_a, sr)
+                        s = _select(x, y, name, spec, cfg)
+                        if s is None:
+                            fails += 1
+                        else:
+                            picks.append(s)
+                    rows.append(dict(
+                        n=n, spike_mass=p_a, spike_rate=sr,
+                        expected_spike_events=n * p_a * sr,
+                        method=name, spec=float(spec),
+                        p_isolate=float(np.mean(picks))
+                        if picks else np.nan,
+                        n_rep=cfg.n_rep, n_fail=fails,
+                        cell_time=time.perf_counter() - t0))
     out = Path(cfg.out) / "evidence_{}".format(cfg.get("tag", "grid"))
     path = save_results(rows, out, cfg=cfg)
     print("EVIDENCE: wrote {} rows -> {}".format(len(rows), path))
