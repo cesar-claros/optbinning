@@ -1,0 +1,31 @@
+ns:
+- 500
+- 2000
+- 10000
+- 50000
+spike_masses:
+- 0.005
+- 0.012
+- 0.03
+- 0.08
+spike_rates:
+- 0.016
+- 0.05
+- 0.15
+gammas:
+- 2.5
+- 10
+- 50
+min_events:
+- 5
+min_sizes:
+- 0.05
+alphas:
+- 0.5
+- 2.0
+monotonic: auto
+max_n_prebins: 20
+min_bin_size: 0.005
+n_rep: 40
+tag: grid_v2
+out: outputs/evidence_v2
