@@ -1,0 +1,12 @@
+# Experiment SCALING — G7 pre-bin scaling.
+dataset: gmsc
+prebins: [10, 20, 40, 60, 80, 100]
+monotonics: [auto, none]
+time_limits: [60, 300]
+n_features: 6            # stratified by seeded draw
+special_handling: expand
+seed: 0
+out: outputs/scaling
+hydra:
+  job:
+    chdir: false
