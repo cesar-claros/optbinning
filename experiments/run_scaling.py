@@ -51,20 +51,32 @@ def run(cfg):
         if len(np.unique(x)) < 12:
             continue
         x, _ = to_coordinate(x, x, y, kind="rank")
+
+        def _arm(name, npre, tl, mono, **kw):
+            # ACTUALLY scale the pre-bin universe (G7 fix): quantile
+            # pre-binning with a size floor below 1/npre -- the default
+            # cart/0.05 pre-binner silently caps at ~20 pre-bins, which
+            # made the first scaling run re-solve one problem size at
+            # every nominal npre (discarded, logged)
+            mono_arg = None if str(mono) == "none" else mono
+            m = make_arm(name, monotonic=mono_arg, max_n_prebins=npre,
+                         time_limit=tl, **kw)
+            m.set_params(prebinning_method="quantile",
+                         min_prebin_size=max(1.0 / (2 * npre), 1e-4))
+            return m
+
         for npre in [int(v) for v in cfg.prebins]:
             for mono in cfg.monotonics:
                 for tl in [int(v) for v in cfg.time_limits]:
                     # anchors at THIS prebin resolution
                     try:
                         t0 = time.perf_counter()
-                        ivf = make_arm("iv_mip", monotonic=mono,
-                                       max_n_prebins=npre,
-                                       time_limit=tl).fit(x, y)
+                        ivf = _arm("iv_mip", npre, tl,
+                                   mono).fit(x, y)
                         t_iv = time.perf_counter() - t0
                         t0 = time.perf_counter()
-                        w1f = make_arm("w1", monotonic=mono,
-                                       max_n_prebins=npre,
-                                       time_limit=tl).fit(x, y)
+                        w1f = _arm("w1", npre, tl,
+                                   mono).fit(x, y)
                         t_w1 = time.perf_counter() - t0
                     except Exception as err:            # noqa: BLE001
                         rows.append(dict(
@@ -85,11 +97,10 @@ def run(cfg):
                             ("hybrid", dict(gamma=1.0))):
                         t0 = time.perf_counter()
                         try:
-                            fit = make_arm(
+                            fit = _arm(
                                 "w1_tau" if name == "w1_tau"
-                                else "iv_w1",
-                                monotonic=mono, max_n_prebins=npre,
-                                time_limit=tl, **kw).fit(x, y)
+                                else "iv_w1", npre, tl, mono,
+                                **kw).fit(x, y)
                             arms[name] = (fit,
                                           time.perf_counter() - t0)
                         except Exception as err:        # noqa: BLE001
@@ -107,6 +118,8 @@ def run(cfg):
                             time_limit=tl, arm=name,
                             status=fit.status, solve_time=tsec,
                             n_bins=len(fit.splits) + 1,
+                            n_prebins_eff=int(
+                                getattr(fit, "_n_prebins", 0)) or None,
                             splits_hash=splits_hash(fit.splits),
                             rho=rho if name == "w1_tau" else np.nan))
                     print(feat, npre, mono, tl, "done", flush=True)
