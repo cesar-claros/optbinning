@@ -1,0 +1,11 @@
+dataset: gmsc
+monotonic: auto
+special_handling: expand
+max_features: 12
+n_resamples: 20
+subsample_frac: 0.7
+n_seeds: 3
+seed_offset: 0
+test_size: 0.4
+val_size: 0.25
+out: outputs/matched
