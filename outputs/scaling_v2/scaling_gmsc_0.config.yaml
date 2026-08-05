@@ -1,0 +1,18 @@
+dataset: gmsc
+prebins:
+- 10
+- 20
+- 40
+- 60
+- 80
+- 100
+monotonics:
+- auto
+- none
+time_limits:
+- 60
+- 300
+n_features: 6
+special_handling: expand
+seed: 0
+out: outputs/scaling_v2
